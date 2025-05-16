@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    enum EnemyType { Hunter}
     public class GameWorld : Game
     {
         #region Fields

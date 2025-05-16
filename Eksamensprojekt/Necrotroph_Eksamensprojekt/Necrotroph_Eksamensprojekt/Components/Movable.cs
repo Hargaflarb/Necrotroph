@@ -7,21 +7,22 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.Components
 {
-    public class Player:GameObject
+    public class Movable:Component
     {
         #region Fields
-        private int life;
+        private float speed;
+        private Vector2 moveDirection;
         #endregion
         #region Properties
         #endregion
         #region Constructors
         #endregion
         #region Methods
-        public override void Update(GameTime gameTime)
+        public void Move()
         {
-            base.Update(gameTime);
+
         }
         #endregion
     }

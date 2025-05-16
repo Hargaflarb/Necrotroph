@@ -7,21 +7,24 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.Components
 {
-    public class Player:GameObject
+    public class Collider:Component
     {
         #region Fields
-        private int life;
         #endregion
         #region Properties
         #endregion
         #region Constructors
         #endregion
         #region Methods
-        public override void Update(GameTime gameTime)
+        public void CheckCollision()
         {
-            base.Update(gameTime);
+
+        }
+        public void OnCollision()
+        {
+
         }
         #endregion
     }

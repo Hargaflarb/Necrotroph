@@ -7,21 +7,21 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Necrotroph_Eksamensprojekt
+
+namespace Necrotroph_Eksamensprojekt.Factories
 {
-    public class Player:GameObject
+    public static class TreeFactory
     {
         #region Fields
-        private int life;
         #endregion
         #region Properties
         #endregion
         #region Constructors
         #endregion
         #region Methods
-        public override void Update(GameTime gameTime)
+        public GameObject CreateTree(Vector2 position)
         {
-            base.Update(gameTime);
+
         }
         #endregion
     }

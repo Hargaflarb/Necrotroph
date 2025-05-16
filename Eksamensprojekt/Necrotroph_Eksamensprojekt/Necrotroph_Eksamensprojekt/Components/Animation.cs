@@ -7,21 +7,26 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.Components
 {
-    public class Player:GameObject
+    public class Animation
     {
         #region Fields
-        private int life;
+        private Texture2D[] frames;
+        private float frameRate;
         #endregion
         #region Properties
         #endregion
         #region Constructors
+        public Animation(Texture2D[] frames)
+        {
+            this.frames = frames;
+        }
         #endregion
         #region Methods
-        public override void Update(GameTime gameTime)
+        public Texture2D GetFrame()
         {
-            base.Update(gameTime);
+            //add code here
         }
         #endregion
     }

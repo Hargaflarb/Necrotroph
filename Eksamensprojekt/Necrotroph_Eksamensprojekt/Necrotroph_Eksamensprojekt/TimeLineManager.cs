@@ -9,17 +9,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public abstract class Component
+    public class TimeLineManager
     {
         #region Fields
-        private GameObject gameObject;
         #endregion
         #region Properties
         #endregion
         #region Constructors
         #endregion
         #region Methods
-        public void Execute();
         #endregion
     }
 }

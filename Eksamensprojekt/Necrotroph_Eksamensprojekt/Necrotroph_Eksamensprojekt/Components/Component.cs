@@ -7,22 +7,23 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.Components
 {
-    public class Player:GameObject
+    public abstract class Component
     {
         #region Fields
-        private int life;
+        private GameObject gameObject;
         #endregion
         #region Properties
         #endregion
         #region Constructors
+        public Component(GameObject gameObject)
+        {
+            this.gameObject = gameObject;
+        }
         #endregion
         #region Methods
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
+        public void Execute();
         #endregion
     }
 }

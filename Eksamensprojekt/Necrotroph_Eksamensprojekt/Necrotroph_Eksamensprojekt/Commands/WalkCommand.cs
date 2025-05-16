@@ -7,21 +7,25 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.Commands
 {
-    public class Player:GameObject
+    public class WalkCommand: ICommand
     {
         #region Fields
-        private int life;
+        private Player player;
         #endregion
         #region Properties
         #endregion
         #region Constructors
+        public WalkCommand(Player player)
+        {
+            this.player = player;
+        }
         #endregion
         #region Methods
-        public override void Update(GameTime gameTime)
+        public void Execute()
         {
-            base.Update(gameTime);
+
         }
         #endregion
     }
