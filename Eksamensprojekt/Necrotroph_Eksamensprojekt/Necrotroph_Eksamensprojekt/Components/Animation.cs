@@ -27,6 +27,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         public Texture2D GetFrame()
         {
             //add code here
+            return null;
         }
         #endregion
     }

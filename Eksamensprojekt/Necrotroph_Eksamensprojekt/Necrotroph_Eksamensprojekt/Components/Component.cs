@@ -12,18 +12,14 @@ namespace Necrotroph_Eksamensprojekt.Components
     public abstract class Component
     {
         #region Fields
-        private GameObject gameObject;
+        protected GameObject gameObject;
         #endregion
         #region Properties
         #endregion
         #region Constructors
-        public Component(GameObject gameObject)
-        {
-            this.gameObject = gameObject;
-        }
         #endregion
         #region Methods
-        public void Execute();
+        public abstract void Execute();
         #endregion
     }
 }

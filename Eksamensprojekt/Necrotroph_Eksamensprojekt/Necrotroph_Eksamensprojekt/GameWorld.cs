@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    enum EnemyType { Hunter}
+    public enum EnemyType { Hunter}
     public class GameWorld : Game
     {
         #region Fields
@@ -14,6 +18,7 @@ namespace Necrotroph_Eksamensprojekt
         private List<GameObject> gameObjectsToAdd;
         private List<GameObject> activeGameObjects;
         private List<GameObject> gameObjectsToRemove;
+        private static GameWorld instance;
 
         #endregion
         #region Properties
@@ -89,9 +94,8 @@ namespace Necrotroph_Eksamensprojekt
             _spriteBatch.Begin();
             foreach (GameObject gameObject in activeGameObjects)
             {
-                if(gameObject.)
             }
-
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
         #endregion

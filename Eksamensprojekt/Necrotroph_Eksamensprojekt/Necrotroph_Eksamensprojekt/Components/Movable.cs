@@ -14,13 +14,22 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Fields
         private float speed;
         private Vector2 moveDirection;
+
+
         #endregion
         #region Properties
         #endregion
         #region Constructors
+        public Movable(GameObject gameObject)
+        {
+        }
         #endregion
         #region Methods
         public void Move()
+        {
+
+        }
+        public override void Execute()
         {
 
         }

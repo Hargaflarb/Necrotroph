@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
-    public static class InputHandler
+    public class InputHandler
     {
         #region Fields
         private Dictionary<Keys,ICommand> heldCommandKeys;

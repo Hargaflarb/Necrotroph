@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Factories
 {
-    public static class EnemyFactory
+    public class EnemyFactory
     {
         #region Fields
         #endregion
@@ -21,6 +21,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
         public GameObject CreateEnemy(Vector2 position, EnemyType enemy)
         {
             //oooo
+            return new HunterEnemy();
         }
         #endregion
     }

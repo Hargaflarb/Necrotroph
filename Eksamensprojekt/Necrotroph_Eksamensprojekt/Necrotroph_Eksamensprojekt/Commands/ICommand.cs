@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
-    internal interface ICommand
+    public interface ICommand
     {
     }
 }

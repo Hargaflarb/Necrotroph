@@ -51,6 +51,7 @@ namespace Necrotroph_Eksamensprojekt
         public T RemoveComponent<T>() where T : Component
         {
             components.Remove((T)components.Find(x => x.GetType() == typeof(T)));
+            return null;
         }
         public virtual void Awake()
         {

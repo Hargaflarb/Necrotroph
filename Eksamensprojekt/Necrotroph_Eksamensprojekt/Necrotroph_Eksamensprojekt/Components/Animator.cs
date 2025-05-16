@@ -13,12 +13,15 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         #region Fields
         private int currentIndex;
-        SpriteRenderer spriteRenderer;
+        private SpriteRenderer spriteRenderer;
         private Dictionary<string, Animation> animations;
         #endregion
         #region Properties
         #endregion
         #region Constructors
+        public Animator(GameObject gameObject)
+        {
+        }
         #endregion
         #region Methods
         public void PlayAnimation(string animationName)
@@ -30,6 +33,11 @@ namespace Necrotroph_Eksamensprojekt.Components
         
         }
         public void AddAnimation(string animationName, Texture2D[] animation)
+        {
+
+        }
+
+        public override void Execute()
         {
 
         }

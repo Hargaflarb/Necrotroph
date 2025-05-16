@@ -11,11 +11,15 @@ namespace Necrotroph_Eksamensprojekt.Components
 {
     public class Collider:Component
     {
+
         #region Fields
         #endregion
         #region Properties
         #endregion
         #region Constructors
+        public Collider(GameObject gameObject)
+        {
+        }
         #endregion
         #region Methods
         public void CheckCollision()
@@ -23,6 +27,10 @@ namespace Necrotroph_Eksamensprojekt.Components
 
         }
         public void OnCollision()
+        {
+
+        }
+        public override void Execute()
         {
 
         }

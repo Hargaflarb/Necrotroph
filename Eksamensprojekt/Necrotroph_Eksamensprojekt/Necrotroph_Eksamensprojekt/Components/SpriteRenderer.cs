@@ -23,11 +23,16 @@ namespace Necrotroph_Eksamensprojekt.Components
             this.sprite = sprite;
             this.gameObject = gameObject;
         }
+
         #endregion
         #region Methods
-        public void Draw(SpriteBatch spritebatch)
+        public override void Execute()
         {
-            spriteBatch.Draw(Sprite, GameObject.Transform.Position, null, colour, GameObject.Transform.Rotation, Origin, GameObject.Transform.Scale, SpriteEffects.None, 0);
+
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(sprite, gameObject.Transform.Position, null, colour, gameObject.Transform.Rotation, Vector2.Zero, gameObject.Transform.Scale, SpriteEffects.None, 0);
         }
         #endregion
     }
