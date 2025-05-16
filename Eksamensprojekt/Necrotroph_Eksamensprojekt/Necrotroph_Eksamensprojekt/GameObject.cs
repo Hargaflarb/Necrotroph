@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public class GameObject
+    public abstract class GameObject
     {
         #region Fields
         private List<Component> components;
