@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Factories;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -22,7 +23,11 @@ namespace Necrotroph_Eksamensprojekt
 
         #endregion
         #region Properties
-        public static GameWorld Instance 
+        //TEMP
+        public static Player Player { get; private set; }
+        public static GameTime Time { get; private set; }
+        //no longer temp
+        public static GameWorld Instance
         {
             get
             {
@@ -48,7 +53,7 @@ namespace Necrotroph_Eksamensprojekt
             gameObjectsToAdd = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
-            
+
 
             base.Initialize();
         }
@@ -56,12 +61,15 @@ namespace Necrotroph_Eksamensprojekt
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            EnemyFactory.LoadContent(Content);
 
-            AddPlayer(new Vector2(100,100));
+            AddPlayer(new Vector2(100, 100));
+            AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
         }
 
         protected override void Update(GameTime gameTime)
         {
+            Time = gameTime;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -95,6 +103,7 @@ namespace Necrotroph_Eksamensprojekt
 
         public void AddAndRemoveGameObjects()
         {
+
             foreach (GameObject gameObject in gameObjectsToAdd)
             {
                 gameObject.Start();
@@ -130,24 +139,36 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
         }
-        
+        /// <summary>
+        /// Adds object to the gameworld during next update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void AddObject(GameObject gameObject)
         {
             gameObject.Awake();
             gameObjectsToAdd.Add(gameObject);
         }
+        /// <summary>
+        /// Removes object from the gameworld during next update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void RemoveObject(GameObject gameObject)
         {
             gameObjectsToRemove.Add(gameObject);
         }
+        /// <summary>
+        /// Method to create player
+        /// </summary>
+        /// <param name="position"></param>
         private void AddPlayer(Vector2 position)
         {
             Player newPlayer = new Player(position);
-            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"),1f);
+            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
             newPlayer.AddComponent<Collider>();
             newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
+            Player = newPlayer;
         }
         #endregion
     }
