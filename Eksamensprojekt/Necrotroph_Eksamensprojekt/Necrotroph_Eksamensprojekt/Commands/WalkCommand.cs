@@ -14,6 +14,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
     {
         #region Fields
         private Player player;
+        private Vector2 direction;
         #endregion
         #region Properties
         #endregion
@@ -21,12 +22,13 @@ namespace Necrotroph_Eksamensprojekt.Commands
         public WalkCommand(Player player, Vector2 direction)
         {
             this.player = player;
+            this.direction = direction;
         }
         #endregion
         #region Methods
         public void Execute(GameTime gameTime)
         {
-            Player.Instance.GetComponent<Movable>().Move(gameTime);
+            Player.Instance.GetComponent<Movable>().Move(direction, Player.Instance.Speed);
         }
 
         public void Execute()

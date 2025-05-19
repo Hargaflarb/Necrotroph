@@ -8,17 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Factories;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public enum EnemyType
-    {
-        Hunter = 1,
-        Seeker = 2,
-        LightEater = 3,
-        Stalker = 4,
-    }
-
     public class GameWorld : Game
     {
         #region Fields
@@ -33,7 +26,11 @@ namespace Necrotroph_Eksamensprojekt
 
         #endregion
         #region Properties
-        public static GameWorld Instance 
+        //TEMP
+        public static Player Player { get; private set; }
+        public static GameTime Time { get; private set; }
+        //no longer temp
+        public static GameWorld Instance
         {
             get
             {
@@ -78,12 +75,15 @@ namespace Necrotroph_Eksamensprojekt
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            EnemyFactory.LoadContent(Content);
 
-            AddPlayer(new Vector2(100,100));
+            AddPlayer(new Vector2(100, 100));
+            AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
         }
 
         protected override void Update(GameTime gameTime)
         {
+            Time = gameTime;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -91,21 +91,10 @@ namespace Necrotroph_Eksamensprojekt
             {
                 gameObject.Update(gameTime);
             }
-            
-            foreach (GameObject gameObject in gameObjectsToAdd)
-            {
-                gameObject.Start();
-                activeGameObjects.Add(gameObject);
-            }
-            gameObjectsToAdd.Clear();
-            foreach (GameObject gameObject in gameObjectsToRemove)
-            {
-                if (!activeGameObjects.Contains(gameObject))
-                {
-                    activeGameObjects.Remove(gameObject);
-                }
-            }
-            gameObjectsToRemove.Clear();
+            CheckCollision();
+
+
+            AddAndRemoveGameObjects();
             base.Update(gameTime);
         }
 
@@ -125,24 +114,75 @@ namespace Necrotroph_Eksamensprojekt
             _spriteBatch.End();
             base.Draw(gameTime);
         }
-        
+
+        public void AddAndRemoveGameObjects()
+        {
+
+            foreach (GameObject gameObject in gameObjectsToAdd)
+            {
+                gameObject.Start();
+                activeGameObjects.Add(gameObject);
+            }
+            gameObjectsToAdd.Clear();
+            foreach (GameObject gameObject in gameObjectsToRemove)
+            {
+                if (!activeGameObjects.Contains(gameObject))
+                {
+                    activeGameObjects.Remove(gameObject);
+                }
+            }
+            gameObjectsToRemove.Clear();
+        }
+
+        public void CheckCollision()
+        {
+            foreach (GameObject gameObject1 in activeGameObjects)
+            {
+                foreach (GameObject gameObject2 in activeGameObjects)
+                {
+                    if (gameObject1 == gameObject2)
+                    {
+                        continue;
+                    }
+
+                    if (gameObject1.CheckCollision(gameObject2))
+                    {
+                        gameObject1.OnCollision(gameObject2);
+                        gameObject2.OnCollision(gameObject1);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Adds object to the gameworld during next update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void AddObject(GameObject gameObject)
         {
             gameObject.Awake();
             gameObjectsToAdd.Add(gameObject);
         }
+        /// <summary>
+        /// Removes object from the gameworld during next update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void RemoveObject(GameObject gameObject)
         {
             gameObjectsToRemove.Add(gameObject);
         }
+        /// <summary>
+        /// Method to create player
+        /// </summary>
+        /// <param name="position"></param>
         private void AddPlayer(Vector2 position)
         {
             Player newPlayer = new Player(position);
-            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"),1f);
+            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
             newPlayer.AddComponent<Collider>();
             newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
+            Player = newPlayer;
         }
         #endregion
     }
