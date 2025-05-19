@@ -26,14 +26,10 @@ namespace Necrotroph_Eksamensprojekt.Commands
         }
         #endregion
         #region Methods
-        public void Execute(GameTime gameTime)
-        {
-            Player.Instance.GetComponent<Movable>().Move(direction, Player.Instance.Speed);
-        }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            Player.Instance.GetComponent<Movable>().Move(direction, Player.Instance.Speed);
         }
         #endregion
     }

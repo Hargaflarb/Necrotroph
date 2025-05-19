@@ -14,6 +14,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
         #region Fields
         private static Dictionary<Keys,ICommand> heldCommandKeys;
         private static Dictionary<Keys,ICommand> pushCommandKeys;
+        private static KeyboardState lastKeyboardState;
         #endregion
         #region Properties
         #endregion
@@ -22,6 +23,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
         {
             heldCommandKeys = new Dictionary<Keys, ICommand>();
             pushCommandKeys = new Dictionary<Keys, ICommand>();
+            lastKeyboardState = new KeyboardState();
         }
 
         #endregion
@@ -59,6 +61,10 @@ namespace Necrotroph_Eksamensprojekt.Commands
                 if (heldCommandKeys.TryGetValue(pressedKey, out ICommand holdCommand))
                 {
                     holdCommand.Execute();
+                }
+                if (pushCommandKeys.TryGetValue(pressedKey, out ICommand downCommand) & !lastKeyboardState.IsKeyDown(pressedKey))
+                {
+                    downCommand.Execute();
                 }
             }
         }

@@ -87,6 +87,8 @@ namespace Necrotroph_Eksamensprojekt
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            InputHandler.HandleInput();
+
             foreach (GameObject gameObject in activeGameObjects)
             {
                 gameObject.Update(gameTime);
@@ -176,10 +178,10 @@ namespace Necrotroph_Eksamensprojekt
         /// <param name="position"></param>
         private void AddPlayer(Vector2 position)
         {
-            Player newPlayer = new Player(position);
+            Player newPlayer = Player.Instance;
+            newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
             newPlayer.AddComponent<Collider>();
-            newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
             Player = newPlayer;
