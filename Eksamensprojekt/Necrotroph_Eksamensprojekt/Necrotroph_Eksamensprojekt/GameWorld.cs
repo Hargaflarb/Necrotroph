@@ -86,7 +86,7 @@ namespace Necrotroph_Eksamensprojekt
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkGreen);
 
             //Higher layer numbers are closer, lower are further away
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
@@ -118,14 +118,6 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
             gameObjectsToRemove.Clear();
-        }
-        /// <summary>
-        /// Called every frame
-        /// </summary>
-        /// <param name="gameTime"></param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.DarkGreen);
         }
 
         public void CheckCollision()
