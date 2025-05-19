@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
-    public class Movable:Component
+    public class Movable : Component
     {
         #region Fields
         private float speed;

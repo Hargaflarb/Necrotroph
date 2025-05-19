@@ -10,14 +10,6 @@ using Necrotroph_Eksamensprojekt.Components;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public enum EnemyType
-    {
-        Hunter = 1,
-        Seeker = 2,
-        LightEater = 3,
-        Stalker = 4,
-    }
-
     public class GameWorld : Game
     {
         #region Fields
@@ -64,8 +56,6 @@ namespace Necrotroph_Eksamensprojekt
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            
         }
 
         protected override void Update(GameTime gameTime)
@@ -77,21 +67,10 @@ namespace Necrotroph_Eksamensprojekt
             {
                 gameObject.Update(gameTime);
             }
-            
-            foreach (GameObject gameObject in gameObjectsToAdd)
-            {
-                gameObject.Start();
-                activeGameObjects.Add(gameObject);
-            }
-            gameObjectsToAdd.Clear();
-            foreach (GameObject gameObject in gameObjectsToRemove)
-            {
-                if (!activeGameObjects.Contains(gameObject))
-                {
-                    activeGameObjects.Remove(gameObject);
-                }
-            }
-            gameObjectsToRemove.Clear();
+            CheckCollision();
+
+
+            AddAndRemoveGameObjects();
             base.Update(gameTime);
         }
 
@@ -111,6 +90,46 @@ namespace Necrotroph_Eksamensprojekt
             _spriteBatch.End();
             base.Draw(gameTime);
         }
+
+        public void AddAndRemoveGameObjects()
+        {
+            foreach (GameObject gameObject in gameObjectsToAdd)
+            {
+                gameObject.Start();
+                activeGameObjects.Add(gameObject);
+            }
+            gameObjectsToAdd.Clear();
+            foreach (GameObject gameObject in gameObjectsToRemove)
+            {
+                if (!activeGameObjects.Contains(gameObject))
+                {
+                    activeGameObjects.Remove(gameObject);
+                }
+            }
+            gameObjectsToRemove.Clear();
+        }
+
+
+        public void CheckCollision()
+        {
+            foreach (GameObject gameObject1 in activeGameObjects)
+            {
+                foreach (GameObject gameObject2 in activeGameObjects)
+                {
+                    if (gameObject1 == gameObject2)
+                    {
+                        continue;
+                    }
+
+                    if (gameObject1.CheckCollision(gameObject2))
+                    {
+                        gameObject1.OnCollision(gameObject2);
+                        gameObject2.OnCollision(gameObject1);
+                    }
+                }
+            }
+        }
+
         #endregion
     }
 }
