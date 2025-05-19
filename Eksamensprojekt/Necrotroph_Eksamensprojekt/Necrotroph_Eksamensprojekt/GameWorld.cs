@@ -102,7 +102,10 @@ namespace Necrotroph_Eksamensprojekt
             gameObjectsToRemove.Clear();
             base.Update(gameTime);
         }
-
+        /// <summary>
+        /// Called every frame
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkGreen);
@@ -119,16 +122,27 @@ namespace Necrotroph_Eksamensprojekt
             _spriteBatch.End();
             base.Draw(gameTime);
         }
-
+        /// <summary>
+        /// Adds object to the gameworld during next update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void AddObject(GameObject gameObject)
         {
             gameObject.Awake();
             gameObjectsToAdd.Add(gameObject);
         }
+        /// <summary>
+        /// Removes object from the gameworld during next update
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void RemoveObject(GameObject gameObject)
         {
             gameObjectsToRemove.Add(gameObject);
         }
+        /// <summary>
+        /// Method to create player
+        /// </summary>
+        /// <param name="position"></param>
         private void AddPlayer(Vector2 position)
         {
             Player newPlayer = new Player(position);
