@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.Components;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
@@ -23,9 +24,9 @@ namespace Necrotroph_Eksamensprojekt.Commands
         }
         #endregion
         #region Methods
-        public void Execute()
+        public void Execute(GameTime gameTime)
         {
-
+            Player.Instance.GetComponent<Movable>().Move(gameTime);
         }
         #endregion
     }

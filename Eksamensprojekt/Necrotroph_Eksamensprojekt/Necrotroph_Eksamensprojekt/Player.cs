@@ -13,8 +13,20 @@ namespace Necrotroph_Eksamensprojekt
     {
         #region Fields
         private int life;
+        private static Player instance;
         #endregion
         #region Properties
+        public static Player Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Player(new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2));
+                }
+                return instance;
+            }
+        }
         #endregion
         #region Constructors
         public Player(Vector2 position) : base(position) 

@@ -13,7 +13,7 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         #region Fields
         private float speed;
-        private Vector2 moveDirection;
+        private Vector2 direction;
 
 
         #endregion
@@ -25,8 +25,11 @@ namespace Necrotroph_Eksamensprojekt.Components
         }
         #endregion
         #region Methods
-        public void Move()
+        public void Move(GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            gameObject.Transform.Position += ((direction * speed) * deltaTime);
 
         }
         public override void Execute()

@@ -26,6 +26,8 @@ namespace Necrotroph_Eksamensprojekt
         private List<GameObject> gameObjectsToAdd;
         private List<GameObject> activeGameObjects;
         private List<GameObject> gameObjectsToRemove;
+        private static Vector2 screenSize;
+
         private static GameWorld instance;
 
         #endregion
@@ -41,6 +43,9 @@ namespace Necrotroph_Eksamensprojekt
                 return instance;
             }
         }
+
+        public static Vector2 ScreenSize { get => screenSize; set => screenSize = value;  }
+
         #endregion
         #region Constructors
         private GameWorld()
@@ -53,6 +58,9 @@ namespace Necrotroph_Eksamensprojekt
         #region Methods
         protected override void Initialize()
         {
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.ApplyChanges();
             gameObjectsToAdd = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
