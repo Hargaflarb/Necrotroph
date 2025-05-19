@@ -16,6 +16,10 @@ namespace Necrotroph_Eksamensprojekt
         #region Properties
         #endregion
         #region Constructors
+        public Tree(Vector2 position) : base(position) 
+        { 
+        
+        }
         #endregion
         #region Methods
         #endregion

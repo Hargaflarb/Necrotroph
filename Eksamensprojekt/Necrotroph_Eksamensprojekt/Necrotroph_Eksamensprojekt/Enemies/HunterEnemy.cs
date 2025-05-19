@@ -13,6 +13,10 @@ namespace Necrotroph_Eksamensprojekt
         #region Properties
         #endregion
         #region Constructors
+        public HunterEnemy(Vector2 position) : base(position)
+        {
+
+        }
         #endregion
         #region Methods
         #endregion

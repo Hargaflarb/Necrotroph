@@ -9,38 +9,38 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
-    public class InputHandler
+    public static class InputHandler
     {
         #region Fields
-        private Dictionary<Keys,ICommand> heldCommandKeys;
-        private Dictionary<Keys,ICommand> pushCommandKeys;
+        private static Dictionary<Keys,ICommand> heldCommandKeys;
+        private static Dictionary<Keys,ICommand> pushCommandKeys;
         #endregion
         #region Properties
         #endregion
         #region Constructors
         #endregion
         #region Methods
-        public void AddHeldKeyCommand(Keys key,ICommand command)
+        public static void AddHeldKeyCommand(Keys key,ICommand command)
         {
 
         }
-        public void AddPressedKeyCommand(Keys key, ICommand command)
+        public static void AddPressedKeyCommand(Keys key, ICommand command)
         {
 
         }
-        public void EditHeldKeyCommand(Keys key, ICommand command)
+        public static void EditHeldKeyCommand(Keys key, ICommand command)
         {
 
         }
-        public void EditPressedKeyCommand(Keys key, ICommand command)
+        public static void EditPressedKeyCommand(Keys key, ICommand command)
         {
 
         }
-        public void RemoveHeldKeyCommand(ICommand command)
+        public static void RemoveHeldKeyCommand(ICommand command)
         {
 
         }
-        public void RemovePressedKeyCommand(ICommand command)
+        public static void RemovePressedKeyCommand(ICommand command)
         {
 
         }

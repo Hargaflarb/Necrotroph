@@ -20,9 +20,10 @@ namespace Necrotroph_Eksamensprojekt
         public Transform Transform { get => transform; }
         #endregion
         #region Constructors
-        public GameObject()
+        public GameObject(Vector2 position)
         {
             components = new List<Component>();
+            transform = new Transform(position);
         }
         #endregion
         #region Methods

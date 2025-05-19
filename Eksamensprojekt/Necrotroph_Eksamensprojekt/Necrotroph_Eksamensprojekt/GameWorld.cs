@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.Components;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -91,9 +92,14 @@ namespace Necrotroph_Eksamensprojekt
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
+            //Higher layer numbers are closer, lower are further away
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
             foreach (GameObject gameObject in activeGameObjects)
             {
+                if (gameObject.GetComponent<SpriteRenderer>() != null)
+                {
+                    ((SpriteRenderer)gameObject.GetComponent<SpriteRenderer>()).Draw(_spriteBatch);
+                }
             }
             _spriteBatch.End();
             base.Draw(gameTime);

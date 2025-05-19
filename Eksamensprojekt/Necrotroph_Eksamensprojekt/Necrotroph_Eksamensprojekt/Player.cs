@@ -17,6 +17,10 @@ namespace Necrotroph_Eksamensprojekt
         #region Properties
         #endregion
         #region Constructors
+        public Player(Vector2 position) : base(position) 
+        { 
+        
+        }
         #endregion
         #region Methods
         public override void Update(GameTime gameTime)

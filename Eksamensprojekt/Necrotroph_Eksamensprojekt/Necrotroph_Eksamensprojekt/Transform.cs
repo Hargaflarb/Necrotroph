@@ -52,8 +52,6 @@ namespace Necrotroph_Eksamensprojekt
             this.rotation = rotation;
             this.size = size;
         }
-
-        public Vector2 Position1 { get => position; set => position = value; }
         #endregion
         #region Methods
         #endregion

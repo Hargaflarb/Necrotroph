@@ -21,7 +21,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
         public GameObject CreateEnemy(Vector2 position, EnemyType enemy)
         {
             //oooo
-            return new HunterEnemy();
+            return new HunterEnemy(position);
         }
         #endregion
     }
