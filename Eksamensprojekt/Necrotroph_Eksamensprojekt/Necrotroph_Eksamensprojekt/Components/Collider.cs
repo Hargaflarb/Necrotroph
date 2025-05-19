@@ -27,7 +27,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         }
         #endregion
         #region Constructors
-        public Collider(GameObject gameObject)
+        public Collider(GameObject gameObject) : base(gameObject)
         {
         }
         #endregion
@@ -73,11 +73,6 @@ namespace Necrotroph_Eksamensprojekt.Components
                 return value1;
             }
             return value2;
-        }
-
-        public override void Execute()
-        {
-
         }
         #endregion
     }

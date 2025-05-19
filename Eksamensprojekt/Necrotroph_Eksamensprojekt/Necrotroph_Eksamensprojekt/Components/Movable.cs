@@ -20,7 +20,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Properties
         #endregion
         #region Constructors
-        public Movable(GameObject gameObject)
+        public Movable(GameObject gameObject) : base(gameObject)
         {
             this.gameObject = gameObject;
         }
@@ -32,10 +32,6 @@ namespace Necrotroph_Eksamensprojekt.Components
 
             Vector2 change = ((direction * speed) * deltaTime);
             gameObject.Transform.Position += change;
-        }
-        public override void Execute()
-        {
-
         }
         #endregion
     }
