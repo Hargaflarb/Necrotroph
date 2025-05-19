@@ -8,12 +8,16 @@ namespace Necrotroph_Eksamensprojekt.Components
 {
     public class LightEmitter : Component
     {
+        private float lightRadius;
+        private Color lightColor;
 
-        public LightEmitter(GameObject gameObject) : base(gameObject)
+        public float LightRadius { get => lightRadius; set => lightRadius = value; }
+
+        public LightEmitter(GameObject gameObject, float radius) : base(gameObject)
         {
-
+            LightRadius = radius;
+            lightColor = Color.White;
         }
-
 
     }
 }
