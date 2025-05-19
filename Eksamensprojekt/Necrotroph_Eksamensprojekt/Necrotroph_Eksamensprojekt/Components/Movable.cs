@@ -13,8 +13,7 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         #region Fields
         private float speed;
-        private Vector2 moveDirection;
-        private Vector2 velocity;
+        private Vector2 direction;
 
         #endregion
         #region Properties
