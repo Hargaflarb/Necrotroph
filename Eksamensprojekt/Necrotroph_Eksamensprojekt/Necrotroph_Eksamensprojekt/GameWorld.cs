@@ -56,6 +56,8 @@ namespace Necrotroph_Eksamensprojekt
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            AddPlayer(new Vector2(100,100));
         }
 
         protected override void Update(GameTime gameTime)
@@ -109,6 +111,10 @@ namespace Necrotroph_Eksamensprojekt
             gameObjectsToRemove.Clear();
         }
 
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.DarkGreen);
+        }
 
         public void CheckCollision()
         {
@@ -129,7 +135,25 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
         }
-
+        
+        public void AddObject(GameObject gameObject)
+        {
+            gameObject.Awake();
+            gameObjectsToAdd.Add(gameObject);
+        }
+        public void RemoveObject(GameObject gameObject)
+        {
+            gameObjectsToRemove.Add(gameObject);
+        }
+        private void AddPlayer(Vector2 position)
+        {
+            Player newPlayer = new Player(position);
+            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"),1f);
+            newPlayer.AddComponent<Collider>();
+            newPlayer.AddComponent<Movable>();
+            newPlayer.Transform.Scale = 10f;
+            AddObject(newPlayer);
+        }
         #endregion
     }
 }
