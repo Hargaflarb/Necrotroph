@@ -18,6 +18,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #endregion
         #region Properties
         public Texture2D Sprite { get => sprite; set => sprite = value; }
+        public Color Colour { get => colour; set => colour = value; }
         #endregion
         #region Constructors
         /// <summary>
@@ -26,22 +27,22 @@ namespace Necrotroph_Eksamensprojekt.Components
         /// <param name="gameObject">What object is the SpriteRenderer attached to (should be automatically filled out with AddComponent</param>
         /// <param name="sprite">What sprite is the first one being shown</param>
         /// <param name="layer">Which draw layer is it on (higher means closer)</param>
-        public SpriteRenderer(GameObject gameObject, Texture2D sprite,float layer)
+        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer)
         {
             this.sprite = sprite;
             this.gameObject = gameObject;
-            origin=new Vector2(sprite.Width/2,sprite.Height/2);
+            origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
         #endregion
         #region Methods
         public override void Execute()
         {
-            
+
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(sprite == null) return;
+            if (sprite == null) return;
 
             spriteBatch.Draw(sprite, gameObject.Transform.Position, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
         }

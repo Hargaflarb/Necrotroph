@@ -9,12 +9,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
-    public class Movable:Component
+    public class Movable : Component
     {
         #region Fields
         private float speed;
         private Vector2 moveDirection;
-
+        private Vector2 velocity;
 
         #endregion
         #region Properties
@@ -22,12 +22,16 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Constructors
         public Movable(GameObject gameObject)
         {
+            this.gameObject = gameObject;
         }
         #endregion
         #region Methods
-        public void Move()
+        public void Move(Vector2 direction, float speed)
         {
+            float deltaTime = (float)GameWorld.Time.ElapsedGameTime.TotalSeconds;
 
+            Vector2 change = ((direction * speed) * deltaTime);
+            gameObject.Transform.Position += change;
         }
         public override void Execute()
         {
