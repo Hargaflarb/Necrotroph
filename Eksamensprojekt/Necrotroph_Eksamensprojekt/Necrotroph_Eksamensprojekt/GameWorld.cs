@@ -65,7 +65,7 @@ namespace Necrotroph_Eksamensprojekt
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            AddPlayer(new Vector2(500,500));
+            AddPlayer(new Vector2(100,100));
         }
 
         protected override void Update(GameTime gameTime)
@@ -127,6 +127,7 @@ namespace Necrotroph_Eksamensprojekt
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"),1f);
             newPlayer.AddComponent<Collider>();
             newPlayer.AddComponent<Movable>();
+            newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
         }
         #endregion
