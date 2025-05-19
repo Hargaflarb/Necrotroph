@@ -19,7 +19,7 @@ namespace Necrotroph_Eksamensprojekt
         #region Constructors
         public Player(Vector2 position) : base(position) 
         { 
-        
+
         }
         #endregion
         #region Methods

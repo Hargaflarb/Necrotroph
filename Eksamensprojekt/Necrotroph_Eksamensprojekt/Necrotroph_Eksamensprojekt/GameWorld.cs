@@ -65,7 +65,7 @@ namespace Necrotroph_Eksamensprojekt
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            
+            AddPlayer(new Vector2(500,500));
         }
 
         protected override void Update(GameTime gameTime)
@@ -97,7 +97,7 @@ namespace Necrotroph_Eksamensprojekt
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkGreen);
 
             //Higher layer numbers are closer, lower are further away
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
@@ -110,6 +110,24 @@ namespace Necrotroph_Eksamensprojekt
             }
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+        
+        public void AddObject(GameObject gameObject)
+        {
+            gameObject.Awake();
+            gameObjectsToAdd.Add(gameObject);
+        }
+        public void RemoveObject(GameObject gameObject)
+        {
+            gameObjectsToRemove.Add(gameObject);
+        }
+        private void AddPlayer(Vector2 position)
+        {
+            Player newPlayer = new Player(position);
+            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"),1f);
+            newPlayer.AddComponent<Collider>();
+            newPlayer.AddComponent<Movable>();
+            AddObject(newPlayer);
         }
         #endregion
     }
