@@ -11,14 +11,6 @@ using Necrotroph_Eksamensprojekt.Factories;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public enum EnemyType
-    {
-        Hunter = 1,
-        Seeker = 2,
-        LightEater = 3,
-        Stalker = 4,
-    }
-
     public class GameWorld : Game
     {
         #region Fields
@@ -85,6 +77,32 @@ namespace Necrotroph_Eksamensprojekt
             {
                 gameObject.Update(gameTime);
             }
+            CheckCollision();
+
+
+            AddAndRemoveGameObjects();
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            //Higher layer numbers are closer, lower are further away
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
+            foreach (GameObject gameObject in activeGameObjects)
+            {
+                if (gameObject.GetComponent<SpriteRenderer>() != null)
+                {
+                    gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
+                }
+            }
+            _spriteBatch.End();
+            base.Draw(gameTime);
+        }
+
+        public void AddAndRemoveGameObjects()
+        {
 
             foreach (GameObject gameObject in gameObjectsToAdd)
             {
@@ -100,7 +118,6 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
             gameObjectsToRemove.Clear();
-            base.Update(gameTime);
         }
         /// <summary>
         /// Called every frame
@@ -109,18 +126,26 @@ namespace Necrotroph_Eksamensprojekt
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkGreen);
+        }
 
-            //Higher layer numbers are closer, lower are further away
-            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
-            foreach (GameObject gameObject in activeGameObjects)
+        public void CheckCollision()
+        {
+            foreach (GameObject gameObject1 in activeGameObjects)
             {
-                if (gameObject.GetComponent<SpriteRenderer>() != null)
+                foreach (GameObject gameObject2 in activeGameObjects)
                 {
-                    gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
+                    if (gameObject1 == gameObject2)
+                    {
+                        continue;
+                    }
+
+                    if (gameObject1.CheckCollision(gameObject2))
+                    {
+                        gameObject1.OnCollision(gameObject2);
+                        gameObject2.OnCollision(gameObject1);
+                    }
                 }
             }
-            _spriteBatch.End();
-            base.Draw(gameTime);
         }
         /// <summary>
         /// Adds object to the gameworld during next update
