@@ -10,7 +10,14 @@ using Necrotroph_Eksamensprojekt.Components;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public enum EnemyType { Hunter}
+    public enum EnemyType
+    {
+        Hunter = 1,
+        Seeker = 2,
+        LightEater = 3,
+        Stalker = 4,
+    }
+
     public class GameWorld : Game
     {
         #region Fields
@@ -36,7 +43,7 @@ namespace Necrotroph_Eksamensprojekt
         }
         #endregion
         #region Constructors
-        public GameWorld()
+        private GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

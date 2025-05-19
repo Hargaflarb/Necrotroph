@@ -1,2 +1,2 @@
-﻿using var game = new Necrotroph_Eksamensprojekt.GameWorld();
+﻿using var game = Necrotroph_Eksamensprojekt.GameWorld.Instance;
 game.Run();
