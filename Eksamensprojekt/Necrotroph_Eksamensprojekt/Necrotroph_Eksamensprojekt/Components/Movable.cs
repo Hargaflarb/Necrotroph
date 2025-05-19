@@ -29,7 +29,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            gameObject.Transform.Position += ((direction * speed) * deltaTime);
+            gameObject.Transform.Position += ((direction * Player.Instance.Speed) * deltaTime);
 
         }
         public override void Execute()

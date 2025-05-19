@@ -18,7 +18,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
         #region Properties
         #endregion
         #region Constructors
-        public WalkCommand(Player player)
+        public WalkCommand(Player player, Vector2 direction)
         {
             this.player = player;
         }
@@ -27,6 +27,11 @@ namespace Necrotroph_Eksamensprojekt.Commands
         public void Execute(GameTime gameTime)
         {
             Player.Instance.GetComponent<Movable>().Move(gameTime);
+        }
+
+        public void Execute()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

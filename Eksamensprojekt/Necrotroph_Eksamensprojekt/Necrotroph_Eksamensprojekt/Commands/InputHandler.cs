@@ -18,11 +18,17 @@ namespace Necrotroph_Eksamensprojekt.Commands
         #region Properties
         #endregion
         #region Constructors
+        static InputHandler()
+        {
+            heldCommandKeys = new Dictionary<Keys, ICommand>();
+            pushCommandKeys = new Dictionary<Keys, ICommand>();
+        }
+
         #endregion
         #region Methods
         public static void AddHeldKeyCommand(Keys key,ICommand command)
         {
-
+            heldCommandKeys.Add(key, command);
         }
         public static void AddPressedKeyCommand(Keys key, ICommand command)
         {
@@ -44,6 +50,19 @@ namespace Necrotroph_Eksamensprojekt.Commands
         {
 
         }
+        public static void HandleInput()
+        {
+            KeyboardState keyState = Keyboard.GetState();
+
+            foreach(Keys pressedKey in keyState.GetPressedKeys())
+            {
+                if (heldCommandKeys.TryGetValue(pressedKey, out ICommand holdCommand))
+                {
+                    holdCommand.Execute();
+                }
+            }
+        }
+
         #endregion
     }
 }

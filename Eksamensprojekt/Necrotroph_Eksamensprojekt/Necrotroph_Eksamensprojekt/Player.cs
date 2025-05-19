@@ -13,9 +13,11 @@ namespace Necrotroph_Eksamensprojekt
     {
         #region Fields
         private int life;
+        private float speed;
         private static Player instance;
         #endregion
         #region Properties
+        public float Speed { get => speed; set => speed = value; }
         public static Player Instance
         {
             get
@@ -30,8 +32,8 @@ namespace Necrotroph_Eksamensprojekt
         #endregion
         #region Constructors
         public Player(Vector2 position) : base(position) 
-        { 
-
+        {
+            speed = 300;
         }
         #endregion
         #region Methods
