@@ -105,7 +105,7 @@ namespace Necrotroph_Eksamensprojekt
             {
                 if (gameObject.GetComponent<SpriteRenderer>() != null)
                 {
-                    ((SpriteRenderer)gameObject.GetComponent<SpriteRenderer>()).Draw(_spriteBatch);
+                    gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
                 }
             }
             _spriteBatch.End();
