@@ -40,7 +40,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
 
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (sprite == null) return;
 
