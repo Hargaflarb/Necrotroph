@@ -27,7 +27,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         /// <param name="gameObject">What object is the SpriteRenderer attached to (should be automatically filled out with AddComponent</param>
         /// <param name="sprite">What sprite is the first one being shown</param>
         /// <param name="layer">Which draw layer is it on (higher means closer)</param>
-        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer)
+        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer) : base(gameObject)
         {
             this.sprite = sprite;
             this.gameObject = gameObject;

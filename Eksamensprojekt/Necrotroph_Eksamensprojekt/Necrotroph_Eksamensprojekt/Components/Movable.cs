@@ -19,7 +19,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Properties
         #endregion
         #region Constructors
-        public Movable(GameObject gameObject)
+        public Movable(GameObject gameObject) : base(gameObject)
         {
             this.gameObject = gameObject;
         }
