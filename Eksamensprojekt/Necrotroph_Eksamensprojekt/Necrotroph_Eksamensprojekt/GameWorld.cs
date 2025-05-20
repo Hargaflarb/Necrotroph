@@ -60,7 +60,6 @@ namespace Necrotroph_Eksamensprojekt
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.ApplyChanges();
             ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-
             gameObjectsToAdd = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
@@ -93,6 +92,7 @@ namespace Necrotroph_Eksamensprojekt
             {
                 gameObject.Update(gameTime);
             }
+            TimeLineManager.Update(gameTime);
             CheckCollision();
 
 
