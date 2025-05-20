@@ -17,6 +17,10 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Properties
         #endregion
         #region Constructors
+        public Component(GameObject gameObject)
+        {
+            this.gameObject = gameObject;
+        }
         #endregion
         #region Methods
         public abstract void Execute();
