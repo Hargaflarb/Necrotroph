@@ -50,17 +50,13 @@ namespace Necrotroph_Eksamensprojekt.Components
             int yDif = GetLowerAbsoluteValue(upperDif, lowerDif);
             if (MathF.Abs(xDif) < Math.Abs(yDif))
             {
-                float targetDif = otherObject.Hitbox.Width / 2f + Hitbox.Width / 2f;
-
                 //sets a new X, based on wether it colliding from the right or left.
-                newX = otherObject.Transform.Position.X + (xDif > 0 ? -targetDif : targetDif);
+                newX = otherObject.Transform.Position.X + xDif;
             }
             else
             {
-                float targetDif = otherObject.Hitbox.Height / 2f + Hitbox.Height / 2f;
-
                 //sets a new Y, based on wether it colliding from above or bellow.
-                newY = otherObject.Transform.Position.Y + (yDif > 0 ? -targetDif : targetDif);
+                newY = otherObject.Transform.Position.Y + yDif;
             }
 
             otherObject.Transform.Position = new Vector2(newX, newY);

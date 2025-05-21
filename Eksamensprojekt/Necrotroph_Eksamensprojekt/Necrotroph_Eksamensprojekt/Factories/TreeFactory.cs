@@ -21,7 +21,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
         #region Methods
         public static GameObject CreateTree(Vector2 position)
         {
-            //Tree tree = 
             return new Tree(position);
         }
         #endregion
