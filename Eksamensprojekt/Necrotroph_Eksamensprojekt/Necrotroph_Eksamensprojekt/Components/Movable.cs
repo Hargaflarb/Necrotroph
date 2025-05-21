@@ -45,10 +45,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             Player.Instance.Speed = speed;
         }
-        public override void Execute()
-        {
-
-        }
+        
         #endregion
     }
 }

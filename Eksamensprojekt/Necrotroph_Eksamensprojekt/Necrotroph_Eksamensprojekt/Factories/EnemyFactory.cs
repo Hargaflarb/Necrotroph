@@ -45,7 +45,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     ((Animator)newEnemy.GetComponent<Animator>()).AddAnimation("Walk", hunterSprite);
                     ((Animator)newEnemy.GetComponent<Animator>()).PlayAnimation("Walk");
                     newEnemy.AddComponent<Movable>();
-                    newEnemy.AddComponent<Collider>();
+                    //newEnemy.AddComponent<Collider>();
                     newEnemy.Transform.Scale = 50;
                     return newEnemy;
                     break;
