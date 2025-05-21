@@ -40,14 +40,14 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
         public override GameObject GetObject(Vector2 position)
         {
-            if ()
+            /*if ()
             {
 
             }
             else
             {
 
-            }
+            }*/
             return null;
         }
         protected override void CleanUp(GameObject obj)
