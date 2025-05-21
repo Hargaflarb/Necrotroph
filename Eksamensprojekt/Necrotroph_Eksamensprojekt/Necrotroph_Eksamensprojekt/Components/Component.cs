@@ -13,8 +13,10 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         #region Fields
         protected GameObject gameObject;
+
         #endregion
         #region Properties
+        public GameObject GameObject { get => gameObject; private set => gameObject = value; }
         #endregion
         #region Constructors
         public Component(GameObject gameObject)
@@ -28,6 +30,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         public virtual void Start() { }
         public virtual void Update(GameTime gameTime)
         {
+
         }
         public virtual void Draw(SpriteBatch spriteBatch) { }
         public virtual void OnCollision(GameObject otherObject) { }

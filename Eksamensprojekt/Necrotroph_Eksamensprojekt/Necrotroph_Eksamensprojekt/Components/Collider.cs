@@ -22,7 +22,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             get
             {
-                return gameObject.Hitbox;
+                return GameObject.Hitbox;
             }
         }
         #endregion
@@ -70,7 +70,6 @@ namespace Necrotroph_Eksamensprojekt.Components
             }
             return value2;
         }
-
         #endregion
     }
 }

@@ -24,7 +24,6 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Constructors
         public Animator(GameObject gameObject) : base(gameObject)
         {
-            this.gameObject = gameObject;
             animations= new Dictionary<string, Animation>();
         }
         #endregion
@@ -84,6 +83,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             gameObject.GetComponent<SpriteRenderer>().Sprite = currentAnimation.GetFrame(currentIndex);
         }
         
+
         #endregion
     }
 }
