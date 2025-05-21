@@ -44,7 +44,7 @@ float4 MainPS(VertexShaderOutput input) : COLOR
     pixelColor.a -= 1 - clamp((distance - (lightRadius - fadeLength)) * resizer, 0, 1);
     //pixelColor.a += IsInShadow(dif) * step(Distance, distance);
     
-    //pixelColor.a = 1 - pixelColor.a;
+    pixelColor.a = 1 - pixelColor.a;
     return pixelColor;
 }
 
