@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Factories;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -66,6 +67,7 @@ namespace Necrotroph_Eksamensprojekt
 
             AddPlayer(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
 
+
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
@@ -81,9 +83,10 @@ namespace Necrotroph_Eksamensprojekt
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             EnemyFactory.LoadContent(Content);
+            MemorabiliaFactory.LoadContent(Content);
 
-            AddPlayer(new Vector2(100, 100));
             AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
+            AddObject(MemorabiliaFactory.CreateMemorabilia());
         }
 
         protected override void Update(GameTime gameTime)
