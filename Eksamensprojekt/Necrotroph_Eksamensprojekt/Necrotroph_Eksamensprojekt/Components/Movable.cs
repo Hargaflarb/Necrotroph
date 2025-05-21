@@ -13,14 +13,13 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         #region Fields
         private float speed;
-        private Vector2 moveDirection;
-        private Vector2 velocity;
+        private Vector2 direction;
 
         #endregion
         #region Properties
         #endregion
         #region Constructors
-        public Movable(GameObject gameObject)
+        public Movable(GameObject gameObject) : base(gameObject)
         {
             this.gameObject = gameObject;
         }
@@ -28,10 +27,20 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Methods
         public void Move(Vector2 direction, float speed)
         {
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+            }
+
             float deltaTime = (float)GameWorld.Time.ElapsedGameTime.TotalSeconds;
 
             Vector2 change = ((direction * speed) * deltaTime);
             gameObject.Transform.Position += change;
+        }
+
+        public void Sprint(float speed)
+        {
+            Player.Instance.Speed = speed;
         }
         public override void Execute()
         {

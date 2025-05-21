@@ -8,5 +8,8 @@ namespace Necrotroph_Eksamensprojekt.Commands
 {
     public interface ICommand
     {
+        void Execute();
+
+        void Undo();
     }
 }

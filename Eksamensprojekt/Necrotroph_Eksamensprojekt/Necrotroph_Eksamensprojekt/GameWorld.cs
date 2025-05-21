@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Factories;
 
@@ -19,6 +20,8 @@ namespace Necrotroph_Eksamensprojekt
         private List<GameObject> gameObjectsToAdd;
         private List<GameObject> activeGameObjects;
         private List<GameObject> gameObjectsToRemove;
+        private static Vector2 screenSize;
+
         private static GameWorld instance;
 
         #endregion
@@ -38,6 +41,9 @@ namespace Necrotroph_Eksamensprojekt
                 return instance;
             }
         }
+
+        public static Vector2 ScreenSize { get => screenSize; set => screenSize = value;  }
+
         #endregion
         #region Constructors
         private GameWorld()
@@ -50,10 +56,23 @@ namespace Necrotroph_Eksamensprojekt
         #region Methods
         protected override void Initialize()
         {
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.ApplyChanges();
+            ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             gameObjectsToAdd = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
 
+            AddPlayer(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
+
+            InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
+            InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
+            InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
+            InputHandler.AddHeldKeyCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
+
+            InputHandler.AddPressedKeyCommand(Keys.Space, new SprintCommand(Player.Instance));
+            InputHandler.AddUnclickedCommand(Keys.Space, new SprintCommand(Player.Instance));
 
             base.Initialize();
         }
@@ -73,10 +92,13 @@ namespace Necrotroph_Eksamensprojekt
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            InputHandler.HandleInput();
+
             foreach (GameObject gameObject in activeGameObjects)
             {
                 gameObject.Update(gameTime);
             }
+            TimeLineManager.Update(gameTime);
             CheckCollision();
 
 
@@ -162,10 +184,10 @@ namespace Necrotroph_Eksamensprojekt
         /// <param name="position"></param>
         private void AddPlayer(Vector2 position)
         {
-            Player newPlayer = new Player(position);
+            Player newPlayer = Player.Instance;
+            newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
             newPlayer.AddComponent<Collider>();
-            newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
             Player = newPlayer;

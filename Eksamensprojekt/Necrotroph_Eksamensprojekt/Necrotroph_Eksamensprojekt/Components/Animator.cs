@@ -22,7 +22,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Properties
         #endregion
         #region Constructors
-        public Animator(GameObject gameObject)
+        public Animator(GameObject gameObject) : base(gameObject)
         {
             this.gameObject = gameObject;
             animations= new Dictionary<string, Animation>();
