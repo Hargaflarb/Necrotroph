@@ -116,6 +116,8 @@ namespace Necrotroph_Eksamensprojekt
 
         protected override void Draw(GameTime gameTime)
         {
+            ShaderManager.PrepareShadows(_spriteBatch);
+
             GraphicsDevice.Clear(Color.DarkGreen);
 
             //Higher layer numbers are closer, lower are further away
@@ -228,7 +230,7 @@ namespace Necrotroph_Eksamensprojekt
                 {
                     lightEmitters.Add((LightEmitter)shaderComponent);
                 }
-                else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
+                //else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
                 {
 
                     //shadowCasters.Add((ShadowInterval)shaderComponent);
