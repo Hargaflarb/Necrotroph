@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Necrotroph_Eksamensprojekt.Commands
+namespace Necrotroph_Eksamensprojekt
 {
-    public interface ICommand
+    public static class Map
     {
-        void Execute();
 
-        void Undo();
     }
 }

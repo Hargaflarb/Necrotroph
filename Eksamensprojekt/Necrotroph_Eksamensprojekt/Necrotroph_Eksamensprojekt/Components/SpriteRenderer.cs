@@ -30,14 +30,23 @@ namespace Necrotroph_Eksamensprojekt.Components
         public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer) : base(gameObject)
         {
             this.sprite = sprite;
+            this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2();
+            origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
+        }
+        public SpriteRenderer(GameObject gameObject, float layer) : base(gameObject)
+        {
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
         #endregion
         #region Methods
+
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (sprite == null) return;
+            if (sprite == null)
+            {
+                return;
+            }
 
             spriteBatch.Draw(sprite, GameObject.Transform.Position, null, colour, GameObject.Transform.Rotation, origin, GameObject.Transform.Scale, SpriteEffects.None, 0);
         }

@@ -21,7 +21,7 @@ namespace Necrotroph_Eksamensprojekt
         public Vector2 Position { get => position; set => position = value; }
         public float Rotation { get => rotation; set => rotation = value; }
         public float Scale { get => scale; set => scale = value; }
-        public Vector2 Size { get => size; set => size = value; }
+        public Vector2 Size { get => size * scale; set => size = value; }
         #endregion
         #region Constructors
         public Transform(Vector2 position)

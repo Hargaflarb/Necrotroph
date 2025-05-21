@@ -21,11 +21,10 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Constructors
         public Component(GameObject gameObject)
         {
-            this.GameObject = gameObject;
+            this.gameObject = gameObject;
         }
         #endregion
         #region Methods
-        
 
         public virtual void Awake() { }
         public virtual void Start() { }
