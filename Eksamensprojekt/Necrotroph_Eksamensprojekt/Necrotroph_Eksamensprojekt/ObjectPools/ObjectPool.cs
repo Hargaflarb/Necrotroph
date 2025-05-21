@@ -21,7 +21,12 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
 
         public void ReleaseObject(GameObject obj)
         {
-
+            if (active.Contains(obj))
+            {
+                active.Remove(obj);
+                inactive.Add(obj);
+                obj.Active = false;
+            }
         }
 
         protected abstract GameObject Create(Vector2 position);

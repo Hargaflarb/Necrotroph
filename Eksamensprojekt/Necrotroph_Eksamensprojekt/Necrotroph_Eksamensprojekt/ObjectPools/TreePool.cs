@@ -56,6 +56,10 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
                 return Create(position);
             }
         }
+        /// <summary>
+        /// I am not actually sure what this is supposed to do, it just does the same as ReleaseObject
+        /// </summary>
+        /// <param name="obj"></param>
         protected override void CleanUp(GameObject obj)
         {
             if (active.Contains(obj))
