@@ -37,10 +37,6 @@ namespace Necrotroph_Eksamensprojekt.Components
 
         }
 
-        public override void Execute()
-        {
-
-        }
         #endregion
     }
 }

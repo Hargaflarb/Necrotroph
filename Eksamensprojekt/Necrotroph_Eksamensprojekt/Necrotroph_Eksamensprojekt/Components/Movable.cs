@@ -32,10 +32,6 @@ namespace Necrotroph_Eksamensprojekt.Components
             Vector2 change = ((direction * speed) * deltaTime);
             gameObject.Transform.Position += change;
         }
-        public override void Execute()
-        {
-
-        }
         #endregion
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Factories
 {
-    public class TreeFactory
+    public static class TreeFactory
     {
         #region Fields
         #endregion
@@ -19,8 +19,9 @@ namespace Necrotroph_Eksamensprojekt.Factories
         #region Constructors
         #endregion
         #region Methods
-        public GameObject CreateTree(Vector2 position)
+        public static GameObject CreateTree(Vector2 position)
         {
+            //Tree tree = 
             return new Tree(position);
         }
         #endregion

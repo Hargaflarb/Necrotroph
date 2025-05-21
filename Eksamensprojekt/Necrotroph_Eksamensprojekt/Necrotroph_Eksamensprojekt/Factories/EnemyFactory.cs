@@ -41,7 +41,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     newEnemy = new HunterEnemy(position);
                     newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f);
                     newEnemy.AddComponent<Movable>();
-                    newEnemy.AddComponent<Collider>();
+                    //newEnemy.AddComponent<Collider>();
                     newEnemy.Transform.Scale = 50;
                     return newEnemy;
                     break;
