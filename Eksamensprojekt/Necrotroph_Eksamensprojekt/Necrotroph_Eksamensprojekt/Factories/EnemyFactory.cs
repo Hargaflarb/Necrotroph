@@ -15,6 +15,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
     {
         #region Fields
         private static Texture2D hunterSprite;
+        private static Texture2D[] hunterWalkAnim;
         private static Texture2D seekerSprite;
         private static Texture2D lightEaterSprite;
         private static Texture2D stalkerSprite;
@@ -40,6 +41,9 @@ namespace Necrotroph_Eksamensprojekt.Factories
                 case EnemyType.Hunter:
                     newEnemy = new HunterEnemy(position);
                     newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f);
+                    newEnemy.AddComponent<Animator>();
+                    ((Animator)newEnemy.GetComponent<Animator>()).AddAnimation("Walk", hunterSprite);
+                    ((Animator)newEnemy.GetComponent<Animator>()).PlayAnimation("Walk");
                     newEnemy.AddComponent<Movable>();
                     newEnemy.AddComponent<Collider>();
                     newEnemy.Transform.Scale = 50;

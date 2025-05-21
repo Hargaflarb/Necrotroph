@@ -60,7 +60,6 @@ namespace Necrotroph_Eksamensprojekt
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.ApplyChanges();
             ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-
             gameObjectsToAdd = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
@@ -68,6 +67,12 @@ namespace Necrotroph_Eksamensprojekt
             AddPlayer(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
+            InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
+            InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
+            InputHandler.AddHeldKeyCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
+
+            InputHandler.AddPressedKeyCommand(Keys.Space, new SprintCommand(Player.Instance));
+            InputHandler.AddUnclickedCommand(Keys.Space, new SprintCommand(Player.Instance));
 
             base.Initialize();
         }
@@ -93,6 +98,7 @@ namespace Necrotroph_Eksamensprojekt
             {
                 gameObject.Update(gameTime);
             }
+            TimeLineManager.Update(gameTime);
             CheckCollision();
 
 

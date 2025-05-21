@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Numerics;
 using Necrotroph_Eksamensprojekt;
+using Necrotroph_Eksamensprojekt.Components;
 namespace UnitTester
 {
     [TestClass]
@@ -8,6 +10,9 @@ namespace UnitTester
         [TestMethod]
         public void TestMethod1()
         {
+            //Arrange
+            //Act
+            //Assert
         }
     }
 }
