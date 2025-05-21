@@ -185,12 +185,22 @@ namespace Necrotroph_Eksamensprojekt
         private void AddPlayer(Vector2 position)
         {
             Player newPlayer = Player.Instance;
-            newPlayer.AddComponent<Movable>();
+            //newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
             newPlayer.AddComponent<Collider>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
             Player = newPlayer;
+        }
+        public void MoveMap(Vector2 direction, float speed)
+        {
+            foreach (GameObject gameObject in activeGameObjects)
+            {
+                if(gameObject != Player)
+                {
+                    gameObject.Transform.Position += ((direction * speed) * (float)Time.ElapsedGameTime.TotalSeconds);
+                } 
+            }
         }
         #endregion
     }
