@@ -1,4 +1,5 @@
 ﻿using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
