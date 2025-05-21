@@ -201,7 +201,7 @@ namespace Necrotroph_Eksamensprojekt
         {
             Player newPlayer = Player.Instance;
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
-            newPlayer.AddComponent<LightEmitter>(0.3f);
+            newPlayer.AddComponent<LightEmitter>(0.15f);
             //newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
