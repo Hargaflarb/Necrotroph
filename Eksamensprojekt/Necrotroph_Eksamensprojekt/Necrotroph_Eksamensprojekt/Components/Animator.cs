@@ -36,7 +36,6 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
 
         }
-
         #endregion
     }
 }
