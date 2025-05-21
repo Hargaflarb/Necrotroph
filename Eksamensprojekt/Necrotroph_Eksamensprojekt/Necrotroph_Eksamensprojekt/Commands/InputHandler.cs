@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
+    /// <summary>
+    /// Handles all the key presses of the player. Will eventually be able to configure keybinds
+    /// </summary>
     public static class InputHandler
     {
         #region Fields
@@ -31,14 +34,29 @@ namespace Necrotroph_Eksamensprojekt.Commands
 
         #endregion
         #region Methods
+        /// <summary>
+        /// For buttons that you hold, such as WASD
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="command"></param>
         public static void AddHeldKeyCommand(Keys key,ICommand command)
         {
             heldCommandKeys.Add(key, command);
         }
+        /// <summary>
+        /// Buttons that only trigger code when you press it, not as long as you hold it
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="command"></param>
         public static void AddPressedKeyCommand(Keys key, ICommand command)
         {
             pushCommandKeys.Add(key, command);
         }
+        /// <summary>
+        /// For buttons that need to run their command when you stop clicking the button
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="command"></param>
         public static void AddUnclickedCommand(Keys key, ICommand command)
         {
             unclickedCommandKeys.Add(key, command);

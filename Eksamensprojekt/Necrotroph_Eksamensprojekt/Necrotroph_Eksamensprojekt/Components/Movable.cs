@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
+    /// <summary>
+    /// Component used for movable items. Contains the code for the Move function too, and the sprint function
+    /// </summary>
     public class Movable : Component
     {
         #region Fields

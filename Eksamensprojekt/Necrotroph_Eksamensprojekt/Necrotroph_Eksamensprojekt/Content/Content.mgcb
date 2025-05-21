@@ -25,7 +25,6 @@
 /processorParam:TextureFormat=Color
 /build:noImageFound.png
 
-
 #begin resd.png
 /importer:TextureImporter
 /processor:TextureProcessor

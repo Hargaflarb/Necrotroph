@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
+    /// <summary>
+    /// Used by the player to go real fast. Don't use it for other things
+    /// </summary>
     public class SprintCommand : ICommand
     {
         #region Fields
@@ -26,7 +29,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
         #region Methods
         public void Execute()
         {
-            Player.Instance.GetComponent<Movable>().Sprint(600);
+            Player.Instance.Speed = 600;
         }
 
         public void Undo()
