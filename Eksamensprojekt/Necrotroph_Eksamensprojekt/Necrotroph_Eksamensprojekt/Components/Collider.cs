@@ -34,8 +34,8 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Methods
         public override void OnCollision(GameObject otherObject)
         {
-            float newX = gameObject.Transform.Position.X;
-            float newY = gameObject.Transform.Position.Y;
+            float newX = otherObject.Transform.Position.X;
+            float newY = otherObject.Transform.Position.Y;
 
             Hitbox.Deconstruct(out int x, out int y, out int w, out int h);
             otherObject.Hitbox.Deconstruct(out int x2, out int y2, out int w2, out int h2);
@@ -63,7 +63,7 @@ namespace Necrotroph_Eksamensprojekt.Components
                 newY = otherObject.Transform.Position.Y + (yDif > 0 ? -targetDif : targetDif);
             }
 
-            gameObject.Transform.Position = new Vector2(newX, newY);
+            otherObject.Transform.Position = new Vector2(newX, newY);
         }
 
         private int GetLowerAbsoluteValue(int value1, int value2)
@@ -75,10 +75,6 @@ namespace Necrotroph_Eksamensprojekt.Components
             return value2;
         }
 
-        public override void Execute()
-        {
-
-        }
         #endregion
     }
 }

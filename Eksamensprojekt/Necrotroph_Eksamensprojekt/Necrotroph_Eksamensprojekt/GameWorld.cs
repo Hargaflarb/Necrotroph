@@ -65,6 +65,7 @@ namespace Necrotroph_Eksamensprojekt
             activeGameObjects = new List<GameObject>();
 
             AddPlayer(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
+            AddObject(new Tree(new Vector2(ScreenSize.X / 2 + 200, ScreenSize.Y / 2)));
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
@@ -80,6 +81,8 @@ namespace Necrotroph_Eksamensprojekt
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
 
             AddPlayer(new Vector2(100, 100));
@@ -117,6 +120,7 @@ namespace Necrotroph_Eksamensprojekt
                 if (gameObject.GetComponent<SpriteRenderer>() != null)
                 {
                     gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
+                    gameObject.Draw(_spriteBatch);
                 }
             }
             _spriteBatch.End();
@@ -187,7 +191,7 @@ namespace Necrotroph_Eksamensprojekt
             Player newPlayer = Player.Instance;
             newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
-            newPlayer.AddComponent<Collider>();
+            //newPlayer.AddComponent<Collider>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
             Player = newPlayer;

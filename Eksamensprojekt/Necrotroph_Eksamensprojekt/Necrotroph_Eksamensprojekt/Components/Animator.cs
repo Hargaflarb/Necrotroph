@@ -83,6 +83,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             }
             ((SpriteRenderer)gameObject.GetComponent<SpriteRenderer>()).Sprite = currentAnimation.GetFrame(currentIndex);
         }
+        
         public override void Execute()
         {
             throw new NotImplementedException();
