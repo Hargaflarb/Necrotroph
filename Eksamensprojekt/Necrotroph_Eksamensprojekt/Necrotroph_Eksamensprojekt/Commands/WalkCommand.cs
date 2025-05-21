@@ -29,7 +29,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
 
         public void Execute()
         {
-            Player.Instance.GetComponent<Movable>().Move(direction, Player.Instance.Speed);
+            GameWorld.Instance.MoveMap(direction, Player.Instance.Speed);
         }
 
         public void Undo()

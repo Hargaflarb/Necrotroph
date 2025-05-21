@@ -29,7 +29,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
         #region Methods
         public void Execute()
         {
-            Player.Instance.GetComponent<Movable>().Sprint(600);
+            Player.Instance.Speed = 600;
         }
 
         public void Undo()

@@ -38,6 +38,18 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         {
             throw new NotImplementedException();
         }
+        public override GameObject GetObject(Vector2 position)
+        {
+            /*if ()
+            {
+
+            }
+            else
+            {
+
+            }*/
+            return null;
+        }
         protected override void CleanUp(GameObject obj)
         {
             throw new NotImplementedException();
