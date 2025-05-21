@@ -17,8 +17,11 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         private List<Component> components;
         private Transform transform;
         #endregion
+
         #region Properties
+        public static Texture2D Pixel;
         public Transform Transform { get => transform; }
+        public bool Active { get; set; }
         public Rectangle Hitbox
         {
             get
@@ -31,6 +34,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         }
 
         #endregion
+
         #region Constructors
         public GameObject(Vector2 position)
         {
@@ -74,6 +78,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         }
         public virtual void Start()
         {
+            Active = true;
             foreach (Component component in components)
             {
                 component.Start();
@@ -109,11 +114,11 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             Rectangle leftLine = new Rectangle(Hitbox.X, Hitbox.Y, 1, Hitbox.Height);
             Rectangle center = new Rectangle((int)Transform.Position.X - 1, (int)Transform.Position.Y - 1, 3, 3);
 
-            //spriteBatch.Draw(pixel, topLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            //spriteBatch.Draw(pixel, bottomLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            //spriteBatch.Draw(pixel, rightLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            //spriteBatch.Draw(pixel, leftLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            //spriteBatch.Draw(pixel, center, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, topLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, bottomLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, rightLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, leftLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, center, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
         }
 
         public bool CheckCollision(GameObject otherObject)

@@ -25,7 +25,6 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Constructors
         public Animator(GameObject gameObject) : base(gameObject)
         {
-            this.gameObject = gameObject;
             animations= new Dictionary<string, Animation>();
         }
         #endregion
@@ -82,12 +81,10 @@ namespace Necrotroph_Eksamensprojekt.Components
                     currentIndex = currentAnimation.Frames.Length - 1;
                 }
             }
-            ((SpriteRenderer)gameObject.GetComponent<SpriteRenderer>()).Sprite = currentAnimation.GetFrame(currentIndex);
+            gameObject.GetComponent<SpriteRenderer>().Sprite = currentAnimation.GetFrame(currentIndex);
         }
-        public override void Execute()
-        {
-            throw new NotImplementedException();
-        }
+        
+
         #endregion
     }
 }

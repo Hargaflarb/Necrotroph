@@ -43,7 +43,7 @@ namespace Necrotroph_Eksamensprojekt
             }
         }
 
-        public static Vector2 ScreenSize { get => screenSize; set => screenSize = value;  }
+        public static Vector2 ScreenSize { get => screenSize; set => screenSize = value; }
 
         #endregion
         #region Constructors
@@ -66,6 +66,7 @@ namespace Necrotroph_Eksamensprojekt
             activeGameObjects = new List<GameObject>();
 
             AddPlayer(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
+            AddObject(new Tree(new Vector2(ScreenSize.X / 2 + 200, ScreenSize.Y / 2)));
 
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
@@ -82,11 +83,18 @@ namespace Necrotroph_Eksamensprojekt
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
+<<<<<<< HEAD
             AddObject(MemorabiliaFactory.CreateMemorabilia());
+=======
+
+            ShaderManager.SetSprite();
+>>>>>>> Main-2
         }
 
         protected override void Update(GameTime gameTime)
@@ -99,7 +107,10 @@ namespace Necrotroph_Eksamensprojekt
 
             foreach (GameObject gameObject in activeGameObjects)
             {
-                gameObject.Update(gameTime);
+                if (gameObject.Active)
+                {
+                    gameObject.Update(gameTime);
+                }
             }
             TimeLineManager.Update(gameTime);
             CheckCollision();
@@ -117,18 +128,19 @@ namespace Necrotroph_Eksamensprojekt
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
             foreach (GameObject gameObject in activeGameObjects)
             {
-                if (gameObject.GetComponent<SpriteRenderer>() != null)
+                if (gameObject.GetComponent<SpriteRenderer>() != null && gameObject.Active)
                 {
                     gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
+                    gameObject.Draw(_spriteBatch);
                 }
             }
+            ShaderManager.Draw(_spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
 
         public void AddAndRemoveGameObjects()
         {
-
             foreach (GameObject gameObject in gameObjectsToAdd)
             {
                 gameObject.Start();
@@ -149,19 +161,23 @@ namespace Necrotroph_Eksamensprojekt
         {
             foreach (GameObject gameObject1 in activeGameObjects)
             {
-                foreach (GameObject gameObject2 in activeGameObjects)
+                if (gameObject1.Active)
                 {
-                    if (gameObject1 == gameObject2)
+                    foreach (GameObject gameObject2 in activeGameObjects)
                     {
-                        continue;
-                    }
+                        if (gameObject1 == gameObject2)
+                        {
+                            continue;
+                        }
 
-                    if (gameObject1.CheckCollision(gameObject2))
-                    {
-                        gameObject1.OnCollision(gameObject2);
-                        gameObject2.OnCollision(gameObject1);
+                        if (gameObject1.CheckCollision(gameObject2) && gameObject2.Active)
+                        {
+                            gameObject1.OnCollision(gameObject2);
+                            gameObject2.OnCollision(gameObject1);
+                        }
                     }
                 }
+
             }
         }
         /// <summary>
@@ -188,23 +204,45 @@ namespace Necrotroph_Eksamensprojekt
         private void AddPlayer(Vector2 position)
         {
             Player newPlayer = Player.Instance;
-            //newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
-            newPlayer.AddComponent<Collider>();
+            newPlayer.AddComponent<LightEmitter>(0.3f);
+            //newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
             Player = newPlayer;
         }
+        
         public void MoveMap(Vector2 direction, float speed)
         {
             foreach (GameObject gameObject in activeGameObjects)
             {
-                if(gameObject != Player)
+                if (gameObject != Player && gameObject.Active)
                 {
-                    gameObject.Transform.Position += ((direction * speed) * (float)Time.ElapsedGameTime.TotalSeconds);
-                } 
+                    gameObject.Transform.Position -= ((direction * speed) * (float)Time.ElapsedGameTime.TotalSeconds);
+                }
             }
         }
+
+        public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
+        {
+            List<LightEmitter> lightEmitters = new List<LightEmitter>();
+            List<ShadowInterval> shadowCasters = new List<ShadowInterval>();
+            foreach (GameObject gameObject in activeGameObjects)
+            {
+                Component shaderComponent;
+                if ((shaderComponent = gameObject.GetComponent<LightEmitter>()) is not null)
+                {
+                    lightEmitters.Add((LightEmitter)shaderComponent);
+                }
+                else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
+                {
+
+                    //shadowCasters.Add((ShadowInterval)shaderComponent);
+                }
+            }
+            return (lightEmitters, shadowCasters);
+        }
+
         #endregion
     }
 }

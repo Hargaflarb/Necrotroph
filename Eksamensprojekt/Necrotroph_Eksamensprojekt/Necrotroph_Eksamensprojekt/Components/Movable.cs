@@ -25,8 +25,9 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Constructors
         public Movable(GameObject gameObject) : base(gameObject)
         {
-            this.gameObject = gameObject;
+            
         }
+
         #endregion
         #region Methods
         public void Move(Vector2 direction, float speed)
@@ -46,10 +47,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             Player.Instance.Speed = speed;
         }
-        public override void Execute()
-        {
-
-        }
+        
         #endregion
     }
 }

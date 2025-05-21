@@ -23,7 +23,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             get
             {
-                return gameObject.Hitbox;
+                return GameObject.Hitbox;
             }
         }
         #endregion
@@ -35,8 +35,8 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Methods
         public override void OnCollision(GameObject otherObject)
         {
-            float newX = gameObject.Transform.Position.X;
-            float newY = gameObject.Transform.Position.Y;
+            float newX = otherObject.Transform.Position.X;
+            float newY = otherObject.Transform.Position.Y;
 
             Hitbox.Deconstruct(out int x, out int y, out int w, out int h);
             otherObject.Hitbox.Deconstruct(out int x2, out int y2, out int w2, out int h2);
@@ -51,20 +51,16 @@ namespace Necrotroph_Eksamensprojekt.Components
             int yDif = GetLowerAbsoluteValue(upperDif, lowerDif);
             if (MathF.Abs(xDif) < Math.Abs(yDif))
             {
-                float targetDif = otherObject.Hitbox.Width / 2f + Hitbox.Width / 2f;
-
                 //sets a new X, based on wether it colliding from the right or left.
-                newX = otherObject.Transform.Position.X + (xDif > 0 ? -targetDif : targetDif);
+                newX = otherObject.Transform.Position.X + xDif;
             }
             else
             {
-                float targetDif = otherObject.Hitbox.Height / 2f + Hitbox.Height / 2f;
-
                 //sets a new Y, based on wether it colliding from above or bellow.
-                newY = otherObject.Transform.Position.Y + (yDif > 0 ? -targetDif : targetDif);
+                newY = otherObject.Transform.Position.Y + yDif;
             }
 
-            gameObject.Transform.Position = new Vector2(newX, newY);
+            otherObject.Transform.Position = new Vector2(newX, newY);
         }
 
         private int GetLowerAbsoluteValue(int value1, int value2)
@@ -74,11 +70,6 @@ namespace Necrotroph_Eksamensprojekt.Components
                 return value1;
             }
             return value2;
-        }
-
-        public override void Execute()
-        {
-
         }
         #endregion
     }
