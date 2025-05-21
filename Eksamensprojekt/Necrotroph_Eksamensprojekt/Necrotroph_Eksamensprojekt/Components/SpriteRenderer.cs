@@ -41,6 +41,7 @@ namespace Necrotroph_Eksamensprojekt.Components
 
         #endregion
         #region Methods
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (sprite == null)

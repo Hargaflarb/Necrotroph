@@ -14,10 +14,12 @@ namespace Necrotroph_Eksamensprojekt
         #region Fields
         private int life;
         private float speed;
+        private Vector2 direction;
         private static Player instance;
         #endregion
         #region Properties
         public float Speed { get => speed; set => speed = value; }
+        public Vector2 Direction { get => direction; set => direction = value; }
         public static Player Instance
         {
             get

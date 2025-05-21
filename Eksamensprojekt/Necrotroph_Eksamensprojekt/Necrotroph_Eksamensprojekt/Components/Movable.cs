@@ -27,11 +27,26 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Methods
         public void Move(Vector2 direction, float speed)
         {
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+            }
+
             float deltaTime = (float)GameWorld.Time.ElapsedGameTime.TotalSeconds;
 
             Vector2 change = ((direction * speed) * deltaTime);
             gameObject.Transform.Position += change;
         }
+
+        public void Sprint(float speed)
+        {
+            Player.Instance.Speed = speed;
+        }
+        public override void Execute()
+        {
+
+        }
+        
         #endregion
     }
 }

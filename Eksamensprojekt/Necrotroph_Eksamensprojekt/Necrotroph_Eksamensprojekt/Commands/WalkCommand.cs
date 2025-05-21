@@ -31,6 +31,11 @@ namespace Necrotroph_Eksamensprojekt.Commands
         {
             Player.Instance.GetComponent<Movable>().Move(direction, Player.Instance.Speed);
         }
+
+        public void Undo()
+        {
+            
+        }
         #endregion
     }
 }
