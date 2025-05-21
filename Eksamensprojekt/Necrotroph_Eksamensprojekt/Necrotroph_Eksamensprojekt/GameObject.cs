@@ -21,6 +21,7 @@ namespace Necrotroph_Eksamensprojekt
         #region Properties
         public static Texture2D Pixel;
         public Transform Transform { get => transform; }
+        public bool Active { get; set; }
         public Rectangle Hitbox
         {
             get
@@ -77,6 +78,7 @@ namespace Necrotroph_Eksamensprojekt
         }
         public virtual void Start()
         {
+            Active = true;
             foreach (Component component in components)
             {
                 component.Start();

@@ -24,7 +24,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
 
         }
 
-        protected abstract GameObject Create();
+        protected abstract GameObject Create(Vector2 position);
 
         protected abstract void CleanUp(GameObject obj);
         #endregion

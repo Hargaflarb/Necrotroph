@@ -34,25 +34,36 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
         #endregion
         #region Methods
-        protected override GameObject Create()
+        protected override GameObject Create(Vector2 position)
         {
-            throw new NotImplementedException();
+            Tree newTree = new Tree(position);
+            active.Add(newTree);
+            return newTree;
         }
         public override GameObject GetObject(Vector2 position)
         {
-            /*if ()
+            if (inactive.OfType<Tree>() != null)
             {
-
+                Tree selected = inactive.OfType<Tree>().FirstOrDefault();
+                inactive.Remove(selected);
+                active.Add(selected);
+                selected.Transform.Position = position;
+                selected.Active = true;
+                return selected;
             }
             else
             {
-
-            }*/
-            return null;
+                return Create(position);
+            }
         }
         protected override void CleanUp(GameObject obj)
         {
-            throw new NotImplementedException();
+            if (active.Contains(obj))
+            {
+                active.Remove(obj);
+                inactive.Add(obj);
+                obj.Active = false;
+            }
         }
         #endregion
     }
