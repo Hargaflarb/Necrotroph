@@ -204,7 +204,7 @@ namespace Necrotroph_Eksamensprojekt
             {
                 if (gameObject != Player && gameObject.Active)
                 {
-                    gameObject.Transform.Position += ((direction * speed) * (float)Time.ElapsedGameTime.TotalSeconds);
+                    gameObject.Transform.Position -= ((direction * speed) * (float)Time.ElapsedGameTime.TotalSeconds);
                 }
             }
         }
