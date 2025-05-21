@@ -89,12 +89,9 @@ namespace Necrotroph_Eksamensprojekt
             MemorabiliaFactory.LoadContent(Content);
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
-<<<<<<< HEAD
             AddObject(MemorabiliaFactory.CreateMemorabilia());
-=======
 
             ShaderManager.SetSprite();
->>>>>>> Main-2
         }
 
         protected override void Update(GameTime gameTime)

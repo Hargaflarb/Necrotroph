@@ -18,17 +18,11 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Properties
         #endregion
         #region Constructors
-<<<<<<< HEAD:Eksamensprojekt/Necrotroph_Eksamensprojekt/Necrotroph_Eksamensprojekt/GameObjects/Tree.cs
-        public Tree(Vector2 position) : base(position)
-        {
-
-=======
         public Tree(Vector2 position) : base(position) 
         {
             Transform.Scale = 20f;
             AddComponent<SpriteRenderer>(GameWorld.Instance.Content.Load<Texture2D>("noImageFound"), 1f);
             AddComponent<Collider>();
->>>>>>> Main-2:Eksamensprojekt/Necrotroph_Eksamensprojekt/Necrotroph_Eksamensprojekt/Tree.cs
         }
         #endregion
         #region Methods

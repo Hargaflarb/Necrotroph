@@ -25,10 +25,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             GameWorld.Instance.RemoveObject(this.gameObject);
         }
-        public override void Execute()
-        {
-            
-        }
         #endregion
     }
 }
+    
