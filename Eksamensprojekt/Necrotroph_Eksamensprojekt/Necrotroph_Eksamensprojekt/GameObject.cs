@@ -19,6 +19,7 @@ namespace Necrotroph_Eksamensprojekt
         #endregion
         #region Properties
         public Transform Transform { get => transform; }
+        public bool Active { get; set; }
         public Rectangle Hitbox
         {
             get
@@ -74,6 +75,7 @@ namespace Necrotroph_Eksamensprojekt
         }
         public virtual void Start()
         {
+            Active = true;
             foreach (Component component in components)
             {
                 component.Start();

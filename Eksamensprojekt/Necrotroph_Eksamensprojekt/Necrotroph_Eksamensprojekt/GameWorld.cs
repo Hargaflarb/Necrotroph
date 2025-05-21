@@ -42,7 +42,7 @@ namespace Necrotroph_Eksamensprojekt
             }
         }
 
-        public static Vector2 ScreenSize { get => screenSize; set => screenSize = value;  }
+        public static Vector2 ScreenSize { get => screenSize; set => screenSize = value; }
 
         #endregion
         #region Constructors
@@ -96,7 +96,10 @@ namespace Necrotroph_Eksamensprojekt
 
             foreach (GameObject gameObject in activeGameObjects)
             {
-                gameObject.Update(gameTime);
+                if (gameObject.Active)
+                {
+                    gameObject.Update(gameTime);
+                }
             }
             TimeLineManager.Update(gameTime);
             CheckCollision();
@@ -114,7 +117,7 @@ namespace Necrotroph_Eksamensprojekt
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
             foreach (GameObject gameObject in activeGameObjects)
             {
-                if (gameObject.GetComponent<SpriteRenderer>() != null)
+                if (gameObject.GetComponent<SpriteRenderer>() != null && gameObject.Active)
                 {
                     gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
                 }
@@ -125,7 +128,6 @@ namespace Necrotroph_Eksamensprojekt
 
         public void AddAndRemoveGameObjects()
         {
-
             foreach (GameObject gameObject in gameObjectsToAdd)
             {
                 gameObject.Start();
@@ -146,19 +148,23 @@ namespace Necrotroph_Eksamensprojekt
         {
             foreach (GameObject gameObject1 in activeGameObjects)
             {
-                foreach (GameObject gameObject2 in activeGameObjects)
+                if (gameObject1.Active)
                 {
-                    if (gameObject1 == gameObject2)
+                    foreach (GameObject gameObject2 in activeGameObjects)
                     {
-                        continue;
-                    }
+                        if (gameObject1 == gameObject2)
+                        {
+                            continue;
+                        }
 
-                    if (gameObject1.CheckCollision(gameObject2))
-                    {
-                        gameObject1.OnCollision(gameObject2);
-                        gameObject2.OnCollision(gameObject1);
+                        if (gameObject1.CheckCollision(gameObject2) && gameObject2.Active)
+                        {
+                            gameObject1.OnCollision(gameObject2);
+                            gameObject2.OnCollision(gameObject1);
+                        }
                     }
                 }
+
             }
         }
         /// <summary>
@@ -196,10 +202,10 @@ namespace Necrotroph_Eksamensprojekt
         {
             foreach (GameObject gameObject in activeGameObjects)
             {
-                if(gameObject != Player)
+                if (gameObject != Player && gameObject.Active)
                 {
                     gameObject.Transform.Position += ((direction * speed) * (float)Time.ElapsedGameTime.TotalSeconds);
-                } 
+                }
             }
         }
         #endregion
