@@ -36,6 +36,8 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             float newX = otherObject.Transform.Position.X;
             float newY = otherObject.Transform.Position.Y;
+            float newWorldX = otherObject.Transform.WorldPosition.X;
+            float newWorldY = otherObject.Transform.WorldPosition.Y;
 
             Hitbox.Deconstruct(out int x, out int y, out int w, out int h);
             otherObject.Hitbox.Deconstruct(out int x2, out int y2, out int w2, out int h2);
@@ -50,15 +52,18 @@ namespace Necrotroph_Eksamensprojekt.Components
             int yDif = GetLowerAbsoluteValue(upperDif, lowerDif);
             if (MathF.Abs(xDif) < Math.Abs(yDif))
             {
-                //sets a new X, based on wether it colliding from the right or left.
+                //sets a new X, based on whether it colliding from the right or left.
                 newX = otherObject.Transform.Position.X + xDif;
+                newWorldX = otherObject.Transform.WorldPosition.X + xDif;
             }
             else
             {
-                //sets a new Y, based on wether it colliding from above or bellow.
+                //sets a new Y, based on whether it colliding from above or below.
                 newY = otherObject.Transform.Position.Y + yDif;
+                newWorldY = otherObject.Transform.WorldPosition.Y + yDif;
             }
 
+            otherObject.Transform.WorldPosition = new Vector2(newWorldX, newWorldY);
             otherObject.Transform.Position = new Vector2(newX, newY);
         }
 
