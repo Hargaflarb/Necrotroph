@@ -9,14 +9,14 @@ namespace Necrotroph_Eksamensprojekt.Components
     public class LightEmitter : Component
     {
         private float lightRadius;
-        private Color lightColor;
 
         public float LightRadius { get => lightRadius; set => lightRadius = value; }
+        public float X { get => GameObject.Transform.Position.X / GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth; }
+        public float Y { get => GameObject.Transform.Position.Y / GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferHeight; }
 
         public LightEmitter(GameObject gameObject, float radius) : base(gameObject)
         {
             LightRadius = radius;
-            lightColor = Color.White;
         }
 
     }

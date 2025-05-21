@@ -19,7 +19,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Properties
         #endregion
         #region Constructors
-        public Animator(GameObject gameObject)
+        public Animator(GameObject gameObject) : base(gameObject)
         {
         }
         #endregion
@@ -33,11 +33,6 @@ namespace Necrotroph_Eksamensprojekt.Components
         
         }
         public void AddAnimation(string animationName, Texture2D[] animation)
-        {
-
-        }
-
-        public override void Execute()
         {
 
         }

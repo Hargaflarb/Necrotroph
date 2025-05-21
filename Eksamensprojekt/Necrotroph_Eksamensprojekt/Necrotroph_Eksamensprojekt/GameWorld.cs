@@ -65,6 +65,8 @@ namespace Necrotroph_Eksamensprojekt
 
             AddPlayer(new Vector2(100, 100));
             AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
+
+            ShaderManager.SetSprite();
         }
 
         protected override void Update(GameTime gameTime)
@@ -97,6 +99,7 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
                 }
             }
+            ShaderManager.Draw(_spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -165,11 +168,33 @@ namespace Necrotroph_Eksamensprojekt
             Player newPlayer = new Player(position);
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
             newPlayer.AddComponent<Collider>();
+            newPlayer.AddComponent<LightEmitter>(0.3f);
             newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
             Player = newPlayer;
         }
+
+        public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
+        {
+            List<LightEmitter> lightEmitters = new List<LightEmitter>();
+            List<ShadowInterval> shadowCasters = new List<ShadowInterval>();
+            foreach (GameObject gameObject in activeGameObjects)
+            {
+                Component shaderComponent;
+                if ((shaderComponent = gameObject.GetComponent<LightEmitter>()) is not null)
+                {
+                    lightEmitters.Add((LightEmitter)shaderComponent);
+                }
+                else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
+                {
+
+                    //shadowCasters.Add((ShadowInterval)shaderComponent);
+                }
+            }
+            return (lightEmitters, shadowCasters);
+        }
+
         #endregion
     }
 }

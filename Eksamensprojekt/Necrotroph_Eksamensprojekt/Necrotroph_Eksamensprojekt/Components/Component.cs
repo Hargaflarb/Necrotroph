@@ -13,13 +13,15 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         #region Fields
         protected GameObject gameObject;
+
         #endregion
         #region Properties
+        public GameObject GameObject { get => gameObject; private set => gameObject = value; }
         #endregion
         #region Constructors
         public Component(GameObject gameObject)
         {
-            this.gameObject = gameObject;
+            this.GameObject = gameObject;
         }
         #endregion
         #region Methods
