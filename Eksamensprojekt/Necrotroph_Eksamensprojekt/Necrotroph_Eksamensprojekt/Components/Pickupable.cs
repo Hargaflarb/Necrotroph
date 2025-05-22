@@ -21,9 +21,9 @@ namespace Necrotroph_Eksamensprojekt.Components
         }
         #endregion
         #region Methods
-        public override void OnCollision(GameObject otherObject)
+        public void RemoveObject()
         {
-            GameWorld.Instance.RemoveObject(this.gameObject);
+            GameWorld.Instance.RemoveObject(gameObject);
         }
         #endregion
     }

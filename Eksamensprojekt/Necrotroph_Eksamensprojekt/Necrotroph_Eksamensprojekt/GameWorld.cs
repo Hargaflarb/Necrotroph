@@ -24,14 +24,31 @@ namespace Necrotroph_Eksamensprojekt
         private List<GameObject> gameObjectsToRemove;
         private Vector2 previousPlayerPosition;
         private static Vector2 screenSize;
+        private int itemsCollected;
         private static GameWorld instance;
 
         #endregion
         #region Properties
-        //TEMP
-        public static Player Player { get; private set; }
         public static GameTime Time { get; private set; }
-        //no longer temp
+        public int ItemsCollected
+        {
+            get => itemsCollected;
+            set
+            {
+                if (value <= 0)
+                {
+                    itemsCollected = 0;
+                }
+                else if (value >= 5)
+                {
+                    itemsCollected = 5;
+                }
+                else
+                {
+                    itemsCollected = value;
+                }
+            }
+        }
         public static GameWorld Instance
         {
             get
@@ -88,9 +105,11 @@ namespace Necrotroph_Eksamensprojekt
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
+            TextFactory.LoadContent(Content);
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
+            UIManager.Instance.AddUIObject(TextFactory.CreateTextObject(ItemsCollected + "/5", Color.White));
 
             ShaderManager.SetSprite();
         }
@@ -110,9 +129,20 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Update(gameTime);
                 }
             }
+
+            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            {
+                if (uiObject.Active)
+                {
+                    uiObject.Update(gameTime);
+                }
+            }
             TimeLineManager.Update(gameTime);
             CheckCollision();
 
+            ItemsCollected++;
+            UIManager.Instance.AddAndRemoveUIObjects();
+            
             Map.CheckForObejctsToLoad();
             Map.CheckForObjectsToUnload();
             AddAndRemoveGameObjects();
@@ -135,54 +165,68 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Draw(_spriteBatch);
                 }
             }
+
+            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            {
+                if (uiObject.GetComponent<TextRenderer>() != null && uiObject.Active)
+                {
+                    uiObject.GetComponent<TextRenderer>().Draw(_spriteBatch);
+                    uiObject.Draw(_spriteBatch);
+                }
+            }
 #if !DEBUG
             ShaderManager.Draw(_spriteBatch);
 #endif
-            _spriteBatch.End();
-            base.Draw(gameTime);
+                _spriteBatch.End();
+                base.Draw(gameTime);
+            
         }
 
-        public void AddAndRemoveGameObjects()
-        {
-            foreach (GameObject gameObject in gameObjectsToAdd)
+
+            public void AddAndRemoveGameObjects()
             {
-                gameObject.Start();
-                activeGameObjects.Add(gameObject);
-            }
-            gameObjectsToAdd.Clear();
-            foreach (GameObject gameObject in gameObjectsToRemove)
-            {
-                if (!activeGameObjects.Contains(gameObject))
+                foreach (GameObject gameObject in gameObjectsToAdd)
                 {
-                    activeGameObjects.Remove(gameObject);
+                    gameObject.Start();
+                    activeGameObjects.Add(gameObject);
                 }
-            }
-            gameObjectsToRemove.Clear();
-        }
-
-        public void CheckCollision()
-        {
-            foreach (GameObject gameObject1 in activeGameObjects)
-            {
-                if (gameObject1.Active)
+                gameObjectsToAdd.Clear();
+                foreach (GameObject gameObject in gameObjectsToRemove)
                 {
-                    foreach (GameObject gameObject2 in activeGameObjects)
+                    if (activeGameObjects.Contains(gameObject))
                     {
-                        if (gameObject1 == gameObject2)
-                        {
-                            continue;
-                        }
-
-                        if (gameObject1.CheckCollision(gameObject2) && gameObject2.Active)
-                        {
-                            gameObject1.OnCollision(gameObject2);
-                            gameObject2.OnCollision(gameObject1);
-                        }
+                        activeGameObjects.Remove(gameObject);
                     }
                 }
+                gameObjectsToRemove.Clear();
+            }
 
+            public void CheckCollision()
+            {
+                foreach (GameObject gameObject1 in activeGameObjects)
+                {
+                    if (gameObject1.Active)
+                    {
+                        foreach (GameObject gameObject2 in activeGameObjects)
+                        {
+                            if (gameObject1 == gameObject2)
+                            {
+                                continue;
+                            }
+
+                            if (gameObject1.CheckCollision(gameObject2) && gameObject2.Active)
+                            {
+                                gameObject1.OnCollision(gameObject2);
+                                gameObject2.OnCollision(gameObject1);
+                            }
+                        }
+                    }
+
+                }
             }
         }
+        
+  
         /// <summary>
         /// Adds object to the gameworld during next update
         /// </summary>
@@ -212,29 +256,31 @@ namespace Necrotroph_Eksamensprojekt
             newPlayer.AddComponent<LightEmitter>(0.15f);
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
-            Player = newPlayer;
         }
 
-        public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
-        {
-            List<LightEmitter> lightEmitters = new List<LightEmitter>();
-            List<ShadowInterval> shadowCasters = new List<ShadowInterval>();
-            foreach (GameObject gameObject in activeGameObjects)
+
+            public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
             {
-                Component shaderComponent;
-                if ((shaderComponent = gameObject.GetComponent<LightEmitter>()) is not null)
+                List<LightEmitter> lightEmitters = new List<LightEmitter>();
+                List<ShadowInterval> shadowCasters = new List<ShadowInterval>();
+                foreach (GameObject gameObject in activeGameObjects)
                 {
-                    lightEmitters.Add((LightEmitter)shaderComponent);
-                }
-                //else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
-                {
+                    Component shaderComponent;
+                    if ((shaderComponent = gameObject.GetComponent<LightEmitter>()) is not null)
+                    {
+                        lightEmitters.Add((LightEmitter)shaderComponent);
+                    }
+                    //else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
+                    {
 
-                    //shadowCasters.Add((ShadowInterval)shaderComponent);
+                        //shadowCasters.Add((ShadowInterval)shaderComponent);
+                    }
                 }
+                return (lightEmitters, shadowCasters);
             }
-            return (lightEmitters, shadowCasters);
-        }
 
-#endregion
-    }
-}
+            #endregion
+        }
+    } 
+
+
