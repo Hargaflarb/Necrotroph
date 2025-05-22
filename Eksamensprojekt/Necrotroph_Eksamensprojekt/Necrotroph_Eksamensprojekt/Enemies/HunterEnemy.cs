@@ -28,7 +28,7 @@ namespace Necrotroph_Eksamensprojekt
         public override void Update(GameTime gameTime)
         {
             //finds player position & moves toward it
-            Vector2 direction = new Vector2(Player.Instance.Transform.Position.X - Transform.Position.X, Player.Instance.Transform.Position.Y - Transform.Position.Y);
+            Vector2 direction = new Vector2(Player.Instance.Transform.ScreenPosition.X - Transform.ScreenPosition.X, Player.Instance.Transform.ScreenPosition.Y - Transform.ScreenPosition.Y);
 
             double remap = Math.Atan2(direction.Y, direction.X);
             float XDirection = (float)Math.Cos(remap);

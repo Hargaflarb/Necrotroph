@@ -11,7 +11,13 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
     {
         public Memorabilia(Vector2 position) : base(position)
         {
-            Transform.Position = position;
+            Transform.WorldPosition = position;
+        }
+
+        public override void OnCollision(GameObject otherObject)
+        {
+            GameObject tempObject = this;
+            tempObject.GetComponent<Pickupable>().RemoveObject();
         }
     }
 }

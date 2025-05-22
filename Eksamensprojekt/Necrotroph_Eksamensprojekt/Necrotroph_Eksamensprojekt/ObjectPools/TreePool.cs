@@ -35,12 +35,13 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
         #endregion
         #region Methods
-        protected override GameObject Create(Vector2 position)
+        protected override sealed GameObject Create(Vector2 position)
         {
             Tree newTree = new Tree(position);
-            active.Add(newTree);
+            Active.Add(newTree);
             return newTree;
         }
+
         /// <summary>
         /// Gets a tree
         /// </summary>
@@ -48,12 +49,12 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         /// <returns></returns>
         public override GameObject GetObject(Vector2 position)
         {
-            if (inactive.OfType<Tree>() != null)
+            if (Inactive.OfType<Tree>().Any())
             {
-                Tree selected = inactive.OfType<Tree>().FirstOrDefault();
-                inactive.Remove(selected);
-                active.Add(selected);
-                selected.Transform.Position = position;
+                Tree selected = Inactive.OfType<Tree>().FirstOrDefault();
+                Inactive.Remove(selected);
+                Active.Add(selected);
+                selected.Transform.WorldPosition = position;
                 selected.Active = true;
                 return selected;
             }
@@ -61,17 +62,19 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
             {
                 return Create(position);
             }
+
         }
+
         /// <summary>
         /// I am not actually sure what this is supposed to do, it just does the same as ReleaseObject
         /// </summary>
         /// <param name="obj"></param>
         protected override void CleanUp(GameObject obj)
         {
-            if (active.Contains(obj))
+            if (Active.Contains(obj))
             {
-                active.Remove(obj);
-                inactive.Add(obj);
+                Active.Remove(obj);
+                Inactive.Add(obj);
                 obj.Active = false;
             }
         }

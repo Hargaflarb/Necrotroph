@@ -10,6 +10,7 @@ using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -23,14 +24,31 @@ namespace Necrotroph_Eksamensprojekt
         private List<GameObject> gameObjectsToRemove;
         private Vector2 previousPlayerPosition;
         private static Vector2 screenSize;
+        private int itemsCollected;
         private static GameWorld instance;
 
         #endregion
         #region Properties
-        //TEMP
-        public static Player Player { get; private set; }
         public static GameTime Time { get; private set; }
-        //no longer temp
+        public int ItemsCollected
+        {
+            get => itemsCollected;
+            set
+            {
+                if (value <= 0)
+                {
+                    itemsCollected = 0;
+                }
+                else if (value >= 5)
+                {
+                    itemsCollected = 5;
+                }
+                else
+                {
+                    itemsCollected = value;
+                }
+            }
+        }
         public static GameWorld Instance
         {
             get
@@ -65,8 +83,8 @@ namespace Necrotroph_Eksamensprojekt
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
 
-            AddPlayer(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
-            AddObject(new Tree(new Vector2(ScreenSize.X / 2 + 200, ScreenSize.Y / 2)));
+            AddPlayer(Vector2.Zero);
+            AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
 
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
@@ -87,9 +105,11 @@ namespace Necrotroph_Eksamensprojekt
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
+            TextFactory.LoadContent(Content);
 
-            AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
-            AddObject(MemorabiliaFactory.CreateMemorabilia());
+            AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
+            UIManager.Instance.AddUIObject(TextFactory.CreateTextObject(ItemsCollected + "/5", Color.White));
 
             ShaderManager.SetSprite();
         }
@@ -109,10 +129,22 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Update(gameTime);
                 }
             }
+
+            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            {
+                if (uiObject.Active)
+                {
+                    uiObject.Update(gameTime);
+                }
+            }
             TimeLineManager.Update(gameTime);
             CheckCollision();
 
+            ItemsCollected++;
+            UIManager.Instance.AddAndRemoveUIObjects();
 
+            Map.CheckForObejctsToLoad();
+            Map.CheckForObjectsToUnload();
             AddAndRemoveGameObjects();
             base.Update(gameTime);
         }
@@ -133,12 +165,23 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Draw(_spriteBatch);
                 }
             }
+
+            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            {
+                if (uiObject.GetComponent<TextRenderer>() != null && uiObject.Active)
+                {
+                    uiObject.GetComponent<TextRenderer>().Draw(_spriteBatch);
+                    uiObject.Draw(_spriteBatch);
+                }
+            }
 #if !DEBUG
             ShaderManager.Draw(_spriteBatch);
 #endif
             _spriteBatch.End();
             base.Draw(gameTime);
+
         }
+
 
         public void AddAndRemoveGameObjects()
         {
@@ -150,7 +193,7 @@ namespace Necrotroph_Eksamensprojekt
             gameObjectsToAdd.Clear();
             foreach (GameObject gameObject in gameObjectsToRemove)
             {
-                if (!activeGameObjects.Contains(gameObject))
+                if (activeGameObjects.Contains(gameObject))
                 {
                     activeGameObjects.Remove(gameObject);
                 }
@@ -181,6 +224,8 @@ namespace Necrotroph_Eksamensprojekt
 
             }
         }
+
+
         /// <summary>
         /// Adds object to the gameworld during next update
         /// </summary>
@@ -208,29 +253,10 @@ namespace Necrotroph_Eksamensprojekt
             newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
             newPlayer.AddComponent<LightEmitter>(0.15f);
-            //newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
-            Player = newPlayer;
         }
-        /// <summary>
-        /// Moves the map when the player moves; should eventually be moved out of GameWorld
-        /// </summary>
-        /// <param name="direction">the direction in which the player moves</param>
-        /// <param name="speed">the speed at which the player moves</param>
-        public void MoveMap()
-        {
-            if (Player.Instance.Transform.WorldPosition != previousPlayerPosition)
-            {
-                Vector2 difference = new Vector2(previousPlayerPosition.X - Player.Instance.Transform.WorldPosition.X, previousPlayerPosition.Y - Player.Instance.Transform.WorldPosition.Y);
-                foreach (GameObject gameObject in activeGameObjects)
-                {
-                    gameObject.Transform.Position += difference;
-                    previousPlayerPosition = Player.Instance.Transform.WorldPosition;
-                }
-            }
 
-        }
 
         public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
         {
@@ -252,6 +278,8 @@ namespace Necrotroph_Eksamensprojekt
             return (lightEmitters, shadowCasters);
         }
 
-#endregion
+        #endregion
     }
 }
+
+

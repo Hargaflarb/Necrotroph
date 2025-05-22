@@ -26,7 +26,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             {
                 if (instance == null)
                 {
-                    instance = new Player(new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2));
+                    instance = new Player(Vector2.Zero);
                 }
                 return instance;
             }

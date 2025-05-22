@@ -18,12 +18,12 @@ namespace Necrotroph_Eksamensprojekt.Components
 
         public float CalculateLightToShadowAngle(LightEmitter light)
         {
-            Vector2 dif = GameObject.Transform.Position - light.GameObject.Transform.Position;
+            Vector2 dif = GameObject.Transform.ScreenPosition - light.GameObject.Transform.ScreenPosition;
             return MathF.Atan2(dif.Y, dif.X);
         }
         public float CalculateDistanceToLight(LightEmitter light)
         {
-            return (light.GameObject.Transform.Position - GameObject.Transform.Position).Length();
+            return (light.GameObject.Transform.ScreenPosition - GameObject.Transform.ScreenPosition).Length();
         }
         public float CalculateAngle(float lightDistance)
         {
@@ -33,7 +33,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         }
         public float NormalizedDistanceToLight(LightEmitter light)
         {
-            return ((light.GameObject.Transform.Position - GameObject.Transform.Position) / GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Size.ToVector2().X).Length();
+            return ((light.GameObject.Transform.ScreenPosition - GameObject.Transform.ScreenPosition) / GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Size.ToVector2().X).Length();
         }
     }
 }
