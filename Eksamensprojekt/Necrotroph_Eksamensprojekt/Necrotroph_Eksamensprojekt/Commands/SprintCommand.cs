@@ -16,7 +16,8 @@ namespace Necrotroph_Eksamensprojekt.Commands
         #region Fields
         private Player player;
         private Vector2 direction;
-        private float speed;
+        private float speed = 600;
+        private float normalSpeed;
         private bool sprinting;
         #endregion
 
@@ -24,18 +25,19 @@ namespace Necrotroph_Eksamensprojekt.Commands
         public SprintCommand(Player player)
         {
             this.player = player;
+            normalSpeed = Player.Instance.Speed;
         }
         #endregion
 
         #region Methods
         public void Execute()
         {
-            Player.Instance.Speed = 600;
+            Player.Instance.Speed = speed;
         }
 
         public void Undo()
         {
-            Player.Instance.Speed = 300;
+            Player.Instance.Speed = normalSpeed;
         }
         #endregion
     }
