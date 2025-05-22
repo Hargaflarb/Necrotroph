@@ -36,6 +36,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         }
         public SpriteRenderer(GameObject gameObject, float layer) : base(gameObject)
         {
+            this.gameObject = gameObject;
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
@@ -49,7 +50,7 @@ namespace Necrotroph_Eksamensprojekt.Components
                 return;
             }
 
-            spriteBatch.Draw(sprite, GameObject.Transform.Position, null, colour, GameObject.Transform.Rotation, origin, GameObject.Transform.Scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
         }
         #endregion
     }

@@ -35,11 +35,10 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
         #endregion
         #region Methods
-        protected override GameObject Create(Vector2 position)
+        protected override sealed GameObject Create(Vector2 position)
         {
             Tree newTree = new Tree(position);
             Active.Add(newTree);
-            GameWorld.Instance.AddObject(newTree);
             return newTree;
         }
 
@@ -50,12 +49,11 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         /// <returns></returns>
         public override GameObject GetObject(Vector2 position)
         {
-            if (Inactive.OfType<Tree>() != null)
+            if (Inactive.OfType<Tree>().Any())
             {
                 Tree selected = Inactive.OfType<Tree>().FirstOrDefault();
                 Inactive.Remove(selected);
                 Active.Add(selected);
-                GameWorld.Instance.AddObject(selected);
                 selected.Transform.WorldPosition = position;
                 selected.Active = true;
                 return selected;

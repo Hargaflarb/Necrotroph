@@ -22,9 +22,9 @@ namespace Necrotroph_Eksamensprojekt.Factories
         {
             noImage = contentManager.Load<Texture2D>("noImageFound");
         }
-        public static GameObject CreateMemorabilia()
+        public static GameObject CreateMemorabilia(Vector2 position)
         {
-            GameObject newMemoryObject = new Memorabilia(new Vector2(500, 500));
+            GameObject newMemoryObject = new Memorabilia(position);
             newMemoryObject.AddComponent<SpriteRenderer>(noImage, 2f);
             newMemoryObject.Transform.Scale = 10;
             return newMemoryObject;

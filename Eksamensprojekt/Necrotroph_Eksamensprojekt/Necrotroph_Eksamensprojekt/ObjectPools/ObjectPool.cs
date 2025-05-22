@@ -30,6 +30,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
                 Active.Remove(obj);
                 Inactive.Add(obj);
                 GameWorld.Instance.RemoveObject(obj);
+                Map.TryAddObjectToMap(obj);
                 obj.Active = false;
             }
         }

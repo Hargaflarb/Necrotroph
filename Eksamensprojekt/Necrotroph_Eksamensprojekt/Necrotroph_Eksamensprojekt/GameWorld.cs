@@ -10,6 +10,7 @@ using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -65,8 +66,8 @@ namespace Necrotroph_Eksamensprojekt
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
 
-            AddPlayer(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
-            AddObject(new Tree(new Vector2(ScreenSize.X / 2 + 200, ScreenSize.Y / 2)));
+            AddPlayer(Vector2.Zero);
+            AddObject(TreePool.Instance.GetObject(new Vector2(200,0)));
 
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
@@ -88,8 +89,8 @@ namespace Necrotroph_Eksamensprojekt
             EnemyFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
 
-            AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
-            AddObject(MemorabiliaFactory.CreateMemorabilia());
+            AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
 
             ShaderManager.SetSprite();
         }
@@ -112,7 +113,8 @@ namespace Necrotroph_Eksamensprojekt
             TimeLineManager.Update(gameTime);
             CheckCollision();
 
-
+            Map.CheckForObejctsToLoad();
+            Map.CheckForObjectsToUnload();
             AddAndRemoveGameObjects();
             base.Update(gameTime);
         }
@@ -208,7 +210,6 @@ namespace Necrotroph_Eksamensprojekt
             newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
             newPlayer.AddComponent<LightEmitter>(0.15f);
-            //newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
             Player = newPlayer;

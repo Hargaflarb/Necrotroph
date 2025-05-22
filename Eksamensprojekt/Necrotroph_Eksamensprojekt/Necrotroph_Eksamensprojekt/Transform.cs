@@ -19,7 +19,7 @@ namespace Necrotroph_Eksamensprojekt
         #endregion
         #region Properties
         public Vector2 WorldPosition { get => worldPosition; set => worldPosition = value; }
-        public Vector2 Position
+        public Vector2 ScreenPosition
         {
             get
             {
