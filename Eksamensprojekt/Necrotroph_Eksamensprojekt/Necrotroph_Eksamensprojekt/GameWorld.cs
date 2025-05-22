@@ -130,7 +130,9 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Draw(_spriteBatch);
                 }
             }
+#if !DEBUG
             ShaderManager.Draw(_spriteBatch);
+#endif
             _spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -239,6 +241,6 @@ namespace Necrotroph_Eksamensprojekt
             return (lightEmitters, shadowCasters);
         }
 
-        #endregion
+#endregion
     }
 }

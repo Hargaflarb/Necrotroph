@@ -48,7 +48,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     //newEnemy.AddComponent<Collider>();
                     newEnemy.Transform.Scale = 50;
                     return newEnemy;
-                    break;
                 case EnemyType.Seeker:
                     break;
                 case EnemyType.LightEater:
