@@ -36,7 +36,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
         public static GameObject CreateEnemy(Vector2 position, EnemyType enemy)
         {
             GameObject newEnemy;
-            //oooo
+            //oooo  <- What does this mean???
             switch (enemy)
             {
                 case EnemyType.Hunter:

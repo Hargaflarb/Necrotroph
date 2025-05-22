@@ -10,6 +10,7 @@ using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -82,8 +83,8 @@ namespace Necrotroph_Eksamensprojekt
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
 
-            AddPlayer(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
-            AddObject(new Tree(new Vector2(ScreenSize.X / 2 + 200, ScreenSize.Y / 2)));
+            AddPlayer(Vector2.Zero);
+            AddObject(TreePool.Instance.GetObject(new Vector2(200,0)));
 
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
@@ -106,8 +107,8 @@ namespace Necrotroph_Eksamensprojekt
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
 
-            AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
-            AddObject(MemorabiliaFactory.CreateMemorabilia());
+            AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
             UIManager.Instance.AddUIObject(TextFactory.CreateTextObject(ItemsCollected + "/5", Color.White));
 
             ShaderManager.SetSprite();
@@ -140,8 +141,10 @@ namespace Necrotroph_Eksamensprojekt
             CheckCollision();
 
             ItemsCollected++;
-
             UIManager.Instance.AddAndRemoveUIObjects();
+            
+            Map.CheckForObejctsToLoad();
+            Map.CheckForObjectsToUnload();
             AddAndRemoveGameObjects();
             base.Update(gameTime);
         }
@@ -178,6 +181,7 @@ namespace Necrotroph_Eksamensprojekt
                 base.Draw(gameTime);
             
         }
+
 
             public void AddAndRemoveGameObjects()
             {
@@ -220,38 +224,40 @@ namespace Necrotroph_Eksamensprojekt
 
                 }
             }
-            /// <summary>
-            /// Adds object to the gameworld during next update
-            /// </summary>
-            /// <param name="gameObject"></param>
-            public void AddObject(GameObject gameObject)
-            {
-                gameObject.Awake();
-                gameObjectsToAdd.Add(gameObject);
-            }
+        }
+        
+  
+        /// <summary>
+        /// Adds object to the gameworld during next update
+        /// </summary>
+        /// <param name="gameObject"></param>
+        public void AddObject(GameObject gameObject)
+        {
+            gameObject.Awake();
+            gameObjectsToAdd.Add(gameObject);
+        }
+        /// <summary>
+        /// Removes object from the gameworld during next update
+        /// </summary>
+        /// <param name="gameObject"></param>
+        public void RemoveObject(GameObject gameObject)
+        {
+            gameObjectsToRemove.Add(gameObject);
+        }
+        /// <summary>
+        /// Method to create player
+        /// </summary>
+        /// <param name="position"></param>
+        private void AddPlayer(Vector2 position)
+        {
+            Player newPlayer = Player.Instance;
+            newPlayer.AddComponent<Movable>();
+            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
+            newPlayer.AddComponent<LightEmitter>(0.15f);
+            newPlayer.Transform.Scale = 10f;
+            AddObject(newPlayer);
+        }
 
-            /// <summary>
-            /// Removes object from the gameworld during next update
-            /// </summary>
-            /// <param name="gameObject"></param>
-            public void RemoveObject(GameObject gameObject)
-            {
-                gameObjectsToRemove.Add(gameObject);
-            }
-            /// <summary>
-            /// Method to create player
-            /// </summary>
-            /// <param name="position"></param>
-            private void AddPlayer(Vector2 position)
-            {
-                Player newPlayer = Player.Instance;
-                newPlayer.AddComponent<Movable>();
-                newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
-                newPlayer.AddComponent<LightEmitter>(0.15f);
-                //newPlayer.AddComponent<Movable>();
-                newPlayer.Transform.Scale = 10f;
-                AddObject(newPlayer);
-            }
 
             public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
             {

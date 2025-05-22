@@ -40,12 +40,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             float deltaTime = (float)GameWorld.Time.ElapsedGameTime.TotalSeconds;
 
             Vector2 change = ((direction * speed) * deltaTime);
-            gameObject.Transform.Position += change;
             gameObject.Transform.WorldPosition += change;
-            if (gameObject is Player)
-            {
-                //GameWorld.Instance.MoveMap();
-            }
         }
 
         public void Sprint(float speed)
