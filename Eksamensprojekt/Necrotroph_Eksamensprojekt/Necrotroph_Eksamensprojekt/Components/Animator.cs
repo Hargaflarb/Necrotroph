@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
@@ -24,7 +25,6 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Constructors
         public Animator(GameObject gameObject) : base(gameObject)
         {
-            this.gameObject = gameObject;
             animations= new Dictionary<string, Animation>();
         }
         #endregion
@@ -84,6 +84,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             gameObject.GetComponent<SpriteRenderer>().Sprite = currentAnimation.GetFrame(currentIndex);
         }
         
+
         #endregion
     }
 }

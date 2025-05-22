@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
@@ -22,7 +23,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             get
             {
-                return gameObject.Hitbox;
+                return GameObject.Hitbox;
             }
         }
         #endregion
@@ -75,7 +76,6 @@ namespace Necrotroph_Eksamensprojekt.Components
             }
             return value2;
         }
-
         #endregion
     }
 }

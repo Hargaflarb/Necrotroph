@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.GameObjects
 {
     public class Player : GameObject
     {
@@ -33,7 +33,7 @@ namespace Necrotroph_Eksamensprojekt
         }
         #endregion
         #region Constructors
-        private Player(Vector2 position) : base(position) 
+        private Player(Vector2 position) : base(position)
         {
             speed = 300;
         }
