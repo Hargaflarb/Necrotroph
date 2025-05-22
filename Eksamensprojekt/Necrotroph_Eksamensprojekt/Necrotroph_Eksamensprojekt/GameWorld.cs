@@ -23,14 +23,31 @@ namespace Necrotroph_Eksamensprojekt
         private List<GameObject> gameObjectsToRemove;
         private Vector2 previousPlayerPosition;
         private static Vector2 screenSize;
+        private int itemsCollected;
         private static GameWorld instance;
 
         #endregion
         #region Properties
-        //TEMP
-        public static Player Player { get; private set; }
         public static GameTime Time { get; private set; }
-        //no longer temp
+        public int ItemsCollected 
+        { 
+            get => itemsCollected; 
+            set 
+            { 
+                if (value <= 0)
+                {
+                    itemsCollected = 0;
+                }
+                else if (value >= 5)
+                {
+                    itemsCollected = 5;
+                }
+                else
+                {
+                    itemsCollected = value;
+                }
+            } 
+        }
         public static GameWorld Instance
         {
             get
@@ -87,9 +104,11 @@ namespace Necrotroph_Eksamensprojekt
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
+            TextFactory.LoadContent(Content);
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
             AddObject(MemorabiliaFactory.CreateMemorabilia());
+            UIManager.Instance.AddUIObject(TextFactory.CreateTextObject(ItemsCollected + "/5", Color.White));
 
             ShaderManager.SetSprite();
         }
@@ -109,10 +128,20 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Update(gameTime);
                 }
             }
+            
+            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            {
+                if (uiObject.Active)
+                {
+                    uiObject.Update(gameTime);
+                }
+            }
             TimeLineManager.Update(gameTime);
             CheckCollision();
 
+            ItemsCollected++;
 
+            UIManager.Instance.AddAndRemoveUIObjects();
             AddAndRemoveGameObjects();
             base.Update(gameTime);
         }
@@ -133,6 +162,14 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Draw(_spriteBatch);
                 }
             }
+            
+            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            {
+                if (uiObject.GetComponent<TextRenderer>() != null && uiObject.Active)
+                {
+                    uiObject.GetComponent<TextRenderer>().Draw(_spriteBatch);
+                    uiObject.Draw(_spriteBatch);
+                }
 #if !DEBUG
             ShaderManager.Draw(_spriteBatch);
 #endif
@@ -150,7 +187,7 @@ namespace Necrotroph_Eksamensprojekt
             gameObjectsToAdd.Clear();
             foreach (GameObject gameObject in gameObjectsToRemove)
             {
-                if (!activeGameObjects.Contains(gameObject))
+                if (activeGameObjects.Contains(gameObject))
                 {
                     activeGameObjects.Remove(gameObject);
                 }
@@ -190,6 +227,7 @@ namespace Necrotroph_Eksamensprojekt
             gameObject.Awake();
             gameObjectsToAdd.Add(gameObject);
         }
+
         /// <summary>
         /// Removes object from the gameworld during next update
         /// </summary>
@@ -211,25 +249,6 @@ namespace Necrotroph_Eksamensprojekt
             //newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
-            Player = newPlayer;
-        }
-        /// <summary>
-        /// Moves the map when the player moves; should eventually be moved out of GameWorld
-        /// </summary>
-        /// <param name="direction">the direction in which the player moves</param>
-        /// <param name="speed">the speed at which the player moves</param>
-        public void MoveMap()
-        {
-            if (Player.Instance.Transform.WorldPosition != previousPlayerPosition)
-            {
-                Vector2 difference = new Vector2(previousPlayerPosition.X - Player.Instance.Transform.WorldPosition.X, previousPlayerPosition.Y - Player.Instance.Transform.WorldPosition.Y);
-                foreach (GameObject gameObject in activeGameObjects)
-                {
-                    gameObject.Transform.Position += difference;
-                    previousPlayerPosition = Player.Instance.Transform.WorldPosition;
-                }
-            }
-
         }
 
         public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()

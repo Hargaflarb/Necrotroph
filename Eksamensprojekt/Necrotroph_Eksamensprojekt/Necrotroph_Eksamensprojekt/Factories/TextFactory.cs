@@ -8,27 +8,27 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Factories
 {
-    public static class MemorabiliaFactory
+    public static class TextFactory
     {
         #region Fields
-        private static Texture2D noImage;
+        private static string text;
+        private static SpriteFont spriteFont;
         #endregion
         #region Properties
+        public static SpriteFont SpriteFont { get => spriteFont; set => spriteFont = value; }
         #endregion
         #region Constructor
         #endregion
         #region Methods
         public static void LoadContent(ContentManager contentManager)
         {
-            noImage = contentManager.Load<Texture2D>("noImageFound");
+            SpriteFont = contentManager.Load<SpriteFont>("textui");
         }
-        public static GameObject CreateMemorabilia()
+        public static UIObject CreateTextObject(string text, Color color)
         {
-            GameObject newMemoryObject = new Memorabilia(new Vector2(500, 500));
-            newMemoryObject.AddComponent<SpriteRenderer>(noImage, 1f);
-            newMemoryObject.AddComponent<Pickupable>();
-            newMemoryObject.Transform.Scale = 10;
-            return newMemoryObject;
+            UIObject newTextObject = new TextObject(new Vector2(100, 100));
+            newTextObject.AddComponent<TextRenderer>(text, color);
+            return newTextObject;
         }
         #endregion
     }

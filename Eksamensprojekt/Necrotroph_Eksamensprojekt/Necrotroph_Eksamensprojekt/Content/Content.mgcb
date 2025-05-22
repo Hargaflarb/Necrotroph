@@ -61,3 +61,10 @@
 /processorParam:TextureFormat=Color
 /build:resd.png
 
+#begin textui.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:textui.spritefont
+
