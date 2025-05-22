@@ -12,17 +12,17 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
     {
         #region Fields
         private List<Component> components;
-        private Transform transform;
+        private UITransform transform;
         #endregion
         #region Properties
-        public Transform Transform { get => transform; set => transform = value; }
+        public UITransform Transform { get => transform; set => transform = value; }
         public bool Active { get; set; }
         #endregion
         #region Constructor
         public UIObject(Vector2 position)
         {
             components = new List<Component>();
-            //transform = new Transform(position);
+            Transform = new UITransform(position);
         }
         #endregion
         #region Methods
@@ -52,6 +52,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             return components.Remove((T)components.Find(x => x.GetType() == typeof(T)));
         }
+        
         public virtual void Awake()
         {
             foreach (Component component in components)
@@ -76,7 +77,10 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-
+            foreach (Component component in components)
+            {
+                component.Draw(spriteBatch);
+            }
         }
         #endregion
     }

@@ -32,7 +32,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             {
                 return;
             }
-            spriteBatch.DrawString(TextFactory.SpriteFont, text, UIObject.Transform.Position, textColor);
+            spriteBatch.DrawString(TextFactory.SpriteFont, text, UIObject.Transform.ScreenPosition, textColor);
         }
         #endregion
     }
