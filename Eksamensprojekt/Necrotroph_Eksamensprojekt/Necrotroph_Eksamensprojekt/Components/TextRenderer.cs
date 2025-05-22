@@ -19,7 +19,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Properties
         #endregion
         #region Constructor
-        public TextRenderer(GameObject gameObject, string text, Color textColor) : base(gameObject)
+        public TextRenderer(UIObject uiObject, string text, Color textColor) : base(uiObject)
         {
             this.text = text;
             this.textColor = textColor;
@@ -32,7 +32,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             {
                 return;
             }
-            spriteBatch.DrawString(TextFactory.SpriteFont, text, GameObject.Transform.Position, textColor);
+            spriteBatch.DrawString(TextFactory.SpriteFont, text, UIObject.Transform.Position, textColor);
         }
         #endregion
     }

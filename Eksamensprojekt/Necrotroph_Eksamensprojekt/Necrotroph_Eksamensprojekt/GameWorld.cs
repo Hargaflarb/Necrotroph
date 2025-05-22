@@ -30,7 +30,25 @@ namespace Necrotroph_Eksamensprojekt
         #endregion
         #region Properties
         public static GameTime Time { get; private set; }
-        public int ItemsCollected { get => itemsCollected; set => itemsCollected = value; }
+        public int ItemsCollected 
+        { 
+            get => itemsCollected; 
+            set 
+            { 
+                if (value <= 0)
+                {
+                    itemsCollected = 0;
+                }
+                else if (value >= 5)
+                {
+                    itemsCollected = 5;
+                }
+                else
+                {
+                    itemsCollected = value;
+                }
+            } 
+        }
         public static GameWorld Instance
         {
             get
@@ -91,7 +109,7 @@ namespace Necrotroph_Eksamensprojekt
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
             AddObject(MemorabiliaFactory.CreateMemorabilia());
-            AddObject(TextFactory.CreateTextObject("0/5", Color.White));
+            UIManager.Instance.AddUIObject(TextFactory.CreateTextObject(ItemsCollected + "/5", Color.White));
 
             ShaderManager.SetSprite();
         }
@@ -111,10 +129,20 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Update(gameTime);
                 }
             }
+            
+            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            {
+                if (uiObject.Active)
+                {
+                    uiObject.Update(gameTime);
+                }
+            }
             TimeLineManager.Update(gameTime);
             CheckCollision();
 
+            ItemsCollected++;
 
+            UIManager.Instance.AddAndRemoveUIObjects();
             AddAndRemoveGameObjects();
             base.Update(gameTime);
         }
@@ -132,10 +160,14 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
                     gameObject.Draw(_spriteBatch);
                 }
-                if (gameObject.GetComponent<TextRenderer>() != null && gameObject.Active)
+            }
+
+            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            {
+                if (uiObject.GetComponent<TextRenderer>() != null && uiObject.Active)
                 {
-                    gameObject.GetComponent<TextRenderer>().Draw(_spriteBatch);
-                    gameObject.Draw(_spriteBatch);
+                    uiObject.GetComponent<TextRenderer>().Draw(_spriteBatch);
+                    uiObject.Draw(_spriteBatch);
                 }
             }
             ShaderManager.Draw(_spriteBatch);
@@ -193,6 +225,7 @@ namespace Necrotroph_Eksamensprojekt
             gameObject.Awake();
             gameObjectsToAdd.Add(gameObject);
         }
+
         /// <summary>
         /// Removes object from the gameworld during next update
         /// </summary>

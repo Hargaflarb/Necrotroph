@@ -6,19 +6,11 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
-    public class TextObject : GameObject
+    public class TextObject : UIObject
     {
-        #region Fields
-        #endregion
-        #region Properties
-        #endregion
-        #region Constructor
         public TextObject(Vector2 position) : base(position)
         {
             Transform.Position = position;
         }
-        #endregion
-        #region Methods
-        #endregion
     }
 }

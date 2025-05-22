@@ -14,15 +14,21 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         #region Fields
         protected GameObject gameObject;
+        protected UIObject uiObject;
 
         #endregion
         #region Properties
         public GameObject GameObject { get => gameObject; private set => gameObject = value; }
+        public UIObject UIObject { get => uiObject; private set => uiObject = value; }
         #endregion
         #region Constructors
         public Component(GameObject gameObject)
         {
             this.gameObject = gameObject;
+        }
+        public Component(UIObject uiObject)
+        {
+            this.uiObject = uiObject;
         }
         #endregion
         #region Methods
