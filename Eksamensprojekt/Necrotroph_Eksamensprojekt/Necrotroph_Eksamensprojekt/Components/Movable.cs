@@ -44,7 +44,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             gameObject.Transform.WorldPosition += change;
             if (gameObject is Player)
             {
-                GameWorld.Instance.MoveMap();
+                //GameWorld.Instance.MoveMap();
             }
         }
 

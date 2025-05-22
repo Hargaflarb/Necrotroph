@@ -22,7 +22,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         public UIObject(Vector2 position)
         {
             components = new List<Component>();
-            transform = new Transform(position);
+            //transform = new Transform(position);
         }
         #endregion
         #region Methods
