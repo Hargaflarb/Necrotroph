@@ -11,7 +11,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
     {
         public Memorabilia(Vector2 position) : base(position)
         {
-            Transform.Position = position;
+            Transform.WorldPosition = position;
         }
     }
 }

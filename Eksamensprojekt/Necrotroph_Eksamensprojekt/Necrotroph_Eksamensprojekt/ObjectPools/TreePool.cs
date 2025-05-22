@@ -39,8 +39,10 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         {
             Tree newTree = new Tree(position);
             active.Add(newTree);
+            GameWorld.Instance.AddObject(newTree);
             return newTree;
         }
+
         /// <summary>
         /// Gets a tree
         /// </summary>
@@ -53,7 +55,8 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
                 Tree selected = inactive.OfType<Tree>().FirstOrDefault();
                 inactive.Remove(selected);
                 active.Add(selected);
-                selected.Transform.Position = position;
+                GameWorld.Instance.AddObject(selected);
+                selected.Transform.WorldPosition = position;
                 selected.Active = true;
                 return selected;
             }
@@ -61,7 +64,9 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
             {
                 return Create(position);
             }
+
         }
+
         /// <summary>
         /// I am not actually sure what this is supposed to do, it just does the same as ReleaseObject
         /// </summary>

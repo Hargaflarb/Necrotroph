@@ -35,8 +35,8 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Methods
         public override void OnCollision(GameObject otherObject)
         {
-            float newX = otherObject.Transform.Position.X;
-            float newY = otherObject.Transform.Position.Y;
+            //float newX = otherObject.Transform.Position.X;
+            //float newY = otherObject.Transform.Position.Y;
             float newWorldX = otherObject.Transform.WorldPosition.X;
             float newWorldY = otherObject.Transform.WorldPosition.Y;
 
@@ -54,18 +54,18 @@ namespace Necrotroph_Eksamensprojekt.Components
             if (MathF.Abs(xDif) < Math.Abs(yDif))
             {
                 //sets a new X, based on whether it colliding from the right or left.
-                newX = otherObject.Transform.Position.X + xDif;
+                //newX = otherObject.Transform.Position.X + xDif;
                 newWorldX = otherObject.Transform.WorldPosition.X + xDif;
             }
             else
             {
                 //sets a new Y, based on whether it colliding from above or below.
-                newY = otherObject.Transform.Position.Y + yDif;
+                //newY = otherObject.Transform.Position.Y + yDif;
                 newWorldY = otherObject.Transform.WorldPosition.Y + yDif;
             }
 
             otherObject.Transform.WorldPosition = new Vector2(newWorldX, newWorldY);
-            otherObject.Transform.Position = new Vector2(newX, newY);
+            //otherObject.Transform.Position = new Vector2(newX, newY);
         }
 
         private int GetLowerAbsoluteValue(int value1, int value2)

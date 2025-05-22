@@ -225,7 +225,7 @@ namespace Necrotroph_Eksamensprojekt
                 Vector2 difference = new Vector2(previousPlayerPosition.X - Player.Instance.Transform.WorldPosition.X, previousPlayerPosition.Y - Player.Instance.Transform.WorldPosition.Y);
                 foreach (GameObject gameObject in activeGameObjects)
                 {
-                    gameObject.Transform.Position += difference;
+                    //gameObject.Transform.Position += difference;
                     previousPlayerPosition = Player.Instance.Transform.WorldPosition;
                 }
             }

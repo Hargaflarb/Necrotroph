@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.ObjectPools
 {
@@ -27,6 +26,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
             {
                 active.Remove(obj);
                 inactive.Add(obj);
+                GameWorld.Instance.RemoveObject(obj);
                 obj.Active = false;
             }
         }
