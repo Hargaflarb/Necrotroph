@@ -11,7 +11,7 @@ using Necrotroph_Eksamensprojekt.Components;
 
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
-    public class Tree: GameObject
+    public class Tree : GameObject
     {
         #region Fields
         #endregion

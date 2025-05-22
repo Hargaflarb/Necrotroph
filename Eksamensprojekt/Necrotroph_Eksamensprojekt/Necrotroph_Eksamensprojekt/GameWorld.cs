@@ -21,8 +21,8 @@ namespace Necrotroph_Eksamensprojekt
         private List<GameObject> gameObjectsToAdd;
         private List<GameObject> activeGameObjects;
         private List<GameObject> gameObjectsToRemove;
+        private Vector2 previousPlayerPosition;
         private static Vector2 screenSize;
-
         private static GameWorld instance;
 
         #endregion
@@ -68,6 +68,7 @@ namespace Necrotroph_Eksamensprojekt
             AddPlayer(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
             AddObject(new Tree(new Vector2(ScreenSize.X / 2 + 200, ScreenSize.Y / 2)));
 
+
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
@@ -85,9 +86,10 @@ namespace Necrotroph_Eksamensprojekt
 
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
+            MemorabiliaFactory.LoadContent(Content);
 
-            AddPlayer(new Vector2(100, 100));
             AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
+            AddObject(MemorabiliaFactory.CreateMemorabilia());
 
             ShaderManager.SetSprite();
         }
@@ -203,6 +205,7 @@ namespace Necrotroph_Eksamensprojekt
         private void AddPlayer(Vector2 position)
         {
             Player newPlayer = Player.Instance;
+            newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
             newPlayer.AddComponent<LightEmitter>(0.15f);
             //newPlayer.AddComponent<Movable>();
@@ -210,16 +213,23 @@ namespace Necrotroph_Eksamensprojekt
             AddObject(newPlayer);
             Player = newPlayer;
         }
-        
-        public void MoveMap(Vector2 direction, float speed)
+        /// <summary>
+        /// Moves the map when the player moves; should eventually be moved out of GameWorld
+        /// </summary>
+        /// <param name="direction">the direction in which the player moves</param>
+        /// <param name="speed">the speed at which the player moves</param>
+        public void MoveMap()
         {
-            foreach (GameObject gameObject in activeGameObjects)
+            if (Player.Instance.Transform.WorldPosition != previousPlayerPosition)
             {
-                if (gameObject != Player && gameObject.Active)
+                Vector2 difference = new Vector2(previousPlayerPosition.X - Player.Instance.Transform.WorldPosition.X, previousPlayerPosition.Y - Player.Instance.Transform.WorldPosition.Y);
+                foreach (GameObject gameObject in activeGameObjects)
                 {
-                    gameObject.Transform.Position -= ((direction * speed) * (float)Time.ElapsedGameTime.TotalSeconds);
+                    gameObject.Transform.Position += difference;
+                    previousPlayerPosition = Player.Instance.Transform.WorldPosition;
                 }
             }
+
         }
 
         public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
