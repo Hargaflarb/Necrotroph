@@ -11,7 +11,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
     public static class TextFactory
     {
         #region Fields
-        private static string text;
         private static SpriteFont spriteFont;
         #endregion
         #region Properties
