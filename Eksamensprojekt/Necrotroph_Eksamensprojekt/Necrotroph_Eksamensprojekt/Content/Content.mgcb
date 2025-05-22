@@ -25,6 +25,12 @@
 /processorParam:TextureFormat=Color
 /build:darkshaddow.png
 
+#begin InvertAlpha.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:InvertAlpha.fx
+
 #begin LightingShader.fx
 /importer:EffectImporter
 /processor:EffectProcessor

@@ -21,10 +21,9 @@ namespace Necrotroph_Eksamensprojekt
         private List<GameObject> gameObjectsToAdd;
         private List<GameObject> activeGameObjects;
         private List<GameObject> gameObjectsToRemove;
+        private Vector2 previousPlayerPosition;
         private static Vector2 screenSize;
-
         private int itemsCollected;
-
         private static GameWorld instance;
 
         #endregion
@@ -149,6 +148,8 @@ namespace Necrotroph_Eksamensprojekt
 
         protected override void Draw(GameTime gameTime)
         {
+            ShaderManager.PrepareShadows(_spriteBatch);
+
             GraphicsDevice.Clear(Color.DarkGreen);
 
             //Higher layer numbers are closer, lower are further away
@@ -161,7 +162,7 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Draw(_spriteBatch);
                 }
             }
-
+            
             foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
             {
                 if (uiObject.GetComponent<TextRenderer>() != null && uiObject.Active)
@@ -169,8 +170,9 @@ namespace Necrotroph_Eksamensprojekt
                     uiObject.GetComponent<TextRenderer>().Draw(_spriteBatch);
                     uiObject.Draw(_spriteBatch);
                 }
-            }
+#if !DEBUG
             ShaderManager.Draw(_spriteBatch);
+#endif
             _spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -241,22 +243,12 @@ namespace Necrotroph_Eksamensprojekt
         private void AddPlayer(Vector2 position)
         {
             Player newPlayer = Player.Instance;
+            newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
-            newPlayer.AddComponent<LightEmitter>(0.3f);
+            newPlayer.AddComponent<LightEmitter>(0.15f);
             //newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
-        }
-        
-        public void MoveMap(Vector2 direction, float speed)
-        {
-            foreach (GameObject gameObject in activeGameObjects)
-            {
-                if (gameObject != Player.Instance && gameObject.Active)
-                {
-                    gameObject.Transform.Position -= ((direction * speed) * (float)Time.ElapsedGameTime.TotalSeconds);
-                }
-            }
         }
 
         public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
@@ -270,7 +262,7 @@ namespace Necrotroph_Eksamensprojekt
                 {
                     lightEmitters.Add((LightEmitter)shaderComponent);
                 }
-                else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
+                //else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
                 {
 
                     //shadowCasters.Add((ShadowInterval)shaderComponent);
@@ -279,6 +271,6 @@ namespace Necrotroph_Eksamensprojekt
             return (lightEmitters, shadowCasters);
         }
 
-        #endregion
+#endregion
     }
 }

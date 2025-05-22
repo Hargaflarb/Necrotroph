@@ -41,6 +41,11 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
             active.Add(newTree);
             return newTree;
         }
+        /// <summary>
+        /// Gets a tree
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public override GameObject GetObject(Vector2 position)
         {
             if (inactive.OfType<Tree>() != null)
