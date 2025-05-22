@@ -9,8 +9,8 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
     public abstract class ObjectPool
     {
         #region Fields
-        private List<GameObject> active = new List<GameObject>();
-        private List<GameObject> inactive = new List<GameObject>();
+        protected List<GameObject> active = new List<GameObject>();
+        protected List<GameObject> inactive = new List<GameObject>();
         #endregion
         #region Properties
         #endregion
