@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
@@ -29,7 +30,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
 
         public void Execute()
         {
-            Player.Instance.GetComponent<Movable>().Move(direction, Player.Instance.Speed);
+            ((Movable)Player.Instance.GetComponent<Movable>()).Move(direction,Player.Instance.Speed);
         }
 
         public void Undo()

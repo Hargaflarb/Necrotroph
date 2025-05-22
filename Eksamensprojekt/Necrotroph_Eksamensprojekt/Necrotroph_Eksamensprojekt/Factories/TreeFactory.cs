@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 
 namespace Necrotroph_Eksamensprojekt.Factories
@@ -21,7 +22,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
         #region Methods
         public static GameObject CreateTree(Vector2 position)
         {
-            //Tree tree = 
             return new Tree(position);
         }
         #endregion

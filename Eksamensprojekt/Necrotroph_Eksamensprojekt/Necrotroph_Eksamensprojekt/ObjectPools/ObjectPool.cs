@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Necrotroph_Eksamensprojekt.GameObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.ObjectPools
 {
@@ -17,16 +19,19 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         #region Constructors
         #endregion
         #region Methods
-        public GameObject GetObject()
-        {
-            return null;
-        }
+        public abstract GameObject GetObject(Vector2 position);
+
         public void ReleaseObject(GameObject obj)
         {
-
+            if (active.Contains(obj))
+            {
+                active.Remove(obj);
+                inactive.Add(obj);
+                obj.Active = false;
+            }
         }
 
-        protected abstract GameObject Create();
+        protected abstract GameObject Create(Vector2 position);
 
         protected abstract void CleanUp(GameObject obj);
         #endregion

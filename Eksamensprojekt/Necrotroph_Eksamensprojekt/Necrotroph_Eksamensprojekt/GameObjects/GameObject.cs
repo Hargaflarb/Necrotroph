@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.GameObjects
 {
     public abstract class GameObject
     {
@@ -21,6 +21,7 @@ namespace Necrotroph_Eksamensprojekt
         #region Properties
         public static Texture2D Pixel;
         public Transform Transform { get => transform; }
+        public bool Active { get; set; }
         public Rectangle Hitbox
         {
             get
@@ -38,7 +39,14 @@ namespace Necrotroph_Eksamensprojekt
         public GameObject(Vector2 position)
         {
             components = new List<Component>();
-            transform = new Transform(position);
+            if(this is not Player)
+            {
+                transform = new Transform(position, Player.Instance.Transform.WorldPosition + position - new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2));
+            }
+            else
+            {
+                transform = new Transform(position, Vector2.Zero);
+            }
         }
         #endregion
         #region Methods
@@ -77,6 +85,7 @@ namespace Necrotroph_Eksamensprojekt
         }
         public virtual void Start()
         {
+            Active = true;
             foreach (Component component in components)
             {
                 component.Start();

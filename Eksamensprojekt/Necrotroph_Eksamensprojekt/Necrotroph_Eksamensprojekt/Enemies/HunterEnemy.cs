@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -27,7 +28,7 @@ namespace Necrotroph_Eksamensprojekt
         public override void Update(GameTime gameTime)
         {
             //finds player position & moves toward it
-            Vector2 direction = new Vector2(GameWorld.Player.Transform.Position.X - Transform.Position.X, GameWorld.Player.Transform.Position.Y - Transform.Position.Y);
+            Vector2 direction = new Vector2(Player.Instance.Transform.Position.X - Transform.Position.X, Player.Instance.Transform.Position.Y - Transform.Position.Y);
 
             double remap = Math.Atan2(direction.Y, direction.X);
             float XDirection = (float)Math.Cos(remap);
