@@ -23,14 +23,14 @@ namespace Necrotroph_Eksamensprojekt
         private List<GameObject> gameObjectsToRemove;
         private static Vector2 screenSize;
 
+        private int itemsCollected;
+
         private static GameWorld instance;
 
         #endregion
         #region Properties
-        //TEMP
-        public static Player Player { get; private set; }
         public static GameTime Time { get; private set; }
-        //no longer temp
+        public int ItemsCollected { get => itemsCollected; set => itemsCollected = value; }
         public static GameWorld Instance
         {
             get
@@ -87,9 +87,11 @@ namespace Necrotroph_Eksamensprojekt
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
+            TextFactory.LoadContent(Content);
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(300, 300), EnemyType.Hunter));
             AddObject(MemorabiliaFactory.CreateMemorabilia());
+            AddObject(TextFactory.CreateTextObject("0/5", Color.White));
 
             ShaderManager.SetSprite();
         }
@@ -130,6 +132,11 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
                     gameObject.Draw(_spriteBatch);
                 }
+                if (gameObject.GetComponent<TextRenderer>() != null && gameObject.Active)
+                {
+                    gameObject.GetComponent<TextRenderer>().Draw(_spriteBatch);
+                    gameObject.Draw(_spriteBatch);
+                }
             }
             ShaderManager.Draw(_spriteBatch);
             _spriteBatch.End();
@@ -146,7 +153,7 @@ namespace Necrotroph_Eksamensprojekt
             gameObjectsToAdd.Clear();
             foreach (GameObject gameObject in gameObjectsToRemove)
             {
-                if (!activeGameObjects.Contains(gameObject))
+                if (activeGameObjects.Contains(gameObject))
                 {
                     activeGameObjects.Remove(gameObject);
                 }
@@ -206,14 +213,13 @@ namespace Necrotroph_Eksamensprojekt
             //newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
-            Player = newPlayer;
         }
         
         public void MoveMap(Vector2 direction, float speed)
         {
             foreach (GameObject gameObject in activeGameObjects)
             {
-                if (gameObject != Player && gameObject.Active)
+                if (gameObject != Player.Instance && gameObject.Active)
                 {
                     gameObject.Transform.Position -= ((direction * speed) * (float)Time.ElapsedGameTime.TotalSeconds);
                 }
