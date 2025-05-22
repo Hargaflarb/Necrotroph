@@ -18,6 +18,7 @@ namespace Necrotroph_Eksamensprojekt
         private float scale;
         private Vector2 size;
         #endregion
+
         #region Properties
         public Vector2 WorldPosition { get => worldPosition; set => worldPosition = value; }
         public Vector2 ScreenPosition
@@ -31,6 +32,7 @@ namespace Necrotroph_Eksamensprojekt
         public float Scale { get => scale; set => scale = value; }
         public Vector2 Size { get => size * scale; set => size = value; }
         #endregion
+
         #region Constructors
         public Transform(Vector2 worldPosition, float scale = 1, float rotation = 0)
         {
@@ -47,6 +49,7 @@ namespace Necrotroph_Eksamensprojekt
             this.size = size;
         }
         #endregion
+
         #region Methods
         #endregion
     }
