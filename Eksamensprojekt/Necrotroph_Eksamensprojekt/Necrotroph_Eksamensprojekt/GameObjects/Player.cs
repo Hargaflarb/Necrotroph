@@ -33,7 +33,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         }
         #endregion
         #region Constructors
-        private Player(Vector2 position) : base(position)
+        private Player(Vector2 position) : base(position) 
         {
             speed = 300;
         }

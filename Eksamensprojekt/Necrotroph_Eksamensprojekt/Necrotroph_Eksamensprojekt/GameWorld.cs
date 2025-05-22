@@ -119,6 +119,8 @@ namespace Necrotroph_Eksamensprojekt
 
         protected override void Draw(GameTime gameTime)
         {
+            ShaderManager.PrepareShadows(_spriteBatch);
+
             GraphicsDevice.Clear(Color.DarkGreen);
 
             //Higher layer numbers are closer, lower are further away
@@ -131,7 +133,9 @@ namespace Necrotroph_Eksamensprojekt
                     gameObject.Draw(_spriteBatch);
                 }
             }
+#if !DEBUG
             ShaderManager.Draw(_spriteBatch);
+#endif
             _spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -203,7 +207,7 @@ namespace Necrotroph_Eksamensprojekt
             Player newPlayer = Player.Instance;
             newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
-            newPlayer.AddComponent<LightEmitter>(0.3f);
+            newPlayer.AddComponent<LightEmitter>(0.15f);
             //newPlayer.AddComponent<Movable>();
             newPlayer.Transform.Scale = 10f;
             AddObject(newPlayer);
@@ -239,7 +243,7 @@ namespace Necrotroph_Eksamensprojekt
                 {
                     lightEmitters.Add((LightEmitter)shaderComponent);
                 }
-                else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
+                //else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
                 {
 
                     //shadowCasters.Add((ShadowInterval)shaderComponent);
@@ -248,6 +252,6 @@ namespace Necrotroph_Eksamensprojekt
             return (lightEmitters, shadowCasters);
         }
 
-        #endregion
+#endregion
     }
 }

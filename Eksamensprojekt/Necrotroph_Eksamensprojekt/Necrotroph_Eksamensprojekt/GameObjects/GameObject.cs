@@ -39,6 +39,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         public GameObject(Vector2 position)
         {
             components = new List<Component>();
+            transform = new Transform(position);
             if(this is not Player)
             {
                 transform = new Transform(position, Player.Instance.Transform.WorldPosition + position - new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2));

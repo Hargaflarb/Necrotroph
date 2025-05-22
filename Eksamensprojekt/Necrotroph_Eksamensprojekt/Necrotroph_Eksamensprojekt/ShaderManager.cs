@@ -12,7 +12,9 @@ namespace Necrotroph_Eksamensprojekt
         private static Texture2D shadowSprite;
         private static Effect lightEffect;
         private static Effect shadowEffect;
+        private static Effect invertAplha;
         private static RenderTarget2D lightTarget;
+        private static RenderTarget2D finalLightTarget;
         private static RenderTarget2D shadowTarget;
         private static Color color = Color.White;
 
@@ -20,7 +22,9 @@ namespace Necrotroph_Eksamensprojekt
         public static Texture2D ShadowSprite { get => shadowSprite; set => shadowSprite = value; }
         public static Effect LightEffect { get => lightEffect; set => lightEffect = value; }
         public static Effect ShadowEffect { get => shadowEffect; set => shadowEffect = value; }
+        public static Effect InvertAplha { get => invertAplha; set => invertAplha = value; }
         public static RenderTarget2D LightTarget { get => lightTarget; set => lightTarget = value; }
+        public static RenderTarget2D FinalLightTarget { get => finalLightTarget; set => finalLightTarget = value; }
         public static RenderTarget2D ShadowTarget { get => shadowTarget; set => shadowTarget = value; }
         public static Color Color { get => color; set => color = value; }
 
@@ -28,6 +32,7 @@ namespace Necrotroph_Eksamensprojekt
         {
             GraphicsDevice device = GameWorld.Instance.GraphicsDevice;
             LightTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
+            FinalLightTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
             ShadowTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
         }
 
@@ -41,6 +46,7 @@ namespace Necrotroph_Eksamensprojekt
             ShadowSprite = GameWorld.Instance.Content.Load<Texture2D>("darkshaddow");
             LightEffect = GameWorld.Instance.Content.Load<Effect>("LightingShader");
             //ShadowEffect = GameWorld.Instance.Content.Load<Effect>("TestShaderShadow");
+            InvertAplha = GameWorld.Instance.Content.Load<Effect>("InvertAlpha");
             //ShadowMapSprite = GameWorld.Instance.Content.Load<Texture2D>("shadowMap");
         }
 
@@ -80,7 +86,6 @@ namespace Necrotroph_Eksamensprojekt
                 Color dataPass = new Color(light.X, light.Y, light.LightRadius);
                 spriteBatch.Draw(ShadowSprite, new Vector2(0, 0), dataPass);
             }
-            //spriteBatch.Draw(ShadowSprite, new Vector2(0, 0), new Color(hi[0].X, hi[0].Y, 0.15f));
             spriteBatch.End();
 
 
@@ -96,6 +101,13 @@ namespace Necrotroph_Eksamensprojekt
             //spriteBatch.Draw(ShadowSprite, new Vector2(0, 0), new Color(hi[1].X, hi[1].Y, 0.15f));
             //spriteBatch.End();
 
+            GameWorld.Instance.GraphicsDevice.SetRenderTarget(FinalLightTarget);
+            GameWorld.Instance.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
+
+            spriteBatch.Begin(blendState: BlendState.Additive, effect: InvertAplha);
+            spriteBatch.Draw(LightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
+            spriteBatch.End();
+
             GameWorld.Instance.GraphicsDevice.SetRenderTarget(null);
         }
 
@@ -103,7 +115,13 @@ namespace Necrotroph_Eksamensprojekt
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(LightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
+            //GameWorld.Instance.GraphicsDevice.SetRenderTarget(LightTarget);
+            //GameWorld.Instance.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
+
+            //spriteBatch.Begin(blendState: BlendState.Additive, effect: InvertAplha);
+            spriteBatch.Draw(FinalLightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
+            //spriteBatch.End();
+
         }
 
     }
