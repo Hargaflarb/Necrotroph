@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.GameObjects
 {
-    public class Player:GameObject
+    public class Player : GameObject
     {
         #region Fields
         private int life;

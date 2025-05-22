@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
@@ -24,8 +25,9 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Constructors
         public Movable(GameObject gameObject) : base(gameObject)
         {
-            this.gameObject = gameObject;
+            
         }
+
         #endregion
         #region Methods
         public void Move(Vector2 direction, float speed)
@@ -39,16 +41,18 @@ namespace Necrotroph_Eksamensprojekt.Components
 
             Vector2 change = ((direction * speed) * deltaTime);
             gameObject.Transform.Position += change;
+            gameObject.Transform.WorldPosition += change;
+            if (gameObject is Player)
+            {
+                GameWorld.Instance.MoveMap();
+            }
         }
 
         public void Sprint(float speed)
         {
             Player.Instance.Speed = speed;
         }
-        public override void Execute()
-        {
-
-        }
+        
         #endregion
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
@@ -13,8 +14,10 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         #region Fields
         protected GameObject gameObject;
+
         #endregion
         #region Properties
+        public GameObject GameObject { get => gameObject; private set => gameObject = value; }
         #endregion
         #region Constructors
         public Component(GameObject gameObject)
@@ -23,12 +26,12 @@ namespace Necrotroph_Eksamensprojekt.Components
         }
         #endregion
         #region Methods
-        public abstract void Execute();
 
         public virtual void Awake() { }
         public virtual void Start() { }
         public virtual void Update(GameTime gameTime)
         {
+
         }
         public virtual void Draw(SpriteBatch spriteBatch) { }
         public virtual void OnCollision(GameObject otherObject) { }

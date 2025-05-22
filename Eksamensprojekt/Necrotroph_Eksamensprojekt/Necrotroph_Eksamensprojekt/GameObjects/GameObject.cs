@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.GameObjects
 {
     public abstract class GameObject
     {
@@ -17,8 +17,11 @@ namespace Necrotroph_Eksamensprojekt
         private List<Component> components;
         private Transform transform;
         #endregion
+
         #region Properties
+        public static Texture2D Pixel;
         public Transform Transform { get => transform; }
+        public bool Active { get; set; }
         public Rectangle Hitbox
         {
             get
@@ -31,11 +34,19 @@ namespace Necrotroph_Eksamensprojekt
         }
 
         #endregion
+
         #region Constructors
         public GameObject(Vector2 position)
         {
             components = new List<Component>();
-            transform = new Transform(position);
+            if(this is not Player)
+            {
+                transform = new Transform(position, Player.Instance.Transform.WorldPosition + position - new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2));
+            }
+            else
+            {
+                transform = new Transform(position, Vector2.Zero);
+            }
         }
         #endregion
         #region Methods
@@ -74,6 +85,7 @@ namespace Necrotroph_Eksamensprojekt
         }
         public virtual void Start()
         {
+            Active = true;
             foreach (Component component in components)
             {
                 component.Start();
@@ -109,11 +121,11 @@ namespace Necrotroph_Eksamensprojekt
             Rectangle leftLine = new Rectangle(Hitbox.X, Hitbox.Y, 1, Hitbox.Height);
             Rectangle center = new Rectangle((int)Transform.Position.X - 1, (int)Transform.Position.Y - 1, 3, 3);
 
-            //spriteBatch.Draw(pixel, topLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            //spriteBatch.Draw(pixel, bottomLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            //spriteBatch.Draw(pixel, rightLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            //spriteBatch.Draw(pixel, leftLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
-            //spriteBatch.Draw(pixel, center, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, topLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, bottomLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, rightLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, leftLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(Pixel, center, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
         }
 
         public bool CheckCollision(GameObject otherObject)
