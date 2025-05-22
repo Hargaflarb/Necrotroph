@@ -50,7 +50,7 @@ namespace Necrotroph_Eksamensprojekt
             this.size = Vector2.One;
             this.worldPosition = worldPosition;
         }
-        public Transform(Vector2 position, Vector2 worldPosition, float scale, float rotation,Vector2 size)
+        public Transform(Vector2 position, Vector2 worldPosition, float scale, float rotation, Vector2 size)
         {
             this.position = position;
             this.scale = scale;
