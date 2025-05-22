@@ -41,10 +41,6 @@ namespace Necrotroph_Eksamensprojekt.Components
 
             Vector2 change = ((direction * speed) * deltaTime);
             gameObject.Transform.WorldPosition += change;
-            if (gameObject is Player)
-            {
-                GameWorld.Instance.MoveMap();
-            }
         }
 
         public void Sprint(float speed)

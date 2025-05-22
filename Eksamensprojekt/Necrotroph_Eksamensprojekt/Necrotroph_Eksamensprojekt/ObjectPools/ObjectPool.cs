@@ -12,8 +12,11 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         #region Fields
         protected List<GameObject> active = new List<GameObject>();
         protected List<GameObject> inactive = new List<GameObject>();
+
         #endregion
         #region Properties
+        public List<GameObject> Active { get => active; }
+        public List<GameObject> Inactive { get => inactive; }
         #endregion
         #region Constructors
         #endregion
@@ -22,10 +25,10 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
 
         public void ReleaseObject(GameObject obj)
         {
-            if (active.Contains(obj))
+            if (Active.Contains(obj))
             {
-                active.Remove(obj);
-                inactive.Add(obj);
+                Active.Remove(obj);
+                Inactive.Add(obj);
                 GameWorld.Instance.RemoveObject(obj);
                 obj.Active = false;
             }

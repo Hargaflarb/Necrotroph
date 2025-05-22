@@ -213,24 +213,6 @@ namespace Necrotroph_Eksamensprojekt
             AddObject(newPlayer);
             Player = newPlayer;
         }
-        /// <summary>
-        /// Moves the map when the player moves; should eventually be moved out of GameWorld
-        /// </summary>
-        /// <param name="direction">the direction in which the player moves</param>
-        /// <param name="speed">the speed at which the player moves</param>
-        public void MoveMap()
-        {
-            if (Player.Instance.Transform.WorldPosition != previousPlayerPosition)
-            {
-                Vector2 difference = new Vector2(previousPlayerPosition.X - Player.Instance.Transform.WorldPosition.X, previousPlayerPosition.Y - Player.Instance.Transform.WorldPosition.Y);
-                foreach (GameObject gameObject in activeGameObjects)
-                {
-                    //gameObject.Transform.Position += difference;
-                    previousPlayerPosition = Player.Instance.Transform.WorldPosition;
-                }
-            }
-
-        }
 
         public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
         {
