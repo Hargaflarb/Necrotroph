@@ -20,6 +20,8 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Constructors
         public Tree(Vector2 position) : base(position) 
         {
+            AddComponent<SpriteRenderer>(GameWorld.Instance.Content.Load<Texture2D>("noImageFound"), 1f);
+            AddComponent<Collider>();
             Transform.Scale = 0.3f;
         }
         #endregion

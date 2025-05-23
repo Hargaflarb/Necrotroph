@@ -84,8 +84,8 @@ namespace Necrotroph_Eksamensprojekt
             activeGameObjects = new List<GameObject>();
 
             AddPlayer(Vector2.Zero);
-            AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
-
+            //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
+            Map.GenerateMap();
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
@@ -110,8 +110,7 @@ namespace Necrotroph_Eksamensprojekt
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
-            AddObject(TreeFactory.CreateTree(new Vector2(800, 600)));
-            UIManager.AddUIObject(TextFactory.CreateTextObject(()=> { return ItemsCollected + "/5"; }, Color.White));
+            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White));
 
             ShaderManager.SetSprite();
         }
@@ -202,25 +201,17 @@ namespace Necrotroph_Eksamensprojekt
 
         public void CheckCollision()
         {
-            foreach (GameObject gameObject1 in activeGameObjects)
+            for (int i = 0; i < activeGameObjects.Count; i++)
             {
-                if (gameObject1.Active)
-                {
-                    foreach (GameObject gameObject2 in activeGameObjects)
-                    {
-                        if (gameObject1 == gameObject2)
-                        {
-                            continue;
-                        }
 
-                        if (gameObject1.CheckCollision(gameObject2) && gameObject2.Active)
-                        {
-                            gameObject1.OnCollision(gameObject2);
-                            gameObject2.OnCollision(gameObject1);
-                        }
+                for (int j = i + 1; j < activeGameObjects.Count; j++)
+                {
+                    if (activeGameObjects[i].CheckCollision(activeGameObjects[j]) && activeGameObjects[j].Active)
+                    {
+                        activeGameObjects[i].OnCollision(activeGameObjects[j]);
+                        activeGameObjects[j].OnCollision(activeGameObjects[i]);
                     }
                 }
-
             }
         }
 
@@ -252,7 +243,7 @@ namespace Necrotroph_Eksamensprojekt
             newPlayer.AddComponent<Movable>();
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f);
             newPlayer.AddComponent<Animator>();
-            newPlayer.AddComponent<LightEmitter>(0.15f);
+            newPlayer.AddComponent<LightEmitter>(0.2f);
             //remember to add more animations
             ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
             ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
