@@ -104,11 +104,13 @@ namespace Necrotroph_Eksamensprojekt
 
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
+            TreeFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
+            AddObject(TreeFactory.CreateTree(new Vector2(800, 600)));
             UIManager.AddUIObject(TextFactory.CreateTextObject(()=> { return ItemsCollected + "/5"; }, Color.White));
 
             ShaderManager.SetSprite();
@@ -248,9 +250,16 @@ namespace Necrotroph_Eksamensprojekt
         {
             Player newPlayer = Player.Instance;
             newPlayer.AddComponent<Movable>();
-            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
+            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f);
+            newPlayer.AddComponent<Animator>();
             newPlayer.AddComponent<LightEmitter>(0.15f);
-            newPlayer.Transform.Scale = 10f;
+            //remember to add more animations
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
+            ((Animator)newPlayer.GetComponent<Animator>()).PlayAnimation("IdleDownLightOn");
+            newPlayer.Transform.Scale = 0.3f;
             AddObject(newPlayer);
         }
 
