@@ -31,24 +31,23 @@ namespace Necrotroph_Eksamensprojekt.Factories
             tree2 = content.Load<Texture2D>("TreeSprites/Tree2");
             tree3 = content.Load<Texture2D>("TreeSprites/SmallTree");
         }
-        public static GameObject CreateTree(Vector2 position)
+        public static Tree CreateTree(Vector2 position)
         {
             Tree newTree = new Tree(position);
             //randomly select sprite
             switch (rnd.Next(1, 4))
             {
                 case 1:
-                    newTree.AddComponent<SpriteRenderer>(tree1, 1f);
+                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(1, 0.25f));
                     break;
                 case 2:
-                    newTree.AddComponent<SpriteRenderer>(tree2, 1f);
+                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(1, 0.25f));
                     break;
                 case 3:
-                    newTree.AddComponent<SpriteRenderer>(tree3, 1f);
+                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(1, 0.25f));
                     break;
             }
             newTree.AddComponent<Collider>();
-            newTree.AddComponent<LightEmitter>(0.2f);
             return newTree;
         }
         #endregion

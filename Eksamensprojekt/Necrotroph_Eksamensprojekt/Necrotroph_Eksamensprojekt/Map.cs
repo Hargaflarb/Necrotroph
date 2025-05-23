@@ -16,6 +16,7 @@ namespace Necrotroph_Eksamensprojekt
 {
     public static class Map
     {
+        private const float treeSpacing = 550;
         private static Random random;
         private static readonly Vector2 size;
         private static readonly Vector2 loadBound;
@@ -26,8 +27,8 @@ namespace Necrotroph_Eksamensprojekt
         {
             random = new Random();
             size = new Vector2(10000, 10000);
-            loadBound = new Vector2(1250, 750);
-            unloadBound = new Vector2(1350, 850);
+            loadBound = new Vector2(1250, 900);
+            unloadBound = new Vector2(1350, 1000);
             unloadedMapObjects = new List<(Vector2 position, ObjectPool poolType)>();
         }
 
@@ -80,11 +81,14 @@ namespace Necrotroph_Eksamensprojekt
 
         public static void GenerateMap()
         {
-            for (int x = -15; x < 15; x++)
+            float widthAmount = (size.X / treeSpacing) * 0.5f;
+            float heightAmount = (size.Y / treeSpacing) * 0.5f;
+            for (float x = -widthAmount; x < widthAmount; x++)
             {
-                for (int y = -15; y < 15; y++)
+                for (float y = -heightAmount; y < heightAmount; y++)
                 {
-                    unloadedMapObjects.Add((new Vector2(x, y) * 280, TreePool.Instance));
+                    Vector2 offset = new Vector2(random.Next(50) - 25, random.Next(50) - 25);
+                    unloadedMapObjects.Add(((new Vector2(x, y) * treeSpacing) + offset*6, TreePool.Instance));
                 }
             }
             CheckForObjectsToUnload();
