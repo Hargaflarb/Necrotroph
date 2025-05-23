@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Factories
 {
@@ -15,6 +16,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
     {
         #region Fields
         private static Texture2D hunterSprite;
+        private static Texture2D[] hunterWalkAnim;
         private static Texture2D seekerSprite;
         private static Texture2D lightEaterSprite;
         private static Texture2D stalkerSprite;
@@ -34,17 +36,19 @@ namespace Necrotroph_Eksamensprojekt.Factories
         public static GameObject CreateEnemy(Vector2 position, EnemyType enemy)
         {
             GameObject newEnemy;
-            //oooo
+            //oooo  <- What does this mean???
             switch (enemy)
             {
                 case EnemyType.Hunter:
                     newEnemy = new HunterEnemy(position);
                     newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f);
+                    newEnemy.AddComponent<Animator>();
+                    newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
+                    newEnemy.GetComponent<Animator>().PlayAnimation("Walk");
                     newEnemy.AddComponent<Movable>();
                     //newEnemy.AddComponent<Collider>();
                     newEnemy.Transform.Scale = 50;
                     return newEnemy;
-                    break;
                 case EnemyType.Seeker:
                     break;
                 case EnemyType.LightEater:

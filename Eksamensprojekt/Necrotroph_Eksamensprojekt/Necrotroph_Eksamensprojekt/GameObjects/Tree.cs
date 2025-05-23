@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.GameObjects
 {
-    public class Tree: GameObject
+    public class Tree : GameObject
     {
         #region Fields
         #endregion
@@ -23,6 +23,7 @@ namespace Necrotroph_Eksamensprojekt
             Transform.Scale = 20f;
             AddComponent<SpriteRenderer>(GameWorld.Instance.Content.Load<Texture2D>("noImageFound"), 1f);
             AddComponent<Collider>();
+            AddComponent<LightEmitter>(0.2f);
         }
         #endregion
         #region Methods

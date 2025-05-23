@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.GameObjects;
 
-
-namespace Necrotroph_Eksamensprojekt.Factories
+namespace Necrotroph_Eksamensprojekt.Components
 {
-    public static class TreeFactory
+    public class Pickupable : Component
     {
         #region Fields
+
         #endregion
         #region Properties
         #endregion
-        #region Constructors
+        #region Constructor
+        public Pickupable(GameObject gameObject) : base(gameObject)
+        {
+            this.gameObject = gameObject;
+        }
         #endregion
         #region Methods
-        public static GameObject CreateTree(Vector2 position)
+        public void RemoveObject()
         {
-            return new Tree(position);
+            GameWorld.Instance.RemoveObject(gameObject);
         }
         #endregion
     }
 }
+    

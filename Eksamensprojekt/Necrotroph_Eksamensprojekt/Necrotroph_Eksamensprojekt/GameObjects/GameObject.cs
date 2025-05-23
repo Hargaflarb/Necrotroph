@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.GameObjects
 {
     public abstract class GameObject
     {
@@ -21,12 +21,13 @@ namespace Necrotroph_Eksamensprojekt
         #region Properties
         public static Texture2D Pixel;
         public Transform Transform { get => transform; }
+        public bool Active { get; set; }
         public Rectangle Hitbox
         {
             get
             {
-                return new Rectangle((int)(Transform.Position.X - Transform.Size.X / 2f),
-                    (int)(Transform.Position.Y - Transform.Size.Y / 2f),
+                return new Rectangle((int)(Transform.ScreenPosition.X - Transform.Size.X / 2f),
+                    (int)(Transform.ScreenPosition.Y - Transform.Size.Y / 2f),
                     (int)Transform.Size.X,
                     (int)Transform.Size.Y);
             }
@@ -77,6 +78,7 @@ namespace Necrotroph_Eksamensprojekt
         }
         public virtual void Start()
         {
+            Active = true;
             foreach (Component component in components)
             {
                 component.Start();
@@ -110,7 +112,7 @@ namespace Necrotroph_Eksamensprojekt
             Rectangle bottomLine = new Rectangle(Hitbox.X, Hitbox.Y + Hitbox.Height, Hitbox.Width, 1);
             Rectangle rightLine = new Rectangle(Hitbox.X + Hitbox.Width, Hitbox.Y, 1, Hitbox.Height);
             Rectangle leftLine = new Rectangle(Hitbox.X, Hitbox.Y, 1, Hitbox.Height);
-            Rectangle center = new Rectangle((int)Transform.Position.X - 1, (int)Transform.Position.Y - 1, 3, 3);
+            Rectangle center = new Rectangle((int)Transform.ScreenPosition.X - 1, (int)Transform.ScreenPosition.Y - 1, 3, 3);
 
             spriteBatch.Draw(Pixel, topLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);
             spriteBatch.Draw(Pixel, bottomLine, null, Color.Red, 0, Vector2.Zero, SpriteEffects.None, 1);

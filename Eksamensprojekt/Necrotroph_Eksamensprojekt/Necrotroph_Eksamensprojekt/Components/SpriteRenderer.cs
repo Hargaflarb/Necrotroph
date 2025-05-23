@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
@@ -41,6 +42,7 @@ namespace Necrotroph_Eksamensprojekt.Components
 
         #endregion
         #region Methods
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (sprite == null)
@@ -48,7 +50,7 @@ namespace Necrotroph_Eksamensprojekt.Components
                 return;
             }
 
-            spriteBatch.Draw(sprite, gameObject.Transform.Position, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
         }
         #endregion
     }
