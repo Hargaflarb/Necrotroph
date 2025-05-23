@@ -17,8 +17,13 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
 
         public override void OnCollision(GameObject otherObject)
         {
-            GameObject tempObject = this;
-            tempObject.GetComponent<Pickupable>().RemoveObject();
+            if (otherObject is Player)
+            {
+                GameWorld.Instance.ItemsCollected++;
+                this.GetComponent<Pickupable>().RemoveObject();
+                base.OnCollision(otherObject);
+
+            }
         }
     }
 }
