@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.CodeDom;
+using System.Security.Cryptography;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -25,8 +26,8 @@ namespace Necrotroph_Eksamensprojekt
         {
             random = new Random();
             size = new Vector2(10000, 10000);
-            loadBound = new Vector2(1500, 1500);
-            unloadBound = new Vector2(1600, 1600);
+            loadBound = new Vector2(1250, 750);
+            unloadBound = new Vector2(1350, 850);
             unloadedMapObjects = new List<(Vector2 position, ObjectPool poolType)>();
         }
 
@@ -74,6 +75,20 @@ namespace Necrotroph_Eksamensprojekt
             }
 
             return success;
+        }
+
+
+        public static void GenerateMap()
+        {
+            for (int x = -15; x < 15; x++)
+            {
+                for (int y = -15; y < 15; y++)
+                {
+                    unloadedMapObjects.Add((new Vector2(x, y) * 280, TreePool.Instance));
+                }
+            }
+            CheckForObjectsToUnload();
+            GameWorld.Instance.AddAndRemoveGameObjects();
         }
     }
 }

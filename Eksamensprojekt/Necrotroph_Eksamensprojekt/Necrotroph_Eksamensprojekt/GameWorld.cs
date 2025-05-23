@@ -85,8 +85,8 @@ namespace Necrotroph_Eksamensprojekt
             activeGameObjects = new List<GameObject>();
 
             AddPlayer(Vector2.Zero);
-            AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
-
+            //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
+            Map.GenerateMap();
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
@@ -105,6 +105,7 @@ namespace Necrotroph_Eksamensprojekt
 
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
+            TreeFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
 
@@ -221,7 +222,6 @@ namespace Necrotroph_Eksamensprojekt
                     }
                 }
 
-
             }
 
         }
@@ -253,9 +253,16 @@ namespace Necrotroph_Eksamensprojekt
         {
             Player newPlayer = Player.Instance;
             newPlayer.AddComponent<Movable>();
-            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
-            newPlayer.AddComponent<LightEmitter>(0.15f);
-            newPlayer.Transform.Scale = 10f;
+            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f);
+            newPlayer.AddComponent<Animator>();
+            newPlayer.AddComponent<LightEmitter>(0.2f);
+            //remember to add more animations
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
+            ((Animator)newPlayer.GetComponent<Animator>()).PlayAnimation("IdleDownLightOn");
+            newPlayer.Transform.Scale = 0.3f;
             AddObject(newPlayer);
         }
 

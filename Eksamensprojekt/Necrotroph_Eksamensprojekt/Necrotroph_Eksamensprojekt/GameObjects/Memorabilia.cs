@@ -11,6 +11,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
     {
         public Memorabilia(Vector2 position) : base(position)
         {
+            AddComponent<LightEmitter>(0.05f);
             Transform.WorldPosition = position;
         }
 
