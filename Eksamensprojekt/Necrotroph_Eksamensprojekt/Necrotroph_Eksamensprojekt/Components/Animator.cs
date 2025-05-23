@@ -61,7 +61,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         /// <param name="animation">The frame data</param>
         /// <param name="frameRate">How many times a second the frames should switch</param>
         /// <param name="loops">Whether the animation should loop back to the start once it ends</param>
-        public void AddAnimation(string animationName, Texture2D[] animation,float frameRate, bool loops)
+        public void AddAnimation(string animationName, Texture2D[] animation, float frameRate, bool loops)
         {
             animations.Add(animationName, new Animation(animation,frameRate, loops));
         }

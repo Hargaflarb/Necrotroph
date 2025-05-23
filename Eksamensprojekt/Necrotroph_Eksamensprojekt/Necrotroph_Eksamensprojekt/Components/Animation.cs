@@ -24,6 +24,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         public bool Loops { get => loops; }
         #endregion
         #region Constructors
+        
         /// <summary>
         /// 
         /// </summary>
