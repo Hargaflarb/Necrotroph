@@ -51,7 +51,46 @@ namespace Necrotroph_Eksamensprojekt
             this.size = size;
         }
         #endregion
+
         #region Methods
         #endregion
     }
+
+    public class UITransform
+    {
+        #region Fields
+        private Vector2 screenPosition;
+        private float rotation;
+        private float scale;
+        private Vector2 size;
+        #endregion
+
+        #region Properties
+        public Vector2 ScreenPosition { get => screenPosition; set => screenPosition = value; }
+        public float Rotation { get => rotation; set => rotation = value; }
+        public float Scale { get => scale; set => scale = value; }
+        public Vector2 Size { get => size * scale; set => size = value; }
+        #endregion
+
+        #region Constructors
+        public UITransform(Vector2 screenPosition, float scale = 1, float rotation = 0)
+        {
+            this.screenPosition = screenPosition;
+            this.scale = scale;
+            this.rotation = rotation;
+            this.size = Vector2.One;
+        }
+        public UITransform(Vector2 screenPosition, Vector2 size, float scale = 1, float rotation = 0)
+        {
+            this.screenPosition = screenPosition;
+            this.scale = scale;
+            this.rotation = rotation;
+            this.size = size;
+        }
+        #endregion
+
+        #region Methods
+        #endregion
+    }
+
 }

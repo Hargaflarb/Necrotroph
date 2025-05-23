@@ -93,6 +93,10 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            foreach (Component component in components)
+            {
+                component.Draw(spriteBatch);
+            }
 
 #if DEBUG
             DrawRectangle(spriteBatch);

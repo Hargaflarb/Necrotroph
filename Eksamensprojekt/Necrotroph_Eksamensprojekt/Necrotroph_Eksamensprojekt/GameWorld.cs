@@ -109,7 +109,7 @@ namespace Necrotroph_Eksamensprojekt
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
-            UIManager.Instance.AddUIObject(TextFactory.CreateTextObject(ItemsCollected + "/5", Color.White));
+            UIManager.AddUIObject(TextFactory.CreateTextObject(()=> { return ItemsCollected + "/5"; }, Color.White));
 
             ShaderManager.SetSprite();
         }
@@ -130,7 +130,7 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
 
-            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            foreach (UIObject uiObject in UIManager.ActiveUIObjects)
             {
                 if (uiObject.Active)
                 {
@@ -140,12 +140,11 @@ namespace Necrotroph_Eksamensprojekt
             TimeLineManager.Update(gameTime);
             CheckCollision();
 
-            ItemsCollected++;
-            UIManager.Instance.AddAndRemoveUIObjects();
 
             Map.CheckForObejctsToLoad();
             Map.CheckForObjectsToUnload();
             AddAndRemoveGameObjects();
+            UIManager.AddAndRemoveUIObjects();
             base.Update(gameTime);
         }
 
@@ -159,18 +158,16 @@ namespace Necrotroph_Eksamensprojekt
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
             foreach (GameObject gameObject in activeGameObjects)
             {
-                if (gameObject.GetComponent<SpriteRenderer>() != null && gameObject.Active)
+                if (gameObject.Active)
                 {
-                    gameObject.GetComponent<SpriteRenderer>().Draw(_spriteBatch);
                     gameObject.Draw(_spriteBatch);
                 }
             }
 
-            foreach (UIObject uiObject in UIManager.Instance.ActiveUIObjects)
+            foreach (UIObject uiObject in UIManager.ActiveUIObjects)
             {
-                if (uiObject.GetComponent<TextRenderer>() != null && uiObject.Active)
+                if (uiObject.Active)
                 {
-                    uiObject.GetComponent<TextRenderer>().Draw(_spriteBatch);
                     uiObject.Draw(_spriteBatch);
                 }
             }
