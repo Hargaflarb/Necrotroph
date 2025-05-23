@@ -42,9 +42,9 @@ namespace Necrotroph_Eksamensprojekt.Factories
                 case EnemyType.Hunter:
                     newEnemy = new HunterEnemy(position);
                     newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f);
-                    newEnemy.AddComponent<Animator>();
+                    /*newEnemy.AddComponent<Animator>();
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
-                    newEnemy.GetComponent<Animator>().PlayAnimation("Walk");
+                    newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
                     newEnemy.AddComponent<Movable>();
                     //newEnemy.AddComponent<Collider>();
                     newEnemy.Transform.Scale = 0.3f;
