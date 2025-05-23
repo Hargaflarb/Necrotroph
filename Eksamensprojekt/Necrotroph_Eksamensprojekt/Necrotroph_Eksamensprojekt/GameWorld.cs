@@ -109,7 +109,7 @@ namespace Necrotroph_Eksamensprojekt
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
-            UIManager.AddUIObject(TextFactory.CreateTextObject(ItemsCollected + "/5", Color.White));
+            UIManager.AddUIObject(TextFactory.CreateTextObject(()=> { return ItemsCollected + "/5"; }, Color.White));
 
             ShaderManager.SetSprite();
         }
@@ -140,7 +140,6 @@ namespace Necrotroph_Eksamensprojekt
             TimeLineManager.Update(gameTime);
             CheckCollision();
 
-            ItemsCollected++;
 
             Map.CheckForObejctsToLoad();
             Map.CheckForObjectsToUnload();

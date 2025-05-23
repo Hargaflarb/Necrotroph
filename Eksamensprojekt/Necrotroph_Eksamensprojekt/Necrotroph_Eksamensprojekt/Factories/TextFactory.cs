@@ -23,7 +23,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
         {
             SpriteFont = contentManager.Load<SpriteFont>("textui");
         }
-        public static UIObject CreateTextObject(string text, Color color)
+        public static UIObject CreateTextObject(Func<string> text, Color color)
         {
             UIObject newTextObject = new TextObject(new Vector2(100, 100));
             newTextObject.AddComponent<TextRenderer>(text, color);
