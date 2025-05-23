@@ -84,7 +84,7 @@ namespace Necrotroph_Eksamensprojekt
             activeGameObjects = new List<GameObject>();
 
             AddPlayer(Vector2.Zero);
-            AddObject(TreePool.Instance.GetObject(new Vector2(200,0)));
+            AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
 
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
@@ -142,7 +142,7 @@ namespace Necrotroph_Eksamensprojekt
 
             ItemsCollected++;
             UIManager.Instance.AddAndRemoveUIObjects();
-            
+
             Map.CheckForObejctsToLoad();
             Map.CheckForObjectsToUnload();
             AddAndRemoveGameObjects();
@@ -177,56 +177,55 @@ namespace Necrotroph_Eksamensprojekt
 #if !DEBUG
             ShaderManager.Draw(_spriteBatch);
 #endif
-                _spriteBatch.End();
-                base.Draw(gameTime);
-            
+            _spriteBatch.End();
+            base.Draw(gameTime);
+
         }
 
 
-            public void AddAndRemoveGameObjects()
+        public void AddAndRemoveGameObjects()
+        {
+            foreach (GameObject gameObject in gameObjectsToAdd)
             {
-                foreach (GameObject gameObject in gameObjectsToAdd)
-                {
-                    gameObject.Start();
-                    activeGameObjects.Add(gameObject);
-                }
-                gameObjectsToAdd.Clear();
-                foreach (GameObject gameObject in gameObjectsToRemove)
-                {
-                    if (activeGameObjects.Contains(gameObject))
-                    {
-                        activeGameObjects.Remove(gameObject);
-                    }
-                }
-                gameObjectsToRemove.Clear();
+                gameObject.Start();
+                activeGameObjects.Add(gameObject);
             }
-
-            public void CheckCollision()
+            gameObjectsToAdd.Clear();
+            foreach (GameObject gameObject in gameObjectsToRemove)
             {
-                foreach (GameObject gameObject1 in activeGameObjects)
+                if (activeGameObjects.Contains(gameObject))
                 {
-                    if (gameObject1.Active)
-                    {
-                        foreach (GameObject gameObject2 in activeGameObjects)
-                        {
-                            if (gameObject1 == gameObject2)
-                            {
-                                continue;
-                            }
+                    activeGameObjects.Remove(gameObject);
+                }
+            }
+            gameObjectsToRemove.Clear();
+        }
 
-                            if (gameObject1.CheckCollision(gameObject2) && gameObject2.Active)
-                            {
-                                gameObject1.OnCollision(gameObject2);
-                                gameObject2.OnCollision(gameObject1);
-                            }
+        public void CheckCollision()
+        {
+            foreach (GameObject gameObject1 in activeGameObjects)
+            {
+                if (gameObject1.Active)
+                {
+                    foreach (GameObject gameObject2 in activeGameObjects)
+                    {
+                        if (gameObject1 == gameObject2)
+                        {
+                            continue;
+                        }
+
+                        if (gameObject1.CheckCollision(gameObject2) && gameObject2.Active)
+                        {
+                            gameObject1.OnCollision(gameObject2);
+                            gameObject2.OnCollision(gameObject1);
                         }
                     }
-
                 }
+
             }
         }
-        
-  
+
+
         /// <summary>
         /// Adds object to the gameworld during next update
         /// </summary>
@@ -259,28 +258,28 @@ namespace Necrotroph_Eksamensprojekt
         }
 
 
-            public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
+        public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
+        {
+            List<LightEmitter> lightEmitters = new List<LightEmitter>();
+            List<ShadowInterval> shadowCasters = new List<ShadowInterval>();
+            foreach (GameObject gameObject in activeGameObjects)
             {
-                List<LightEmitter> lightEmitters = new List<LightEmitter>();
-                List<ShadowInterval> shadowCasters = new List<ShadowInterval>();
-                foreach (GameObject gameObject in activeGameObjects)
+                Component shaderComponent;
+                if ((shaderComponent = gameObject.GetComponent<LightEmitter>()) is not null)
                 {
-                    Component shaderComponent;
-                    if ((shaderComponent = gameObject.GetComponent<LightEmitter>()) is not null)
-                    {
-                        lightEmitters.Add((LightEmitter)shaderComponent);
-                    }
-                    //else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
-                    {
-
-                        //shadowCasters.Add((ShadowInterval)shaderComponent);
-                    }
+                    lightEmitters.Add((LightEmitter)shaderComponent);
                 }
-                return (lightEmitters, shadowCasters);
-            }
+                //else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
+                {
 
-            #endregion
+                    //shadowCasters.Add((ShadowInterval)shaderComponent);
+                }
+            }
+            return (lightEmitters, shadowCasters);
         }
-    } 
+
+        #endregion
+    }
+}
 
 

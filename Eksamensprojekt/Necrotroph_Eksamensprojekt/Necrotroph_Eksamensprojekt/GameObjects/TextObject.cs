@@ -10,7 +10,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
     {
         public TextObject(Vector2 position) : base(position)
         {
-            Transform.Position = position;
+            Transform.ScreenPosition = position;
         }
     }
 }

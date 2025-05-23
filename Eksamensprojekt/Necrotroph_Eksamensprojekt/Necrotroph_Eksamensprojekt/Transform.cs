@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.Commands;
+using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Factories;
+using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -23,7 +28,7 @@ namespace Necrotroph_Eksamensprojekt
         {
             get
             {
-                return (WorldPosition - GameWorld.Player.Transform.WorldPosition) + (GameWorld.ScreenSize / 2);
+                return (WorldPosition - Player.Instance.Transform.WorldPosition) + (GameWorld.ScreenSize / 2);
             }
         }
         public float Rotation { get => rotation; set => rotation = value; }
