@@ -29,7 +29,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Constructors
         public Animator(GameObject gameObject) : base(gameObject)
         {
-            animations= new Dictionary<string, Animation>();
+            animations = new Dictionary<string, Animation>();
         }
         #endregion
         #region Methods
@@ -63,7 +63,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         /// <param name="loops">Whether the animation should loop back to the start once it ends</param>
         public void AddAnimation(string animationName, Texture2D[] animation, float frameRate, bool loops)
         {
-            animations.Add(animationName, new Animation(animation,frameRate, loops));
+            animations.Add(animationName, new Animation(animation, frameRate, loops));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         public override void Update(GameTime gameTime)
         {
             timeSinceLastFrame += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timeSinceLastFrame >= 1 / currentAnimation.FrameRate)
+            if (timeSinceLastFrame >= 1 / currentAnimation.FrameRate && currentAnimation.FrameRate != 0)
             {
                 timeSinceLastFrame = 0;
                 currentIndex += 1;
@@ -87,7 +87,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             }
             gameObject.GetComponent<SpriteRenderer>().Sprite = currentAnimation.GetFrame(currentIndex);
         }
-        
+
 
         #endregion
     }
