@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.Commands;
+using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
@@ -25,7 +29,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Constructors
         public Animator(GameObject gameObject) : base(gameObject)
         {
-            animations= new Dictionary<string, Animation>();
+            animations = new Dictionary<string, Animation>();
         }
         #endregion
         #region Methods
@@ -57,9 +61,9 @@ namespace Necrotroph_Eksamensprojekt.Components
         /// <param name="animation">The frame data</param>
         /// <param name="frameRate">How many times a second the frames should switch</param>
         /// <param name="loops">Whether the animation should loop back to the start once it ends</param>
-        public void AddAnimation(string animationName, Texture2D[] animation,float frameRate, bool loops)
+        public void AddAnimation(string animationName, Texture2D[] animation, float frameRate, bool loops)
         {
-            animations.Add(animationName, new Animation(animation,frameRate, loops));
+            animations.Add(animationName, new Animation(animation, frameRate, loops));
         }
 
         /// <summary>
@@ -68,7 +72,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         public override void Update(GameTime gameTime)
         {
             timeSinceLastFrame += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (timeSinceLastFrame >= 1 / currentAnimation.FrameRate)
+            if (timeSinceLastFrame >= 1 / currentAnimation.FrameRate && currentAnimation.FrameRate != 0)
             {
                 timeSinceLastFrame = 0;
                 currentIndex += 1;
@@ -83,7 +87,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             }
             gameObject.GetComponent<SpriteRenderer>().Sprite = currentAnimation.GetFrame(currentIndex);
         }
-        
+
 
         #endregion
     }

@@ -7,6 +7,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.Commands;
+using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Factories;
+using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
@@ -16,10 +20,12 @@ namespace Necrotroph_Eksamensprojekt.Components
         private Texture2D sprite;
         private Color colour = Color.White;
         private Vector2 origin;
+        private bool flipped = false;
         #endregion
         #region Properties
         public Texture2D Sprite { get => sprite; set => sprite = value; }
         public Color Colour { get => colour; set => colour = value; }
+        public bool Flipped { get => flipped; set => flipped = value; }
         #endregion
         #region Constructors
         /// <summary>
@@ -34,9 +40,18 @@ namespace Necrotroph_Eksamensprojekt.Components
             this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2();
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
+
+        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer, Vector2 hitboxSizeScale) : base(gameObject)
+        {
+            this.sprite = sprite;
+            this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2() * hitboxSizeScale;
+            origin = new Vector2(sprite.Width / 2, sprite.Height - (this.gameObject.Transform.Size.Y / 2));
+        }
+
         public SpriteRenderer(GameObject gameObject, float layer) : base(gameObject)
         {
             this.gameObject = gameObject;
+            //this.gameObject.Transform.Size = hitboxSize;
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
@@ -50,7 +65,14 @@ namespace Necrotroph_Eksamensprojekt.Components
                 return;
             }
 
-            spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
+            if (!flipped)
+            {
+                spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
+            }
+            else 
+            {
+                spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.FlipHorizontally, 0);
+            }
         }
         #endregion
     }

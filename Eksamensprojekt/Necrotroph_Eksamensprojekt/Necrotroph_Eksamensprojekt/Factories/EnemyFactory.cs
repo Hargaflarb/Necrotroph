@@ -28,7 +28,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
         #region Methods
         public static void LoadContent(ContentManager contentManager)
         {
-            hunterSprite = contentManager.Load<Texture2D>("noImageFound");
+            hunterSprite = contentManager.Load<Texture2D>("HunterSprites/hunterSouthWest");
             seekerSprite = contentManager.Load<Texture2D>("noImageFound");
             lightEaterSprite = contentManager.Load<Texture2D>("noImageFound");
             stalkerSprite = contentManager.Load<Texture2D>("noImageFound");
@@ -42,12 +42,12 @@ namespace Necrotroph_Eksamensprojekt.Factories
                 case EnemyType.Hunter:
                     newEnemy = new HunterEnemy(position);
                     newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f);
-                    newEnemy.AddComponent<Animator>();
+                    /*newEnemy.AddComponent<Animator>();
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
-                    newEnemy.GetComponent<Animator>().PlayAnimation("Walk");
+                    newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
                     newEnemy.AddComponent<Movable>();
                     //newEnemy.AddComponent<Collider>();
-                    newEnemy.Transform.Scale = 50;
+                    newEnemy.Transform.Scale = 0.3f;
                     return newEnemy;
                 case EnemyType.Seeker:
                     break;

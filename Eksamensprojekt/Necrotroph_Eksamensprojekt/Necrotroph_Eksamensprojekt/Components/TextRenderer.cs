@@ -13,16 +13,18 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         #region Fields
         private SpriteFont spriteFont;
-        private string text;
+        private Func<string> text;
         private Color textColor;
+        private float scale;
         #endregion
         #region Properties
         #endregion
         #region Constructor
-        public TextRenderer(UIObject uiObject, string text, Color textColor) : base(uiObject)
+        public TextRenderer(UIObject uiObject, Func<string> text, Color textColor, float scale) : base(uiObject)
         {
             this.text = text;
             this.textColor = textColor;
+            uiObject.Transform.Scale = scale;
         }
         #endregion
         #region Methods
@@ -32,7 +34,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             {
                 return;
             }
-            spriteBatch.DrawString(TextFactory.SpriteFont, text, UIObject.Transform.ScreenPosition, textColor);
+            spriteBatch.DrawString(TextFactory.SpriteFont, text(), UIObject.Transform.ScreenPosition, textColor, 0, TextFactory.SpriteFont.MeasureString(text()) / 2, uiObject.Transform.Scale, SpriteEffects.None, 1f);
         }
         #endregion
     }

@@ -26,6 +26,7 @@ namespace Necrotroph_Eksamensprojekt
         private static Vector2 screenSize;
         private int itemsCollected;
         private static GameWorld instance;
+        private bool gameWon = false;
 
         #endregion
         #region Properties
@@ -84,16 +85,16 @@ namespace Necrotroph_Eksamensprojekt
             activeGameObjects = new List<GameObject>();
 
             AddPlayer(Vector2.Zero);
-            AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
-
+            //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
+            Map.GenerateMap();
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
             InputHandler.AddHeldKeyCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
 
-            InputHandler.AddPressedKeyCommand(Keys.Space, new SprintCommand(Player.Instance));
-            InputHandler.AddUnclickedCommand(Keys.Space, new SprintCommand(Player.Instance));
+            InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
+            InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
 
             base.Initialize();
         }
@@ -104,12 +105,20 @@ namespace Necrotroph_Eksamensprojekt
 
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
+            TreeFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
 
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(500, 0)));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
-            UIManager.AddUIObject(TextFactory.CreateTextObject(ItemsCollected + "/5", Color.White));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(200, 0)));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-200, 0)));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(600, 0)));
+
+
+
+            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2 (50, 50), 1f));
 
             ShaderManager.SetSprite();
         }
@@ -140,12 +149,12 @@ namespace Necrotroph_Eksamensprojekt
             TimeLineManager.Update(gameTime);
             CheckCollision();
 
-            ItemsCollected++;
 
             Map.CheckForObejctsToLoad();
             Map.CheckForObjectsToUnload();
             AddAndRemoveGameObjects();
             UIManager.AddAndRemoveUIObjects();
+            CheckForWin();
             base.Update(gameTime);
         }
 
@@ -201,27 +210,22 @@ namespace Necrotroph_Eksamensprojekt
 
         public void CheckCollision()
         {
-            foreach (GameObject gameObject1 in activeGameObjects)
+            for (int i = 0; i < activeGameObjects.Count; i++)
             {
-                if (gameObject1.Active)
-                {
-                    foreach (GameObject gameObject2 in activeGameObjects)
-                    {
-                        if (gameObject1 == gameObject2)
-                        {
-                            continue;
-                        }
 
-                        if (gameObject1.CheckCollision(gameObject2) && gameObject2.Active)
-                        {
-                            gameObject1.OnCollision(gameObject2);
-                            gameObject2.OnCollision(gameObject1);
-                        }
+                for (int j = i + 1; j < activeGameObjects.Count; j++)
+                {
+                    if (activeGameObjects[i].CheckCollision(activeGameObjects[j]) && activeGameObjects[j].Active)
+                    {
+                        activeGameObjects[i].OnCollision(activeGameObjects[j]);
+                        activeGameObjects[j].OnCollision(activeGameObjects[i]);
                     }
                 }
 
             }
+
         }
+
 
 
         /// <summary>
@@ -249,9 +253,16 @@ namespace Necrotroph_Eksamensprojekt
         {
             Player newPlayer = Player.Instance;
             newPlayer.AddComponent<Movable>();
-            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("noImageFound"), 1f);
-            newPlayer.AddComponent<LightEmitter>(0.15f);
-            newPlayer.Transform.Scale = 10f;
+            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f);
+            newPlayer.AddComponent<Animator>();
+            newPlayer.AddComponent<LightEmitter>(0.2f);
+            //remember to add more animations
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
+            ((Animator)newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
+            ((Animator)newPlayer.GetComponent<Animator>()).PlayAnimation("IdleDownLightOn");
+            newPlayer.Transform.Scale = 0.3f;
             AddObject(newPlayer);
         }
 
@@ -274,6 +285,19 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
             return (lightEmitters, shadowCasters);
+        }
+
+        public void CheckForWin()
+        {
+            if (ItemsCollected == 5 && !gameWon)
+            {
+                activeGameObjects.Clear();
+                UIManager.ActiveUIObjects.Clear();
+                gameWon = true;
+                string win = "You win";
+
+                UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return win; }, Color.White, new Vector2 (ScreenSize.X / 2, ScreenSize.Y / 2), 2f));
+            }
         }
 
         #endregion

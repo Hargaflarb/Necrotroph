@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.GameObjects;
 
 
@@ -14,15 +15,40 @@ namespace Necrotroph_Eksamensprojekt.Factories
     public static class TreeFactory
     {
         #region Fields
+        private static Texture2D tree1;
+        private static Texture2D tree2;
+        private static Texture2D tree3;
+        private static Random rnd = new Random();
         #endregion
         #region Properties
         #endregion
         #region Constructors
         #endregion
         #region Methods
-        public static GameObject CreateTree(Vector2 position)
+        public static void LoadContent(ContentManager content)
         {
-            return new Tree(position);
+            tree1 = content.Load<Texture2D>("TreeSprites/Tree1");
+            tree2 = content.Load<Texture2D>("TreeSprites/Tree2");
+            tree3 = content.Load<Texture2D>("TreeSprites/SmallTree");
+        }
+        public static Tree CreateTree(Vector2 position)
+        {
+            Tree newTree = new Tree(position);
+            //randomly select sprite
+            switch (rnd.Next(1, 4))
+            {
+                case 1:
+                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(1, 0.25f));
+                    break;
+                case 2:
+                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(1, 0.25f));
+                    break;
+                case 3:
+                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(1, 0.25f));
+                    break;
+            }
+            newTree.AddComponent<Collider>();
+            return newTree;
         }
         #endregion
     }

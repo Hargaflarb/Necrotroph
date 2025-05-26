@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.Factories;
 
 namespace Necrotroph_Eksamensprojekt.ObjectPools
 {
@@ -37,7 +38,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         #region Methods
         protected override sealed GameObject Create(Vector2 position)
         {
-            Tree newTree = new Tree(position);
+            Tree newTree = TreeFactory.CreateTree(position);
             Active.Add(newTree);
             return newTree;
         }
