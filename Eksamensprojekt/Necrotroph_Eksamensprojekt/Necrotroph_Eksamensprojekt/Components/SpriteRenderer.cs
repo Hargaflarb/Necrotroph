@@ -40,9 +40,18 @@ namespace Necrotroph_Eksamensprojekt.Components
             this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2();
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
+
+        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer, Vector2 hitboxSizeScale) : base(gameObject)
+        {
+            this.sprite = sprite;
+            this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2() * hitboxSizeScale;
+            origin = new Vector2(sprite.Width / 2, sprite.Height - (this.gameObject.Transform.Size.Y / 2));
+        }
+
         public SpriteRenderer(GameObject gameObject, float layer) : base(gameObject)
         {
             this.gameObject = gameObject;
+            //this.gameObject.Transform.Size = hitboxSize;
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
@@ -55,6 +64,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             {
                 return;
             }
+
             if (!flipped)
             {
                 spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
