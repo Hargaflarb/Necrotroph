@@ -38,13 +38,13 @@ namespace Necrotroph_Eksamensprojekt.Factories
             switch (rnd.Next(1, 4))
             {
                 case 1:
-                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(1, 0.25f));
+                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
                     break;
                 case 2:
-                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(1, 0.25f));
+                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
                     break;
                 case 3:
-                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(1, 0.25f));
+                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(0.6f, 0.1f), new Vector2(0.6f, 0.95f));
                     break;
             }
             newTree.AddComponent<Collider>();

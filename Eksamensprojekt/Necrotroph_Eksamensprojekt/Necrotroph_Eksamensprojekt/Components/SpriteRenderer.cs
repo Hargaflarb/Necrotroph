@@ -41,11 +41,11 @@ namespace Necrotroph_Eksamensprojekt.Components
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
-        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer, Vector2 hitboxSizeScale) : base(gameObject)
+        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer, Vector2 hitboxSizeScale, Vector2 originPlacement) : base(gameObject)
         {
             this.sprite = sprite;
             this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2() * hitboxSizeScale;
-            origin = new Vector2(sprite.Width / 2, sprite.Height - (this.gameObject.Transform.Size.Y / 2));
+            this.origin = new Vector2(sprite.Width* originPlacement.X, sprite.Height * originPlacement.Y);
         }
 
         public SpriteRenderer(GameObject gameObject, float layer) : base(gameObject)
