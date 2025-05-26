@@ -93,6 +93,11 @@ namespace Necrotroph_Eksamensprojekt
             InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
             InputHandler.AddHeldKeyCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
 
+            InputHandler.AddUnclickedCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
+            InputHandler.AddUnclickedCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
+            InputHandler.AddUnclickedCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
+            InputHandler.AddUnclickedCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
+
             InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
             InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
 

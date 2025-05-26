@@ -22,7 +22,7 @@ namespace Necrotroph_Eksamensprojekt
         static TimeLineManager()
         {
             TimeLineEvents = new Dictionary<int, (float time, Action action)>();
-            nextID = 0;
+            nextID = 1;
         }
         #endregion
         #region Methods
@@ -36,6 +36,11 @@ namespace Necrotroph_Eksamensprojekt
         {
             TimeLineEvents.Add(nextID, (time, action));
             return nextID++;
+        }
+
+        public static float GetTime(int eventID)
+        {
+            return TimeLineEvents[eventID].time;
         }
 
         /// <summary>
