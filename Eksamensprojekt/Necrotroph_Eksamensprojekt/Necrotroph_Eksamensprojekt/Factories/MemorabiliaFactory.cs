@@ -11,7 +11,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
     public static class MemorabiliaFactory
     {
         #region Fields
-        private static Texture2D noImage;
+        private static Texture2D sprite;
         #endregion
         #region Properties
         #endregion
@@ -20,14 +20,14 @@ namespace Necrotroph_Eksamensprojekt.Factories
         #region Methods
         public static void LoadContent(ContentManager contentManager)
         {
-            noImage = contentManager.Load<Texture2D>("noImageFound");
+            sprite = contentManager.Load<Texture2D>("memory");
         }
         public static GameObject CreateMemorabilia(Vector2 position)
         {
             GameObject newMemoryObject = new Memorabilia(position);
-            newMemoryObject.AddComponent<SpriteRenderer>(noImage, 1f);
+            newMemoryObject.AddComponent<SpriteRenderer>(sprite, 1f);
             newMemoryObject.AddComponent<Pickupable>();
-            newMemoryObject.Transform.Scale = 10;
+            newMemoryObject.Transform.Scale = 0.1f;
             return newMemoryObject;
         }
         #endregion

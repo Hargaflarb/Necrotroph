@@ -20,10 +20,12 @@ namespace Necrotroph_Eksamensprojekt.Components
         private Texture2D sprite;
         private Color colour = Color.White;
         private Vector2 origin;
+        private bool flipped = false;
         #endregion
         #region Properties
         public Texture2D Sprite { get => sprite; set => sprite = value; }
         public Color Colour { get => colour; set => colour = value; }
+        public bool Flipped { get => flipped; set => flipped = value; }
         #endregion
         #region Constructors
         /// <summary>
@@ -63,7 +65,14 @@ namespace Necrotroph_Eksamensprojekt.Components
                 return;
             }
 
-            spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, gameObject.Transform.ScreenPosition.Y / GameWorld.ScreenSize.Y);
+            if (!flipped)
+            {
+                spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
+            }
+            else 
+            {
+                spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.FlipHorizontally, 0);
+            }
         }
         #endregion
     }
