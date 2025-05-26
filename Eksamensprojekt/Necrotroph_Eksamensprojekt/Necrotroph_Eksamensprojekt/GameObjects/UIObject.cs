@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
+    /// <summary>
+    /// Same as GameObject but specifically for things to do with the UI
+    /// </summary>
     public abstract class UIObject
     {
         #region Fields
