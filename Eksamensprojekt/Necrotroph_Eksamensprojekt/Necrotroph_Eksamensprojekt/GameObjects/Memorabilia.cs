@@ -14,7 +14,10 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             AddComponent<LightEmitter>(0.05f);
             Transform.WorldPosition = position;
         }
-
+        /// <summary>
+        /// Runs the collision and updates ItemsCollected
+        /// </summary>
+        /// <param name="otherObject"></param>
         public override void OnCollision(GameObject otherObject)
         {
             if (otherObject is Player)

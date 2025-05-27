@@ -46,7 +46,7 @@ namespace Necrotroph_Eksamensprojekt
             float YDirection = (float)Math.Sin(remap);
             direction = new Vector2(XDirection, YDirection);
             direction.Normalize();
-            ((Movable)GetComponent<Movable>()).Move(direction, speed);
+            GetComponent<Movable>().Move(direction, speed);
             base.Update(gameTime);
         }
 
