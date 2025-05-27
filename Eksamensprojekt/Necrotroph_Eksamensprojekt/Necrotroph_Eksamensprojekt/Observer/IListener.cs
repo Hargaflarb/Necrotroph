@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Observer
 {
-    public interface ISubject
+    public interface IListener
     {
         #region Fields
         #endregion
@@ -15,10 +15,7 @@ namespace Necrotroph_Eksamensprojekt.Observer
         #region Constructors
         #endregion
         #region Methods
-        public void AttachObserver(IObserver observer);
-        public void DetachObserver(IObserver observer);
-
-        public void NotifyObserver();
+        public void HearFromObserver(IObserver observer);
         #endregion
     }
 }

@@ -22,6 +22,10 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         private static int mainTimerID;
         private static int walkTimerID;
         private static float walkTime;
+        private static int maxTimeBetweenSeekers = 120;
+        private static int minTimeBetweenSeekers = 30;
+        private static bool timerStarted;
+        private static Random rnd = new Random();
         #endregion
         #region Properties
         #endregion
@@ -30,13 +34,17 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         #region Methods
         public static void Update()
         {
-            Hunt();
+            if (!Tree.HasEyes && !timerStarted)
+            {
+                timerStarted = true;
+                TimeLineManager.AddEvent((float)rnd.Next(minTimeBetweenSeekers, maxTimeBetweenSeekers) * 1000, Hunt);
+            }
         }
         private static void Hunt()
         {
             //get all trees & set them to have eyes
             Tree.HasEyes = true;
-
+            timerStarted = false;
             mainTimerID = TimeLineManager.AddEvent(huntTime * 1000, ReturnToNormal);
             //get SoundManager & increase player sounds, decrease ambience & enemy sounds
             if (Player.Instance.IsMoving && walkTimerID == 0)
@@ -56,22 +64,21 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         public static void ReturnToNormal()
         {
             TimeLineManager.RemoveEvent(mainTimerID);
-            
+
             //if (!Player.Instance.IsMoving)
             //{
-                TimeLineManager.RemoveEvent(walkTimerID);
-                Tree.HasEyes = false;
-                mainTimerID = 0;
-                walkTimerID = 0;
-                walkTime = timeBeforeDeath;
+            TimeLineManager.RemoveEvent(walkTimerID);
+            Tree.HasEyes = false;
+            mainTimerID = 0;
+            walkTimerID = 0;
+            walkTime = timeBeforeDeath;
             //get SoundManager & return sound to normal
             //}
-            
         }
 
         public static void KillPlayer()
         {
-            //IDK, add the thing where the player dies
+            Player.Instance.PlayerDeath(EnemyType.Seeker);
         }
         #endregion
     }

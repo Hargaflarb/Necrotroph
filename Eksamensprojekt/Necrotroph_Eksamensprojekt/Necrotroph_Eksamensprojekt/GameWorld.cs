@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Enemies;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.ObjectPools;
@@ -154,7 +155,7 @@ namespace Necrotroph_Eksamensprojekt
             TimeLineManager.Update(gameTime);
             CheckCollision();
 
-
+            SeekerEnemyManager.Update();
             Map.CheckForObejctsToLoad();
             Map.CheckForObjectsToUnload();
             AddAndRemoveGameObjects();
@@ -186,9 +187,9 @@ namespace Necrotroph_Eksamensprojekt
                     uiObject.Draw(_spriteBatch);
                 }
             }
-#if !DEBUG
+//#if !DEBUG
             ShaderManager.Draw(_spriteBatch);
-#endif
+//#endif
             _spriteBatch.End();
             base.Draw(gameTime);
 
@@ -230,8 +231,6 @@ namespace Necrotroph_Eksamensprojekt
             }
 
         }
-
-
 
         /// <summary>
         /// Adds object to the gameworld during next update

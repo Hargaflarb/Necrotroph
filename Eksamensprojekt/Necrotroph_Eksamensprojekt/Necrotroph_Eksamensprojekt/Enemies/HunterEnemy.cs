@@ -8,10 +8,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public class HunterEnemy : GameObject
+    public class HunterEnemy : GameObject,IListener
     {
         #region Fields
         private float speed = 50;
@@ -48,6 +49,21 @@ namespace Necrotroph_Eksamensprojekt
             ((Movable)GetComponent<Movable>()).Move(direction, speed);
             base.Update(gameTime);
         }
+
+        public override void OnCollision(GameObject otherObject)
+        {
+            if (otherObject == Player.Instance)
+            {
+                Player.Instance.TakeDamage(20,EnemyType.Hunter);
+            }
+            base.OnCollision(otherObject);
+        }
+        public void HearFromObserver(IObserver observer)
+        {
+            throw new NotImplementedException();
+        }
+
+        
         #endregion
     }
 }
