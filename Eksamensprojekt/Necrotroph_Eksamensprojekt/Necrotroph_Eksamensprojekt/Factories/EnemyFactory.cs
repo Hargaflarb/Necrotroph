@@ -47,7 +47,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
                     newEnemy.AddComponent<Movable>();
                     //newEnemy.AddComponent<Collider>();
-                    newEnemy.Transform.Scale = 0.3f;
+                    newEnemy.Transform.Scale = 0.2f;
                     return newEnemy;
                 case EnemyType.Seeker:
                     break;

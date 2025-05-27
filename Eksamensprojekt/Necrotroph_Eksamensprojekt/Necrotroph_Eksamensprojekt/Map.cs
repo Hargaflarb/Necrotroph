@@ -16,7 +16,7 @@ namespace Necrotroph_Eksamensprojekt
 {
     public static class Map
     {
-        private const float treeSpacing = 550;
+        private const float treeSpacing = 800;
         private static Random random;
         private static readonly Vector2 size;
         private static readonly Vector2 loadBound;
