@@ -24,7 +24,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             //AddComponent<SpriteRenderer>(GameWorld.Instance.Content.Load<Texture2D>("noImageFound"), 1f, new Vector2(50,50));
             //AddComponent<Collider>();
-            Transform.Scale = 0.5f;
+            Transform.Scale = 0.4f;
         }
         #endregion
         #region Methods

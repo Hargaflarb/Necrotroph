@@ -45,17 +45,17 @@ namespace Necrotroph_Eksamensprojekt.Factories
             switch (rnd.Next(1, 4))
             {
                 case 1:
-                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(1, 0.25f));
+                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
                     ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Normal", tree1);
                     ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Seek", seeker1);
                     break;
                 case 2:
+                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
                     ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Normal", tree2);
                     ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Seek", seeker2);
-                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(1, 0.25f));
                     break;
                 case 3:
-                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(1, 0.25f));
+                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
                     ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Normal", tree3);
                     ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Seek", seeker3);
                     break;
