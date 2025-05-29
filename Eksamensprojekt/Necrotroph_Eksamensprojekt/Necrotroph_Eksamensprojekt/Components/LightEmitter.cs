@@ -12,8 +12,8 @@ namespace Necrotroph_Eksamensprojekt.Components
         private float lightRadius;
 
         public float LightRadius { get => lightRadius; set => lightRadius = value; }
-        public float X { get => GameObject.Transform.ScreenPosition.X / GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth; }
-        public float Y { get => GameObject.Transform.ScreenPosition.Y / GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferHeight; }
+        public float X { get => GameObject.Transform.ScreenPosition.X / (GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth + 50); }
+        public float Y { get => GameObject.Transform.ScreenPosition.Y / (GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferHeight); }
 
         public LightEmitter(GameObject gameObject, float radius) : base(gameObject)
         {
