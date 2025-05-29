@@ -29,6 +29,7 @@ namespace Necrotroph_Eksamensprojekt
             string insertQuery = "INSERT INTO Saves (Light, PlayerPosX, PlayerPosY) VALUES (2, 10, 50)";
             SqlCommand insertCommand = new SqlCommand(insertQuery, GameWorld.Instance.Connection);
             insertCommand.ExecuteNonQuery();
+            GameWorld.Instance.Connection.Close();
         }
         #endregion
     }
