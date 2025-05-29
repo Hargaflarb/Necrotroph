@@ -94,6 +94,7 @@ namespace Necrotroph_Eksamensprojekt
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             GameObject.Pixel = Content.Load<Texture2D>("resd");
+            InGame.TileSprite = Content.Load<Texture2D>("grass2");
             EnemyFactory.LoadContent(Content);
             TreeFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
