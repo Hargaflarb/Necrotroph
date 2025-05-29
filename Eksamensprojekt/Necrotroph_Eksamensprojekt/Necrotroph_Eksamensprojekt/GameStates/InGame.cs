@@ -47,7 +47,6 @@ namespace Necrotroph_Eksamensprojekt.Menu
         }
 
 
-
         public int ItemsCollected
         {
             get => itemsCollected;
@@ -86,7 +85,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
             InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
             InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
-
+            
+            base.Initialize();
         }
 
         public override void LoadContent()
@@ -104,6 +104,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
             ShaderManager.SetSprite();
 
+            base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)

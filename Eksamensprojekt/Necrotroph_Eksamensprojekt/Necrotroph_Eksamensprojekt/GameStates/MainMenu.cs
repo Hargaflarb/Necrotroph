@@ -32,12 +32,13 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
         public override void Initialize()
         {
-
+            base.Initialize();
         }
 
         public override void LoadContent()
         {
             UIManager.AddUIObject(new UIButton(new Vector2(100, 200), new Vector2(50, 50), "Buttons", () => { GameWorld.GameStateToChangeTo = InGame.Instance; }));
+            base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)

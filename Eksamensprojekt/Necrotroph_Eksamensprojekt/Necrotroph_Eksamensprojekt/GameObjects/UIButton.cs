@@ -22,13 +22,14 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             color = Color.White;
             scale = 1f;
             this.action = action;
+
             AddComponent<TextRenderer>(this.text, color, scale);
             //AddComponent<SpriteRenderer>(GameWorld.Instance.Content.Load<Texture2D>("butan"), 1f);
         }
 
         public override void Update(GameTime gameTime)
         {
-            IsButtonPressed(Mouse.GetState().Position.ToVector2());
+            IsButtonPressed(Mouse.GetState());
             base.Update(gameTime);
         }
 
@@ -36,12 +37,15 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         /// checks if the button was pressed and runs it's action.
         /// </summary>
         /// <param name="mousePosition">The position of the mouse when it was pressed.</param>
-        public void IsButtonPressed(Vector2 mousePosition)
+        public void IsButtonPressed(MouseState mouseState)
         {
-            Vector2 dif = Transform.ScreenPosition - mousePosition;
-            if (MathF.Abs(dif.X) < Transform.Size.X & MathF.Abs(dif.Y) < Transform.Size.Y)
+            if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                action();
+                Vector2 dif = Transform.ScreenPosition - mouseState.Position.ToVector2();
+                if (MathF.Abs(dif.X) < Transform.Size.X & MathF.Abs(dif.Y) < Transform.Size.Y)
+                {
+                    action();
+                }
             }
         }
     }
