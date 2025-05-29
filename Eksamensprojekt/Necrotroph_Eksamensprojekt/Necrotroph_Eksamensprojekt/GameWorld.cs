@@ -18,7 +18,7 @@ using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public class GameWorld : Game, IListener
+    public class GameWorld : Game
     {
         #region Fields
         private GraphicsDeviceManager _graphics;
@@ -99,7 +99,7 @@ namespace Necrotroph_Eksamensprojekt
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
 
-            DataBaseTest();
+            //DataBaseTest();
 
             SaveManager.Execute();
             
@@ -137,13 +137,6 @@ namespace Necrotroph_Eksamensprojekt
         }
         
         
-        
-        
-        public void HearFromObserver(IObserver observer)
-        {
-            //currently appears under the shader :/
-            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, new Vector2(screenSize.X / 2, screenSize.Y / 2), 2f));
-        }
         public void DataBaseTest()
         {
             try
@@ -167,7 +160,7 @@ namespace Necrotroph_Eksamensprojekt
                 UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return test; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 1f));
                 Connection.Close();
             }
-            catch(Microsoft.Data.SqlClient.SqlException)
+            catch(SqlException)
             {
                 //in case the user does not have the database
             }

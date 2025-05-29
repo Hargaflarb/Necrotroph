@@ -11,13 +11,13 @@ using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.ObjectPools;
+using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt.Menu
 {
-    public class InGame : GameState
+    public class InGame : GameState, IListener
     {
         private List<UIObject> uIObjects;
-        private static bool hasBeenLoaded = false;
 
         private List<GameObject> gameObjectsToAdd;
         private List<GameObject> activeGameObjects;
@@ -250,15 +250,25 @@ namespace Necrotroph_Eksamensprojekt.Menu
             newPlayer.AddComponent<Animator>();
             newPlayer.AddComponent<LightEmitter>(0.2f);
             //remember to add more animations
-            (newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
-            (newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
-            (newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
-            (newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
-            (newPlayer.GetComponent<Animator>()).PlayAnimation("IdleDownLightOn");
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
+            newPlayer.GetComponent<Animator>().PlayAnimation("IdleDownLightOn");
             newPlayer.Transform.Scale = 0.3f;
+
+            newPlayer.Observer = new DeathObserver();
+            newPlayer.Observer.AddListener(this);
+
             AddObject(newPlayer);
         }
 
+
+        public void HearFromObserver(IObserver observer)
+        {
+            //currently appears under the shader :/
+            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, GameWorld.ScreenSize/2, 2f));
+        }
 
         public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
         {
