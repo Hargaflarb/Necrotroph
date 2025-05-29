@@ -29,6 +29,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         public float Speed { get => speed; set => speed = value; }
         public Vector2 Direction { get => direction; set => direction = value; }
         public int Life { get => life; }
+        public DeathObserver Observer { get => observer; set => observer = value; }
         public bool IsMoving
         {
             get
@@ -53,7 +54,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             speed = 300;
             life = maxLife;
-            observer = new DeathObserver();
+            
         }
         #endregion
         #region Methods
@@ -97,16 +98,20 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         public void PlayerDeath(EnemyType source)
         {
             NotifyObserver();
+            ((Movable)GetComponent<Movable>()).StandStill = true;
         }
 
         public void AttachObserver(IObserver observer)
         {
-            throw new NotImplementedException();
+            this.observer = (DeathObserver)observer;
         }
 
         public void DetachObserver(IObserver observer)
         {
-            throw new NotImplementedException();
+            if (this.observer == observer)
+            {
+                this.observer = null;
+            }
         }
 
         public void NotifyObserver()

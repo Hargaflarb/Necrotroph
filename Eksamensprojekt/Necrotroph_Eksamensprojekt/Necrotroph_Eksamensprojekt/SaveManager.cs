@@ -25,11 +25,18 @@ namespace Necrotroph_Eksamensprojekt
         }
         private static void SaveGame()
         {
-            GameWorld.Instance.Connection.Open();
-            string insertQuery = "INSERT INTO Saves (Light, PlayerPosX, PlayerPosY) VALUES (2, 10, 50)";
-            SqlCommand insertCommand = new SqlCommand(insertQuery, GameWorld.Instance.Connection);
-            insertCommand.ExecuteNonQuery();
-            GameWorld.Instance.Connection.Close();
+            try
+            {
+                GameWorld.Instance.Connection.Open();
+                string insertQuery = "INSERT INTO Saves (Light, PlayerPosX, PlayerPosY) VALUES (2, 10, 50)";
+                SqlCommand insertCommand = new SqlCommand(insertQuery, GameWorld.Instance.Connection);
+                insertCommand.ExecuteNonQuery();
+                GameWorld.Instance.Connection.Close();
+            }
+            catch (Microsoft.Data.SqlClient.SqlException)
+            {
+                //in case the user does not have the database
+            }
         }
         #endregion
     }

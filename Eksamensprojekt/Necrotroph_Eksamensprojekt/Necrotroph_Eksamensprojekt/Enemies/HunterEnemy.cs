@@ -12,7 +12,7 @@ using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public class HunterEnemy : GameObject,IListener
+    public class HunterEnemy : GameObject, IListener
     {
         #region Fields
         private float speed = 50;
@@ -23,7 +23,7 @@ namespace Necrotroph_Eksamensprojekt
         #region Constructors
         public HunterEnemy(Vector2 position) : base(position)
         {
-
+            Player.Instance.Observer.AddListener(this);
         }
         #endregion
         #region Methods
@@ -54,16 +54,19 @@ namespace Necrotroph_Eksamensprojekt
         {
             if (otherObject == Player.Instance)
             {
-                Player.Instance.TakeDamage(20,EnemyType.Hunter);
+                Player.Instance.TakeDamage(20, EnemyType.Hunter);
             }
             base.OnCollision(otherObject);
         }
         public void HearFromObserver(IObserver observer)
         {
-            throw new NotImplementedException();
+            if (observer is DeathObserver)
+            {
+                ((Movable)GetComponent<Movable>()).StandStill = true;
+            }
         }
 
-        
+
         #endregion
     }
 }
