@@ -21,33 +21,37 @@ namespace Necrotroph_Eksamensprojekt.Components
 
         #endregion
         #region Properties
+        public bool StandStill { get; set; } = false;
         #endregion
         #region Constructors
         public Movable(GameObject gameObject) : base(gameObject)
         {
-            
+
         }
 
         #endregion
         #region Methods
         public void Move(Vector2 direction, float speed)
         {
-            if (direction != Vector2.Zero)
+            if (!StandStill)
             {
-                direction.Normalize();
+                if (direction != Vector2.Zero)
+                {
+                    direction.Normalize();
+                }
+
+                float deltaTime = (float)GameWorld.Time.ElapsedGameTime.TotalSeconds;
+
+                Vector2 change = ((direction * speed) * deltaTime);
+                gameObject.Transform.WorldPosition += change;
             }
-
-            float deltaTime = (float)GameWorld.Time.ElapsedGameTime.TotalSeconds;
-
-            Vector2 change = ((direction * speed) * deltaTime);
-            gameObject.Transform.WorldPosition += change;
         }
 
         public void Sprint(float speed)
         {
             Player.Instance.Speed = speed;
         }
-        
+
         #endregion
     }
 }

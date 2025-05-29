@@ -18,6 +18,9 @@ namespace Necrotroph_Eksamensprojekt.Factories
         private static Texture2D tree1;
         private static Texture2D tree2;
         private static Texture2D tree3;
+        private static Texture2D seeker1;
+        private static Texture2D seeker2;
+        private static Texture2D seeker3;
         private static Random rnd = new Random();
         #endregion
         #region Properties
@@ -30,24 +33,39 @@ namespace Necrotroph_Eksamensprojekt.Factories
             tree1 = content.Load<Texture2D>("TreeSprites/Tree1");
             tree2 = content.Load<Texture2D>("TreeSprites/Tree2");
             tree3 = content.Load<Texture2D>("TreeSprites/SmallTree");
+            seeker1 = content.Load<Texture2D>("TreeSprites/Tree1");
+            seeker2 = content.Load<Texture2D>("TreeSprites/Tree2");
+            seeker3 = content.Load<Texture2D>("TreeSprites/SmallTree");
         }
         public static Tree CreateTree(Vector2 position)
         {
             Tree newTree = new Tree(position);
+            newTree.AddComponent<Animator>();
             //randomly select sprite
             switch (rnd.Next(1, 4))
             {
                 case 1:
                     newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
+                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Normal", tree1);
+                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Seek", seeker1);
                     break;
                 case 2:
                     newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
+                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Normal", tree2);
+                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Seek", seeker2);
                     break;
                 case 3:
-                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(0.6f, 0.1f), new Vector2(0.6f, 0.95f));
+                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
+                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Normal", tree3);
+                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Seek", seeker3);
                     break;
             }
+            ((Animator)newTree.GetComponent<Animator>()).PlayAnimation("Normal");
             newTree.AddComponent<Collider>();
+            if (Tree.HasEyes)
+            {
+                ((Animator)newTree.GetComponent<Animator>()).PlayAnimation("Seek");
+            }
             return newTree;
         }
         #endregion
