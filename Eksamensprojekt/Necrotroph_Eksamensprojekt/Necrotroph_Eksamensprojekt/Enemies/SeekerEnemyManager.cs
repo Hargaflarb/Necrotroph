@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.ObjectPools;
+using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt.Enemies
 {

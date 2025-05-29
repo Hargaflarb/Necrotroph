@@ -12,10 +12,11 @@ using Necrotroph_Eksamensprojekt.Enemies;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.ObjectPools;
+using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public class GameWorld : Game
+    public class GameWorld : Game, IListener
     {
         #region Fields
         private GraphicsDeviceManager _graphics;
@@ -28,7 +29,6 @@ namespace Necrotroph_Eksamensprojekt
         private int itemsCollected;
         private static GameWorld instance;
         private bool gameWon = false;
-
         #endregion
         #region Properties
         public static GameTime Time { get; private set; }
@@ -86,6 +86,8 @@ namespace Necrotroph_Eksamensprojekt
             activeGameObjects = new List<GameObject>();
 
             AddPlayer(Vector2.Zero);
+            Player.Instance.Observer = new DeathObserver();
+            Player.Instance.Observer.AddListener(this);
             //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
             Map.GenerateMap();
 
@@ -122,9 +124,8 @@ namespace Necrotroph_Eksamensprojekt
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-200, 0)));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(600, 0)));
 
-
-
-            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2 (50, 50), 1f));
+            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2(50, 50), 1f));
+            
 
             ShaderManager.SetSprite();
         }
@@ -187,9 +188,9 @@ namespace Necrotroph_Eksamensprojekt
                     uiObject.Draw(_spriteBatch);
                 }
             }
-//#if !DEBUG
+            //#if !DEBUG
             ShaderManager.Draw(_spriteBatch);
-//#endif
+            //#endif
             _spriteBatch.End();
             base.Draw(gameTime);
 
@@ -300,8 +301,14 @@ namespace Necrotroph_Eksamensprojekt
                 gameWon = true;
                 string win = "You win";
 
-                UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return win; }, Color.White, new Vector2 (ScreenSize.X / 2, ScreenSize.Y / 2), 2f));
+                UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return win; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 2f));
             }
+        }
+
+        public void HearFromObserver(IObserver observer)
+        {
+            //currently appears under the shader :/
+            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, new Vector2(screenSize.X / 2, screenSize.Y / 2), 2f));
         }
 
         #endregion
