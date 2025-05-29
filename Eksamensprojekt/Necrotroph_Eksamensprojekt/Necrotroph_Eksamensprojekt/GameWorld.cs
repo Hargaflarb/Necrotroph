@@ -326,24 +326,31 @@ namespace Necrotroph_Eksamensprojekt
         }
         public void DataBaseTest()
         {
-            Connection.Open();
-            //string insertQuery = "INSERT INTO Saves (SaveID, Light, PlayerPosX, PlayerPosY) VALUES (1, 2, 10, 50)";
-            //SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
-            //insertCommand.ExecuteNonQuery();
-
-            SqlCommand selectCommand = new SqlCommand("SELECT SaveID, Light FROM Saves", Connection);
-            SqlDataReader reader = selectCommand.ExecuteReader();
-            string test = "eh";
-
-            while (reader.Read())
+            try
             {
-                int saveID = reader.GetInt32(1);
-                test = $"{saveID}";
+                Connection.Open();
+                //string insertQuery = "INSERT INTO Saves (SaveID, Light, PlayerPosX, PlayerPosY) VALUES (1, 2, 10, 50)";
+                //SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
+                //insertCommand.ExecuteNonQuery();
+
+                SqlCommand selectCommand = new SqlCommand("SELECT SaveID, Light FROM Saves", Connection);
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                string test = "eh";
+
+                while (reader.Read())
+                {
+                    int saveID = reader.GetInt32(1);
+                    test = $"{saveID}";
+                }
+                reader.Close();
+
+                UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return test; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 1f));
+                Connection.Close();
             }
-            reader.Close();
-            
-            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return test; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 1f));
-            Connection.Close();
+            catch(Microsoft.Data.SqlClient.SqlException)
+            {
+                //in case the user does not have the database
+            }
         }
 
         #endregion
