@@ -20,12 +20,33 @@ namespace Necrotroph_Eksamensprojekt.Components
         private Texture2D sprite;
         private Color colour = Color.White;
         private Vector2 origin;
-        private bool flipped = false;
+        private SpriteEffects flipped = SpriteEffects.None;
         #endregion
         #region Properties
         public Texture2D Sprite { get => sprite; set => sprite = value; }
         public Color Colour { get => colour; set => colour = value; }
-        public bool Flipped { get => flipped; set => flipped = value; }
+        public bool Flipped 
+        {
+            set
+            {
+                if (value)
+                {
+                    flipped = SpriteEffects.FlipHorizontally;
+                }
+                else
+                {
+                    flipped = SpriteEffects.None;
+                }
+            }
+        }
+        public float Layer 
+        {
+            get
+            {
+                return MathF.Min((gameObject.Transform.ScreenPosition.Y / GameWorld.ScreenSize.Y) * 0.9f, 0.9f);
+            }
+        }
+
         #endregion
         #region Constructors
         /// <summary>
@@ -55,6 +76,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
+
         #endregion
         #region Methods
 
@@ -65,14 +87,7 @@ namespace Necrotroph_Eksamensprojekt.Components
                 return;
             }
 
-            if (!flipped)
-            {
-                spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, gameObject.Transform.ScreenPosition.Y / GameWorld.ScreenSize.Y);
-            }
-            else
-            {
-                spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.FlipHorizontally, gameObject.Transform.ScreenPosition.Y / GameWorld.ScreenSize.Y);
-            }
+            spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, flipped, Layer);
         }
         #endregion
     }
