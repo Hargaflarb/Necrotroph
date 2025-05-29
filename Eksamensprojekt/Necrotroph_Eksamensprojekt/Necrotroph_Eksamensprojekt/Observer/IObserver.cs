@@ -17,11 +17,7 @@ namespace Necrotroph_Eksamensprojekt.Observer
 {
     public interface IObserver
     {
-        #region Fields
-        #endregion
         #region Properties
-        #endregion
-        #region Constructors
         #endregion
         #region Methods
         public void Update();

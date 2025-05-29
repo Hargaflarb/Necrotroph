@@ -134,7 +134,6 @@ namespace Necrotroph_Eksamensprojekt
                 GameState = gameState;
                 GameState.Enter();
             }
-            gameObjectsToRemove.Clear();
         }
         
         

@@ -54,7 +54,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             speed = 300;
             life = maxLife;
-            
         }
         #endregion
         #region Methods
@@ -78,12 +77,12 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                     PlayerDeath(source);
                 }
                 life -= damage;
-                ((LightEmitter)GetComponent<LightEmitter>()).LightRadius = ((float)life / 500f)+0.01f;
+                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f)+0.01f;
                 TimeLineManager.AddEvent(invincibilityTime * 1000, UndoInvincibility);
                 if (life <= 0)
                 {
                     lightOn = false;
-                    ((LightEmitter)GetComponent<LightEmitter>()).LightRadius = 0;
+                    GetComponent<LightEmitter>().LightRadius = 0;
                 }
             }
         }
@@ -98,7 +97,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         public void PlayerDeath(EnemyType source)
         {
             NotifyObserver();
-            ((Movable)GetComponent<Movable>()).StandStill = true;
+            GetComponent<Movable>().StandStill = true;
         }
 
         public void AttachObserver(IObserver observer)

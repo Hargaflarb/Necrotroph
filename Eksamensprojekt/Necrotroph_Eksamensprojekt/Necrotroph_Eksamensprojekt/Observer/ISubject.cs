@@ -8,11 +8,7 @@ namespace Necrotroph_Eksamensprojekt.Observer
 {
     public interface ISubject
     {
-        #region Fields
-        #endregion
         #region Properties
-        #endregion
-        #region Constructors
         #endregion
         #region Methods
         public void AttachObserver(IObserver observer);
