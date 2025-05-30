@@ -61,6 +61,12 @@
 /processorParam:DebugMode=Auto
 /build:LightingShader.fx
 
+#begin LightOverlay.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:LightOverlay.fx
+
 #begin memory.png
 /importer:TextureImporter
 /processor:TextureProcessor

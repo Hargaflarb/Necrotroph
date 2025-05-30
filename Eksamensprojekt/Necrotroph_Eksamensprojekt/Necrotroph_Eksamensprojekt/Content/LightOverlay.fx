@@ -26,14 +26,8 @@ struct VertexShaderOutput
 	float2 TextureCoordinates : TEXCOORD0;
 };
 
-float2 AdjustForAspectRatio(float2 position)
-{
-    return float2(position.x, position.y * aspectRatio);
-}
-
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-    float isInShadow = tex2D(SpriteTextureSampler, input.TextureCoordinates).a;
     float4 pixelColor = float4(0,0,0,1);
     
     float2 pixelPosition = input.TextureCoordinates;
@@ -44,8 +38,6 @@ float4 MainPS(VertexShaderOutput input) : COLOR
     pixelColor.a -= 1 - clamp((distance - (lightRadius - fadeLength)) * resizer, 0.0, 1.0);
     
     pixelColor.a = 1 - pixelColor.a;
-    
-    pixelColor.a -= isInShadow;
 
     return pixelColor;
 }
