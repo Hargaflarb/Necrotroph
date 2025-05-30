@@ -9,10 +9,10 @@
 
 Texture2D SpriteTexture;
 
-static const float aspectRatio = 9.0 / 16.0;
 static const float fadeLength = 0.15;
 static const float resizer = 1.0 / fadeLength;
-
+static const float Pi = 3.14159265359;
+static const float toRadians = 6.28318530718;
 
 sampler2D SpriteTextureSampler = sampler_state
 {
@@ -26,26 +26,30 @@ struct VertexShaderOutput
 	float2 TextureCoordinates : TEXCOORD0;
 };
 
-float2 AdjustForAspectRatio(float2 position)
+float IsInShadow(float2 dif, float1 offset, float1 upper)
 {
-    return float2(position.x, position.y * aspectRatio);
+    float Pa = atan2(dif.y, dif.x) + offset;
+    return step((abs(upper - Pa) + abs(Pa)), upper);
 }
+
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-    float isInShadow = tex2D(SpriteTextureSampler, input.TextureCoordinates).a;
-    float4 pixelColor = float4(0,0,0,1);
+    float4 pixelColor = tex2D(SpriteTextureSampler, input.TextureCoordinates);
     
     float2 pixelPosition = input.TextureCoordinates;
     float2 lightPosition = float2(0.5, 0.5);
-    float1 lightRadius = float1(0.5);
+    float1 upperAngle = input.Color.x * toRadians;
+    float1 angleOffset = (input.Color.y - 0.5) * toRadians;
+    float1 casterDistance = input.Color.z;
     
-    float distance = length(pixelPosition - lightPosition);
-    pixelColor.a -= 1 - clamp((distance - (lightRadius - fadeLength)) * resizer, 0.0, 1.0);
+    pixelColor.a = 0;
     
-    pixelColor.a = 1 - pixelColor.a;
+    //float2 dif = AdjustForAspectRatio(pixelPosition - lightPosition);
+    float2 dif = pixelPosition - lightPosition;
+    float pixelDistance = length(dif);
+    pixelColor.a += IsInShadow(dif, angleOffset, upperAngle) * step(casterDistance, pixelDistance);
     
-    pixelColor.a -= isInShadow;
 
     return pixelColor;
 }

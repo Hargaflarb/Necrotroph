@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
+    /// <summary>
+    /// Same as GameObject but specifically for things to do with the UI
+    /// </summary>
     public abstract class UIObject
     {
         #region Fields
@@ -24,6 +27,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             components = new List<Component>();
             Transform = new UITransform(position);
         }
+
         #endregion
         #region Methods
         public T AddComponent<T>(params object[] additionalParameters) where T : Component

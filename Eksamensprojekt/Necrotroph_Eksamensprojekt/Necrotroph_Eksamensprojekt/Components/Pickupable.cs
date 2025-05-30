@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.Menu;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
@@ -23,7 +24,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Methods
         public void RemoveObject()
         {
-            GameWorld.Instance.RemoveObject(gameObject);
+            InGame.Instance.RemoveObject(gameObject);
         }
         #endregion
     }

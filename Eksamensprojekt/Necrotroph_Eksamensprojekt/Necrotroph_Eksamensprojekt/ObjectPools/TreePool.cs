@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.Factories;
+using Necrotroph_Eksamensprojekt.Components;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Necrotroph_Eksamensprojekt.ObjectPools
 {
@@ -40,6 +42,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         {
             Tree newTree = TreeFactory.CreateTree(position);
             Active.Add(newTree);
+            
             return newTree;
         }
 
@@ -57,7 +60,15 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
                 Active.Add(selected);
                 selected.Transform.WorldPosition = position;
                 selected.Active = true;
-                return selected;
+                if (Tree.HasEyes)
+                {
+                    selected.GetComponent<Animator>().PlayAnimation("Seek");
+                }
+                else
+                {
+                    selected.GetComponent<Animator>().PlayAnimation("Normal");
+                }
+                    return selected;
             }
             else
             {
@@ -78,6 +89,15 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
                 Inactive.Add(obj);
                 obj.Active = false;
             }
+        }
+
+
+        public List<Tree> GetAllTree()
+        {
+            List<Tree> trees = new List<Tree>();
+            trees.Concat(Active);
+            trees.Concat(Inactive);
+            return trees;
         }
         #endregion
     }

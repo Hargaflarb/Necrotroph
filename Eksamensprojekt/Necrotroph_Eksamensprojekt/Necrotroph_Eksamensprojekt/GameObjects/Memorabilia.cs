@@ -1,4 +1,5 @@
 ﻿using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,15 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             AddComponent<LightEmitter>(0.05f);
             Transform.WorldPosition = position;
         }
-
+        /// <summary>
+        /// Runs the collision and updates ItemsCollected
+        /// </summary>
+        /// <param name="otherObject"></param>
         public override void OnCollision(GameObject otherObject)
         {
             if (otherObject is Player)
             {
-                GameWorld.Instance.ItemsCollected++;
+                InGame.Instance.ItemsCollected++;
                 this.GetComponent<Pickupable>().RemoveObject();
                 base.OnCollision(otherObject);
 

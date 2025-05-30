@@ -20,12 +20,33 @@ namespace Necrotroph_Eksamensprojekt.Components
         private Texture2D sprite;
         private Color colour = Color.White;
         private Vector2 origin;
-        private bool flipped = false;
+        private SpriteEffects flipped = SpriteEffects.None;
         #endregion
         #region Properties
         public Texture2D Sprite { get => sprite; set => sprite = value; }
         public Color Colour { get => colour; set => colour = value; }
-        public bool Flipped { get => flipped; set => flipped = value; }
+        public bool Flipped 
+        {
+            set
+            {
+                if (value)
+                {
+                    flipped = SpriteEffects.FlipHorizontally;
+                }
+                else
+                {
+                    flipped = SpriteEffects.None;
+                }
+            }
+        }
+        public float Layer 
+        {
+            get
+            {
+                return MathF.Min((gameObject.Transform.ScreenPosition.Y / GameWorld.ScreenSize.Y) * 0.9f, 0.9f);
+            }
+        }
+
         #endregion
         #region Constructors
         /// <summary>
@@ -41,11 +62,11 @@ namespace Necrotroph_Eksamensprojekt.Components
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
-        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer, Vector2 hitboxSizeScale) : base(gameObject)
+        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer, Vector2 hitboxSizeScale, Vector2 originPlacement) : base(gameObject)
         {
             this.sprite = sprite;
             this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2() * hitboxSizeScale;
-            origin = new Vector2(sprite.Width / 2, sprite.Height - (this.gameObject.Transform.Size.Y / 2));
+            this.origin = new Vector2(sprite.Width * originPlacement.X, sprite.Height * originPlacement.Y);
         }
 
         public SpriteRenderer(GameObject gameObject, float layer) : base(gameObject)
@@ -54,6 +75,7 @@ namespace Necrotroph_Eksamensprojekt.Components
             //this.gameObject.Transform.Size = hitboxSize;
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
+
 
         #endregion
         #region Methods
@@ -65,14 +87,7 @@ namespace Necrotroph_Eksamensprojekt.Components
                 return;
             }
 
-            if (!flipped)
-            {
-                spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
-            }
-            else 
-            {
-                spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, SpriteEffects.FlipHorizontally, 0);
-            }
+            spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, flipped, Layer);
         }
         #endregion
     }

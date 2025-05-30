@@ -8,21 +8,23 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public class HunterEnemy : GameObject
+    public class HunterEnemy : GameObject, IListener
     {
         #region Fields
         private float speed = 50;
         private bool facingLeft = true;
+        private int damage = 30;
         #endregion
         #region Properties
         #endregion
         #region Constructors
         public HunterEnemy(Vector2 position) : base(position)
         {
-
+            Player.Instance.Observer.AddListener(this);
         }
         #endregion
         #region Methods
@@ -40,14 +42,33 @@ namespace Necrotroph_Eksamensprojekt
                 GetComponent<SpriteRenderer>().Flipped = false;
                 facingLeft = true;
             }
-            double remap = Math.Atan2(direction.Y, direction.X);
-            float XDirection = (float)Math.Cos(remap);
-            float YDirection = (float)Math.Sin(remap);
-            direction = new Vector2(XDirection, YDirection);
+            //double remap = Math.Atan2(direction.Y, direction.X);
+            //float XDirection = (float)Math.Cos(remap);
+            //float YDirection = (float)Math.Sin(remap);
+            //direction = new Vector2(XDirection, YDirection);
             direction.Normalize();
-            ((Movable)GetComponent<Movable>()).Move(direction, speed);
+            GetComponent<Movable>().Move(direction, speed);
             base.Update(gameTime);
         }
+
+        public override void OnCollision(GameObject otherObject)
+        {
+            if (otherObject == Player.Instance)
+            {
+                Player.Instance.TakeDamage(damage, EnemyType.Hunter);
+            }
+            base.OnCollision(otherObject);
+        }
+
+        public void HearFromObserver(IObserver observer)
+        {
+            if (observer is DeathObserver)
+            {
+                GetComponent<Movable>().StandStill = true;
+            }
+        }
+
+
         #endregion
     }
 }
