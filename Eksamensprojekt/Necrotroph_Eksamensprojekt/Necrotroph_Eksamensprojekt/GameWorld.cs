@@ -74,18 +74,14 @@ namespace Necrotroph_Eksamensprojekt
 
         protected override void Initialize()
         {
-            Graphics.PreferredBackBufferHeight = 1080;
-            Graphics.PreferredBackBufferWidth = 1920;
-            //Graphics.IsFullScreen = true;
-            Graphics.ApplyChanges();
-            ScreenSize = new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
-            
-            ConnectionString =
-                "Server = localhost\\SQLEXPRESS; Database = GhostGame; Trusted_Connection = True; TrustServerCertificate = True";
-            Connection = new SqlConnection(ConnectionString);
-            
-            GameState.Initialize();
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.ApplyChanges();
 
+
+            ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            
+            
             base.Initialize();
         }
 
@@ -98,10 +94,9 @@ namespace Necrotroph_Eksamensprojekt
             TreeFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
+            LightEmitter.ShaderShadowEffect = Content.Load<Effect>("ShadowShader");
 
-            //DataBaseTest();
-
-            SaveManager.Execute();
+            ShaderManager.SetSprite();
             
             GameState.LoadContent();
         }
@@ -134,7 +129,6 @@ namespace Necrotroph_Eksamensprojekt
                 GameState = gameState;
                 GameState.Enter();
             }
-           
         }
         #endregion
     }

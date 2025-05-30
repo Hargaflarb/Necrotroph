@@ -166,7 +166,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
                 }
             }
 
-#if !DEBUG
+#if DEBUG
             ShaderManager.Draw(_spriteBatch);
 #endif
 
@@ -274,24 +274,39 @@ namespace Necrotroph_Eksamensprojekt.Menu
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, GameWorld.ScreenSize/2, 2f));
         }
 
-        public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
+        public List<(LightEmitter lightEmitters, List<ShadowInterval> shadowIntervals)> GetShaderData()
         {
             List<LightEmitter> lightEmitters = new List<LightEmitter>();
-            List<ShadowInterval> shadowCasters = new List<ShadowInterval>();
+            List<ShadowCaster> shadowCasters = new List<ShadowCaster>();
+            List<(LightEmitter lightEmitters, List<ShadowInterval> shadowIntervals)> shadows = new List<(LightEmitter lightEmitters, List<ShadowInterval> shadowIntervals)>();
             foreach (GameObject gameObject in activeGameObjects)
             {
-                Component shaderComponent;
-                if ((shaderComponent = gameObject.GetComponent<LightEmitter>()) is not null)
+                Component component;
+                if ((component = gameObject.GetComponent<LightEmitter>()) is not null)
                 {
-                    lightEmitters.Add((LightEmitter)shaderComponent);
+                    lightEmitters.Add((LightEmitter)component);
                 }
-                //else if ((shaderComponent = gameObject.GetComponent<ShadowCaster>()) is not null)
+                else if ((component = gameObject.GetComponent<ShadowCaster>()) is not null)
                 {
+                    shadowCasters.Add((ShadowCaster)component);
+                }
 
-                    //shadowCasters.Add((ShadowInterval)shaderComponent);
-                }
             }
-            return (lightEmitters, shadowCasters);
+
+            foreach (LightEmitter light in lightEmitters)
+            {
+                List<ShadowInterval> shadowIntervals = new List<ShadowInterval>();
+                foreach (ShadowCaster shadowCaster in shadowCasters)
+                {
+                    if ((shadowCaster.GameObject.Transform.WorldPosition - light.GameObject.Transform.WorldPosition).Length() < light.LightRadius * GameWorld.ScreenSize.X)
+                    {
+                        shadowIntervals.Add(new ShadowInterval(shadowCaster, light));
+                    }
+                }
+                shadows.Add((light, shadowIntervals));
+            }
+
+            return shadows;
         }
 
         public void CheckForWin()

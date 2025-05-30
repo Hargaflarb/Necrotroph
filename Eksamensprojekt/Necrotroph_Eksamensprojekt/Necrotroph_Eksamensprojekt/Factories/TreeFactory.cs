@@ -44,18 +44,21 @@ namespace Necrotroph_Eksamensprojekt.Factories
             //randomly select sprite
             switch (rnd.Next(1, 4))
             {
-                case 1:
-                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
+                case 1: //big 1
+                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.5f, 0.15f), new Vector2(0.55f, 0.85f));
+                    newTree.AddComponent<ShadowCaster>(100);
                     animator.AddAnimation("Normal", tree1);
                     animator.AddAnimation("Seek", seeker1);
                     break;
-                case 2:
-                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
+                case 2: //big 2
+                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(0.5f, 0.15f), new Vector2(0.55f, 0.85f));
+                    newTree.AddComponent<ShadowCaster>(100);
                     animator.AddAnimation("Normal", tree2);
                     animator.AddAnimation("Seek", seeker2);
                     break;
-                case 3:
-                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
+                case 3: //small
+                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(0.5f, 0.1f), new Vector2(0.5f, 0.95f));
+                    newTree.AddComponent<ShadowCaster>(20);
                     animator.AddAnimation("Normal", tree3);
                     animator.AddAnimation("Seek", seeker3);
                     break;
