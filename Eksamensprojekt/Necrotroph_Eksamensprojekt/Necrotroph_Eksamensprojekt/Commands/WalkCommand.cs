@@ -11,7 +11,7 @@ using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
-    public class WalkCommand: ICommand
+    public class WalkCommand : ICommand
     {
         #region Fields
         private Player player;
@@ -30,12 +30,16 @@ namespace Necrotroph_Eksamensprojekt.Commands
 
         public void Execute()
         {
-            ((Movable)Player.Instance.GetComponent<Movable>()).Move(direction,Player.Instance.Speed);
+            ((Movable)Player.Instance.GetComponent<Movable>()).Move(direction, Player.Instance.Speed);
+            Player.Instance.Direction = direction;
         }
 
         public void Undo()
         {
-            
+            if (Player.Instance.Direction == direction)
+            {
+                Player.Instance.Direction = Vector2.Zero;
+            }
         }
         #endregion
     }

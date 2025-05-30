@@ -3,79 +3,73 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
-using Necrotroph_Eksamensprojekt.Enemies;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
-using Necrotroph_Eksamensprojekt.Menu;
 using Necrotroph_Eksamensprojekt.ObjectPools;
 using Necrotroph_Eksamensprojekt.Observer;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.Menu
 {
-    public class GameWorld : Game
+    public class InGame : GameState, IListener
     {
-        #region Fields
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private static Vector2 screenSize;
-        private static GameWorld instance;
-        
-        private static GameState gameState;
-        private static GameState gameStateToChangeTo;
+        private List<UIObject> uIObjects;
 
-
+        private List<GameObject> gameObjectsToAdd;
+        private List<GameObject> activeGameObjects;
+        private List<GameObject> gameObjectsToRemove;
+        private Vector2 previousPlayerPosition;
+        private int itemsCollected;
         private bool gameWon = false;
-        private string connectionString;
-        private SqlConnection connection;
 
-        #endregion
-        #region Properties
-        public static GameWorld Instance
+
+
+
+        private static InGame instance;
+        public static InGame Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new GameWorld();
+                    instance = new InGame();
                 }
                 return instance;
             }
         }
-
-        public static GameTime Time { get; private set; }
-        public static Vector2 ScreenSize { get => screenSize; set => screenSize = value; }
-        public GraphicsDeviceManager Graphics { get => _graphics; private set => _graphics = value; }
-        public SpriteBatch SpriteBatch { get => _spriteBatch; private set => _spriteBatch = value; }
-        public static GameState GameState { get => gameState; set => gameState = value; }
-        public static GameState GameStateToChangeTo { get => gameStateToChangeTo; set => gameStateToChangeTo = value; }
-
-        #endregion
-        #region Constructors
-        private GameWorld()
+        private InGame()
         {
-            Graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
-            GameState = MainMenu.Instance;
+            uIObjects = new List<UIObject>();
         }
 
-        #endregion
-        #region Methods
 
-        protected override void Initialize()
+        public int ItemsCollected
         {
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.ApplyChanges();
+            get => itemsCollected;
+            set
+            {
+                if (value <= 0)
+                {
+                    itemsCollected = 0;
+                }
+                else if (value >= 5)
+                {
+                    itemsCollected = 5;
+                }
+                else
+                {
+                    itemsCollected = value;
+                }
+            }
+        }
 
 
-            ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+        public override void Initialize()
+        {
             gameObjectsToAdd = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
@@ -83,7 +77,6 @@ namespace Necrotroph_Eksamensprojekt
             AddPlayer(Vector2.Zero);
             //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
             Map.GenerateMap();
-
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
@@ -93,30 +86,11 @@ namespace Necrotroph_Eksamensprojekt
             InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
             InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
             
-            Graphics.PreferredBackBufferHeight = 1080;
-            Graphics.PreferredBackBufferWidth = 1920;
-            //Graphics.IsFullScreen = true;
-            Graphics.ApplyChanges();
-            ScreenSize = new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
-            
-            GameState.Initialize();
-
-            InputHandler.AddPressedKeyCommand(Keys.J, new SaveCommand());
-            InputHandler.AddPressedKeyCommand(Keys.L, new LoadCommand());
-
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        public override void LoadContent()
         {
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
-
-            GameObject.Pixel = Content.Load<Texture2D>("resd");
-            EnemyFactory.LoadContent(Content);
-            TreeFactory.LoadContent(Content);
-            MemorabiliaFactory.LoadContent(Content);
-            TextFactory.LoadContent(Content);
-
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(500, 0)));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
@@ -125,40 +99,96 @@ namespace Necrotroph_Eksamensprojekt
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(600, 0)));
 
 
-            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2 (50, 50), 1f));
+            UIManager.AddUIObject(new UIButton(new Vector2(1000,200), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
+            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2(50, 50), 1f));
 
             ShaderManager.SetSprite();
-            
-            GameState.LoadContent();
+
+            base.LoadContent();
         }
 
-        protected override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            Time = gameTime;
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            InputHandler.HandleInput();
 
-            SeekerEnemyManager.Update();
-            GameState.Update(gameTime);
-
-            ChangeGameState(GameStateToChangeTo);
-
-            base.Update(gameTime);
-        }
-
-        protected override void Draw(GameTime gameTime)
-        {
-            GameState.Draw(gameTime);
-            base.Draw(gameTime);
-        }
-
-        private void ChangeGameState(GameState gameState)
-        {
-            if (gameState is not null & gameState != GameState)
+            foreach (GameObject gameObject in activeGameObjects)
             {
-                GameState.Exit();
-                GameState = gameState;
-                GameState.Enter();
+                if (gameObject.Active)
+                {
+                    gameObject.Update(gameTime);
+                }
+            }
+
+            foreach (UIObject uiObject in UIManager.ActiveUIObjects)
+            {
+                if (uiObject.Active)
+                {
+                    uiObject.Update(gameTime);
+                }
+            }
+            TimeLineManager.Update(gameTime);
+            CheckCollision();
+
+
+            Map.CheckForObejctsToLoad();
+            Map.CheckForObjectsToUnload();
+            AddAndRemoveGameObjects();
+            UIManager.AddAndRemoveUIObjects();
+            CheckForWin();
+
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            ShaderManager.PrepareShadows(_spriteBatch);
+
+            GraphicsDevice.Clear(Color.DarkGreen);
+
+            //Higher layer numbers are closer, lower are further away
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
+            foreach (GameObject gameObject in activeGameObjects)
+            {
+                if (gameObject.Active)
+                {
+                    gameObject.Draw(_spriteBatch);
+                }
+            }
+
+            foreach (UIObject uiObject in UIManager.ActiveUIObjects)
+            {
+                if (uiObject.Active)
+                {
+                    uiObject.Draw(_spriteBatch);
+                }
+            }
+
+#if !DEBUG
+            ShaderManager.Draw(_spriteBatch);
+#endif
+
+            _spriteBatch.End();
+
+        }
+
+        public override void Enter()
+        {
+            UIManager.UIObjectsToAdd.AddRange(uIObjects);
+            uIObjects.Clear();
+            base.Enter();
+        }
+
+        public override void Exit()
+        {
+            uIObjects.AddRange(UIManager.ClearUIObjects());
+            base.Exit();
+        }
+
+        public void AddAndRemoveGameObjects()
+        {
+            foreach (GameObject gameObject in gameObjectsToAdd)
+            {
+                gameObject.Start();
+                activeGameObjects.Add(gameObject);
             }
             gameObjectsToAdd.Clear();
             foreach (GameObject gameObject in gameObjectsToRemove)
@@ -189,6 +219,8 @@ namespace Necrotroph_Eksamensprojekt
 
         }
 
+
+
         /// <summary>
         /// Adds object to the gameworld during next update
         /// </summary>
@@ -218,15 +250,25 @@ namespace Necrotroph_Eksamensprojekt
             newPlayer.AddComponent<Animator>();
             newPlayer.AddComponent<LightEmitter>(0.2f);
             //remember to add more animations
-            (newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
-            (newPlayer.GetComponent<Animator>()).AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
-            (newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
-            (newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
-            (newPlayer.GetComponent<Animator>()).PlayAnimation("IdleDownLightOn");
-            newPlayer.Transform.Scale = 0.25f;
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
+            newPlayer.GetComponent<Animator>().PlayAnimation("IdleDownLightOn");
+            newPlayer.Transform.Scale = 0.3f;
+
+            newPlayer.Observer = new DeathObserver();
+            newPlayer.Observer.AddListener(this);
+
             AddObject(newPlayer);
         }
 
+
+        public void HearFromObserver(IObserver observer)
+        {
+            //currently appears under the shader :/
+            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, GameWorld.ScreenSize/2, 2f));
+        }
 
         public (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) GetShaderData()
         {
@@ -257,18 +299,9 @@ namespace Necrotroph_Eksamensprojekt
                 gameWon = true;
                 string win = "You win";
 
-                UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return win; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 2f));
+                UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return win; }, Color.White, new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2), 2f));
             }
         }
 
-        public void HearFromObserver(IObserver observer)
-        {
-            //currently appears under the shader :/
-            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, new Vector2(screenSize.X / 2, screenSize.Y / 2), 2f));
-        }
-        
-        #endregion
     }
 }
-
-

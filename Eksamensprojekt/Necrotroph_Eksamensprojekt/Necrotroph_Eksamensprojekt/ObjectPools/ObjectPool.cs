@@ -1,4 +1,5 @@
 ﻿using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
             {
                 Active.Remove(obj);
                 Inactive.Add(obj);
-                GameWorld.Instance.RemoveObject(obj);
+                InGame.Instance.RemoveObject(obj);
                 Map.TryAddObjectToMap(obj);
                 obj.Active = false;
             }

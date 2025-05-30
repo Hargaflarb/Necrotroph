@@ -60,6 +60,17 @@ namespace Necrotroph_Eksamensprojekt
             }
             uiObjectsToRemove.Clear();
         }
+
+        /// <summary>
+        /// Clears the UIObjects. only run outside of updates.
+        /// </summary>
+        /// <returns>returns the removed objects.</returns>
+        public static List<UIObject> ClearUIObjects()
+        {
+            List<UIObject> removedObjects = activeUIObjects.ToList();
+            activeUIObjects.Clear();
+            return removedObjects;
+        }
         #endregion
     }
 }

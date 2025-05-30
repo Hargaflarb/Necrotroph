@@ -1,4 +1,5 @@
 ﻿using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,12 +56,6 @@ namespace Necrotroph_Eksamensprojekt
 
 
             //Vector2[] hi = new Vector2[] { GameWorld.Instance.PlayerObject.Transform.Position / GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Size.ToVector2(), new Vector2(0.4f, 0.4f), Vector2.One * 2, Vector2.One * 2, new Vector2(0.1f, 0.7f) };
-            //float[] bye = new float[hi.Length * 2];
-            //for (int i = 0; i < hi.Length; i++)
-            //{
-            //    bye[i * 2] = hi[i].X;
-            //    bye[i * 2 + 1] = hi[i].Y;
-            //}
             //shaderEffect.Parameters["lightPositions"].SetValue(hi);
             //shaderEffect.Parameters["lightRadius"].SetValue(0.15f);
 
@@ -75,7 +70,7 @@ namespace Necrotroph_Eksamensprojekt
 
 
 
-            (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) components = GameWorld.Instance.GetShaderData();
+            (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) components = InGame.Instance.GetShaderData();
 
             GameWorld.Instance.GraphicsDevice.SetRenderTarget(LightTarget);
             GameWorld.Instance.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
@@ -115,13 +110,7 @@ namespace Necrotroph_Eksamensprojekt
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            //GameWorld.Instance.GraphicsDevice.SetRenderTarget(LightTarget);
-            //GameWorld.Instance.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
-
-            //spriteBatch.Begin(blendState: BlendState.Additive, effect: InvertAplha);
-            spriteBatch.Draw(FinalLightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
-            //spriteBatch.End();
-
+            spriteBatch.Draw(FinalLightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 0.95f);
         }
 
     }

@@ -71,10 +71,6 @@ namespace Necrotroph_Eksamensprojekt
                 HunterEnemy.Instance.Transform.WorldPosition = new Vector2((float)reader.GetDouble(3), (float)reader.GetDouble(4));
             }
             reader.Close();
-            
-            
-
-            //UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return test; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 1f));
             Connection.Close();
         }
         #endregion

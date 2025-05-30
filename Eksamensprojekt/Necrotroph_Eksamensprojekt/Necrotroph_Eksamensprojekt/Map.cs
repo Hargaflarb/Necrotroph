@@ -11,12 +11,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.CodeDom;
 using System.Security.Cryptography;
+using Necrotroph_Eksamensprojekt.Menu;
 
 namespace Necrotroph_Eksamensprojekt
 {
     public static class Map
     {
-        private const float treeSpacing = 550;
+        private const float treeSpacing = 800;
         private static Random random;
         private static readonly Vector2 size;
         private static readonly Vector2 loadBound;
@@ -43,7 +44,7 @@ namespace Necrotroph_Eksamensprojekt
                 Vector2 dif = mapObject.position - Player.Instance.Transform.WorldPosition;
                 if (MathF.Abs(dif.X) < loadBound.X & MathF.Abs(dif.Y) < loadBound.Y)
                 {
-                    GameWorld.Instance.AddObject(mapObject.poolType.GetObject(mapObject.position));
+                    InGame.Instance.AddObject(mapObject.poolType.GetObject(mapObject.position));
                     unloadedMapObjects.Remove(mapObject);
                 }
 
@@ -92,7 +93,7 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
             CheckForObjectsToUnload();
-            GameWorld.Instance.AddAndRemoveGameObjects();
+            InGame.Instance.AddAndRemoveGameObjects();
         }
     }
 }
