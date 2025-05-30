@@ -42,11 +42,11 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             if (HasEyes)
             {
-                ((Animator)GetComponent<Animator>()).PlayAnimation("Seek");
+                GetComponent<Animator>().PlayAnimation("Seek");
             }
             else
             {
-                ((Animator)GetComponent<Animator>()).PlayAnimation("Normal");
+                GetComponent<Animator>().PlayAnimation("Normal");
             }
         }
         #endregion

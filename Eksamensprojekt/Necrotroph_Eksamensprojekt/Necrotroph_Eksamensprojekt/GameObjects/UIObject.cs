@@ -27,6 +27,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             components = new List<Component>();
             Transform = new UITransform(position);
         }
+
         #endregion
         #region Methods
         public T AddComponent<T>(params object[] additionalParameters) where T : Component

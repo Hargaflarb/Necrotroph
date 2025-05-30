@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin butan.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:butan.png
+
 #begin darkshaddow.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -24,6 +36,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:darkshaddow.png
+
+#begin grass2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:grass2.png
 
 #begin HunterSprites/hunterSouthWest.png
 /importer:TextureImporter
@@ -48,6 +72,12 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:LightingShader.fx
+
+#begin LightOverlay.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:LightOverlay.fx
 
 #begin memory.png
 /importer:TextureImporter
@@ -132,6 +162,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:resd.png
+
+#begin ShadowShader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:ShadowShader.fx
 
 #begin textui.spritefont
 /importer:FontDescriptionImporter

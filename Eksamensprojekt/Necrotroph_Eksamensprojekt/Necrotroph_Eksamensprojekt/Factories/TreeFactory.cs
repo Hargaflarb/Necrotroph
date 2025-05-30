@@ -40,32 +40,38 @@ namespace Necrotroph_Eksamensprojekt.Factories
         public static Tree CreateTree(Vector2 position)
         {
             Tree newTree = new Tree(position);
-            newTree.AddComponent<Animator>();
+            Animator animator = newTree.AddComponent<Animator>();
             //randomly select sprite
             switch (rnd.Next(1, 4))
             {
-                case 1:
-                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
-                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Normal", tree1);
-                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Seek", seeker1);
+                case 1: //big 1
+                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
+                    newTree.AddComponent<ShadowCaster>(80);
+                    animator.AddAnimation("Normal", tree1);
+                    animator.AddAnimation("Seek", seeker1);
                     break;
-                case 2:
-                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
-                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Normal", tree2);
-                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Seek", seeker2);
+                case 2: //big 2
+                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
+                    newTree.AddComponent<ShadowCaster>(80);
+                    animator.AddAnimation("Normal", tree2);
+                    animator.AddAnimation("Seek", seeker2);
                     break;
-                case 3:
-                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(0.6f, 0.2f), new Vector2(0.6f, 0.9f));
-                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Normal", tree3);
-                    ((Animator)newTree.GetComponent<Animator>()).AddAnimation("Seek", seeker3);
+                case 3: //small
+                    newTree.AddComponent<SpriteRenderer>(tree3, 1f, new Vector2(0.5f, 0.1f), new Vector2(0.5f, 0.95f));
+                    newTree.AddComponent<ShadowCaster>(20);
+                    animator.AddAnimation("Normal", tree3);
+                    animator.AddAnimation("Seek", seeker3);
                     break;
             }
-            ((Animator)newTree.GetComponent<Animator>()).PlayAnimation("Normal");
-            newTree.AddComponent<Collider>();
             if (Tree.HasEyes)
             {
-                ((Animator)newTree.GetComponent<Animator>()).PlayAnimation("Seek");
+                animator.PlayAnimation("Seek");
             }
+            else
+            {
+                animator.PlayAnimation("Normal");
+            }
+            newTree.AddComponent<Collider>();
             return newTree;
         }
         #endregion

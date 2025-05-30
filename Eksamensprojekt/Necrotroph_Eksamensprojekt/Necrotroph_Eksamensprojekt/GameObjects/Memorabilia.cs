@@ -1,4 +1,5 @@
 ﻿using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             if (otherObject is Player)
             {
-                GameWorld.Instance.ItemsCollected++;
+                InGame.Instance.ItemsCollected++;
                 this.GetComponent<Pickupable>().RemoveObject();
                 base.OnCollision(otherObject);
 

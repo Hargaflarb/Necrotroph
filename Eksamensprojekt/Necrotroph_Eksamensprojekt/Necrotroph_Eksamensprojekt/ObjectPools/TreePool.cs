@@ -62,11 +62,11 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
                 selected.Active = true;
                 if (Tree.HasEyes)
                 {
-                    ((Animator)selected.GetComponent<Animator>()).PlayAnimation("Seek");
+                    selected.GetComponent<Animator>().PlayAnimation("Seek");
                 }
                 else
                 {
-                    ((Animator)selected.GetComponent<Animator>()).PlayAnimation("Normal");
+                    selected.GetComponent<Animator>().PlayAnimation("Normal");
                 }
                     return selected;
             }
@@ -89,6 +89,15 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
                 Inactive.Add(obj);
                 obj.Active = false;
             }
+        }
+
+
+        public List<Tree> GetAllTree()
+        {
+            List<Tree> trees = new List<Tree>();
+            trees.Concat(Active);
+            trees.Concat(Inactive);
+            return trees;
         }
         #endregion
     }

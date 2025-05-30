@@ -55,6 +55,7 @@ namespace Necrotroph_Eksamensprojekt.Enemies
             mainTimerID = TimeLineManager.AddEvent(huntTime * 1000, ReturnToNormal);
             //get SoundManager & increase player sounds, decrease ambience & enemy sounds
             walkTimerID = TimeLineManager.AddEvent(timeBeforeDeath * 1000, KillPlayer);
+            Hunt();
         }
         private static void Hunt()
         {
@@ -63,12 +64,12 @@ namespace Necrotroph_Eksamensprojekt.Enemies
                 float temp = TimeLineManager.GetTime(walkTimerID);
                 if (temp != -1)
                 {
-                    walkTime = temp/1000;
+                    walkTime = temp / 1000;
                     TimeLineManager.RemoveEvent(walkTimerID);
                     walkTimerID = 0;
                 }
             }
-            else if(walkTimerID==0)
+            else if (walkTimerID == 0 && Player.Instance.IsMoving)
             {
                 walkTimerID = TimeLineManager.AddEvent(walkTime * 1000, KillPlayer);
                 Debug.WriteLine(walkTime + " seconds left...");

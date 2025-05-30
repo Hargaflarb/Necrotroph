@@ -16,17 +16,19 @@ namespace Necrotroph_Eksamensprojekt.Components
     public class Movable : Component
     {
         #region Fields
+        private float speed;
+        private Vector2 direction;
+        private bool standStill = false;
 
         #endregion
         #region Properties
-        public bool StandStill { get; set; } = false;
+        public bool StandStill { get => standStill; set => standStill = value; }
         #endregion
         #region Constructors
         public Movable(GameObject gameObject) : base(gameObject)
         {
 
         }
-
         #endregion
         #region Methods
         public void Move(Vector2 direction, float speed)
