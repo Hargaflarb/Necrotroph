@@ -49,6 +49,10 @@ namespace Necrotroph_Eksamensprojekt
         }
 
         public static GameTime Time { get; private set; }
+
+        public string ConnectionString { get => connectionString; set => connectionString = value; }
+        public SqlConnection Connection { get => connection; set => connection = value; }
+
         public static Vector2 ScreenSize { get => screenSize; set => screenSize = value; }
         public GraphicsDeviceManager Graphics { get => _graphics; private set => _graphics = value; }
         public SpriteBatch SpriteBatch { get => _spriteBatch; private set => _spriteBatch = value; }
@@ -70,39 +74,17 @@ namespace Necrotroph_Eksamensprojekt
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.ApplyChanges();
-
-
-            ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            gameObjectsToAdd = new List<GameObject>();
-            gameObjectsToRemove = new List<GameObject>();
-            activeGameObjects = new List<GameObject>();
-
-            AddPlayer(Vector2.Zero);
-            //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
-            Map.GenerateMap();
-
-
-            InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
-            InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
-            InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
-            InputHandler.AddHeldKeyCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
-
-            InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
-            InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
-            
             Graphics.PreferredBackBufferHeight = 1080;
             Graphics.PreferredBackBufferWidth = 1920;
             //Graphics.IsFullScreen = true;
             Graphics.ApplyChanges();
             ScreenSize = new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
             
+            ConnectionString =
+                "Server = localhost\\SQLEXPRESS; Database = GhostGame; Trusted_Connection = True; TrustServerCertificate = True";
+            Connection = new SqlConnection(ConnectionString);
+            
             GameState.Initialize();
-
-            InputHandler.AddPressedKeyCommand(Keys.J, new SaveCommand());
-            InputHandler.AddPressedKeyCommand(Keys.L, new LoadCommand());
 
             base.Initialize();
         }
@@ -117,17 +99,9 @@ namespace Necrotroph_Eksamensprojekt
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
 
-            AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(500, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(200, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-200, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(600, 0)));
+            //DataBaseTest();
 
-
-            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2 (50, 50), 1f));
-
-            ShaderManager.SetSprite();
+            SaveManager.Execute();
             
             GameState.LoadContent();
         }
@@ -267,6 +241,36 @@ namespace Necrotroph_Eksamensprojekt
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, new Vector2(screenSize.X / 2, screenSize.Y / 2), 2f));
         }
         
+        
+        public void DataBaseTest()
+        {
+            try
+            {
+                Connection.Open();
+                //string insertQuery = "INSERT INTO Saves (SaveID, Light, PlayerPosX, PlayerPosY) VALUES (1, 2, 10, 50)";
+                //SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
+                //insertCommand.ExecuteNonQuery();
+
+                SqlCommand selectCommand = new SqlCommand("SELECT SaveID, Light FROM Saves", Connection);
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                string test = "eh";
+
+                while (reader.Read())
+                {
+                    int saveID = reader.GetInt32(1);
+                    test = $"{saveID}";
+                }
+                reader.Close();
+
+                UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return test; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 1f));
+                Connection.Close();
+            }
+            catch(SqlException)
+            {
+                //in case the user does not have the database
+            }
+        }
+
         #endregion
     }
 }
