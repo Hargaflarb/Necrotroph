@@ -16,11 +16,23 @@ namespace Necrotroph_Eksamensprojekt
         #region Fields
         private float speed = 50;
         private bool facingLeft = true;
+        private static HunterEnemy instance;
         #endregion
         #region Properties
+        public static HunterEnemy Instance 
+        { 
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new HunterEnemy(new Vector2(-300, -300));
+                }
+                return instance;
+            }
+        }
         #endregion
         #region Constructors
-        public HunterEnemy(Vector2 position) : base(position)
+        private HunterEnemy(Vector2 position) : base(position)
         {
 
         }

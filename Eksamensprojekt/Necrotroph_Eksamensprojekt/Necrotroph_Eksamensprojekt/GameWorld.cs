@@ -64,9 +64,7 @@ namespace Necrotroph_Eksamensprojekt
                 return instance;
             }
         }
-        public string ConnectionString { get => connectionString; set => connectionString = value; }
-        public SqlConnection Connection { get => connection; set => connection = value; }
-        
+      
         public static Vector2 ScreenSize { get => screenSize; set => screenSize = value; }
 
         #endregion
@@ -85,10 +83,6 @@ namespace Necrotroph_Eksamensprojekt
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.ApplyChanges();
 
-            ConnectionString =
-                "Server = localhost\\SQLEXPRESS; Database = GhostGame; Trusted_Connection = True; TrustServerCertificate = True";
-
-            Connection = new SqlConnection(ConnectionString);
 
             ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             gameObjectsToAdd = new List<GameObject>();
@@ -99,6 +93,7 @@ namespace Necrotroph_Eksamensprojekt
             //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
             Map.GenerateMap();
 
+
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
             InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
@@ -106,6 +101,9 @@ namespace Necrotroph_Eksamensprojekt
 
             InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
             InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
+
+            InputHandler.AddPressedKeyCommand(Keys.J, new SaveCommand());
+            InputHandler.AddPressedKeyCommand(Keys.L, new LoadCommand());
 
             base.Initialize();
         }
@@ -127,9 +125,6 @@ namespace Necrotroph_Eksamensprojekt
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-200, 0)));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(600, 0)));
 
-            DataBaseTest();
-
-            SaveManager.Execute();
 
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2 (50, 50), 1f));
 
@@ -313,28 +308,7 @@ namespace Necrotroph_Eksamensprojekt
             }
         }
 
-        public void DataBaseTest()
-        {
-            Connection.Open();
-            //string insertQuery = "INSERT INTO Saves (SaveID, Light, PlayerPosX, PlayerPosY) VALUES (1, 2, 10, 50)";
-            //SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
-            //insertCommand.ExecuteNonQuery();
-
-            SqlCommand selectCommand = new SqlCommand("SELECT SaveID, Light FROM Saves", Connection);
-            SqlDataReader reader = selectCommand.ExecuteReader();
-            string test = "eh";
-
-            while (reader.Read())
-            {
-                int saveID = reader.GetInt32(1);
-                test = $"{saveID}";
-            }
-            reader.Close();
-            
-            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return test; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 1f));
-            Connection.Close();
-        }
-
+       
         #endregion
     }
 }
