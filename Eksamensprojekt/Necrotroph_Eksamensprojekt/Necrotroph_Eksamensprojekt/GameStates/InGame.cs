@@ -166,7 +166,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
                 }
             }
 
-#if DEBUG
+#if !DEBUG
             ShaderManager.Draw(_spriteBatch);
 #endif
 
