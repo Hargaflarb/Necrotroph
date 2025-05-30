@@ -96,7 +96,7 @@ namespace Necrotroph_Eksamensprojekt
             TextFactory.LoadContent(Content);
             LightEmitter.ShaderShadowEffect = Content.Load<Effect>("ShadowShader");
 
-            ShaderManager.SetSprite();
+            ShaderManager.SetSpritesAndShaders();
             
             GameState.LoadContent();
         }
