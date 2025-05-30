@@ -20,8 +20,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Properties
         public float Speed { get => speed; set => speed = value; }
         public Vector2 Direction { get => direction; set => direction = value; }
-<<<<<<< Updated upstream
-=======
         public int Life { get => life; set => life = value; }
         public bool IsMoving
         {
@@ -30,7 +28,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                 return (direction != Vector2.Zero);
             }
         }
->>>>>>> Stashed changes
         public static Player Instance
         {
             get
