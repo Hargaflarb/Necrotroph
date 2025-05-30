@@ -53,7 +53,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Aqua);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
