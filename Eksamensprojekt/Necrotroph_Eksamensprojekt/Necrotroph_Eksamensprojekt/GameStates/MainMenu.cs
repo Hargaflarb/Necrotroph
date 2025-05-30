@@ -37,7 +37,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
         public override void LoadContent()
         {
-            UIManager.AddUIObject(new UIButton(new Vector2(100, 200), new Vector2(50, 50), "Buttons", () => { GameWorld.GameStateToChangeTo = InGame.Instance; }));
+            UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2), new Vector2(50, 50), "Start Game", () => { GameWorld.GameStateToChangeTo = InGame.Instance; }));
             base.LoadContent();
         }
 
