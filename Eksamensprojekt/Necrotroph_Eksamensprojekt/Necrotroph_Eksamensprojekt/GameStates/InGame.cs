@@ -83,20 +83,20 @@ namespace Necrotroph_Eksamensprojekt.Menu
             InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
             InputHandler.AddHeldKeyCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
 
-            InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
-            InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
+            //InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
+            //InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
             
             base.Initialize();
         }
 
         public override void LoadContent()
         {
-            AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(500, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(200, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-200, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(600, 0)));
+            AddObject(EnemyFactory.CreateEnemy(new Vector2(-1000, -1000), EnemyType.Hunter));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(7000, -500)));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-4000, 2500)));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(5600, 1000)));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-1500, 500)));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-6066, 0)));
 
 
             UIManager.AddUIObject(new UIButton(new Vector2(1000,200), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
