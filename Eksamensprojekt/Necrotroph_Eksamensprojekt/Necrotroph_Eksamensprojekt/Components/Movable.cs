@@ -16,8 +16,6 @@ namespace Necrotroph_Eksamensprojekt.Components
     public class Movable : Component
     {
         #region Fields
-        private float speed;
-        private Vector2 direction;
 
         #endregion
         #region Properties
