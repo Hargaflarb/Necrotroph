@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.CodeDom;
 using System.Security.Cryptography;
+using Necrotroph_Eksamensprojekt.Menu;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -43,7 +44,7 @@ namespace Necrotroph_Eksamensprojekt
                 Vector2 dif = mapObject.position - Player.Instance.Transform.WorldPosition;
                 if (MathF.Abs(dif.X) < loadBound.X & MathF.Abs(dif.Y) < loadBound.Y)
                 {
-                    GameWorld.Instance.AddObject(mapObject.poolType.GetObject(mapObject.position));
+                    InGame.Instance.AddObject(mapObject.poolType.GetObject(mapObject.position));
                     unloadedMapObjects.Remove(mapObject);
                 }
 
@@ -92,7 +93,7 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
             CheckForObjectsToUnload();
-            GameWorld.Instance.AddAndRemoveGameObjects();
+            InGame.Instance.AddAndRemoveGameObjects();
         }
     }
 }

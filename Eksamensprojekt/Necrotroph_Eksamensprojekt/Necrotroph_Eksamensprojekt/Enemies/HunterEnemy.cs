@@ -42,10 +42,10 @@ namespace Necrotroph_Eksamensprojekt
                 GetComponent<SpriteRenderer>().Flipped = false;
                 facingLeft = true;
             }
-            double remap = Math.Atan2(direction.Y, direction.X);
-            float XDirection = (float)Math.Cos(remap);
-            float YDirection = (float)Math.Sin(remap);
-            direction = new Vector2(XDirection, YDirection);
+            //double remap = Math.Atan2(direction.Y, direction.X);
+            //float XDirection = (float)Math.Cos(remap);
+            //float YDirection = (float)Math.Sin(remap);
+            //direction = new Vector2(XDirection, YDirection);
             direction.Normalize();
             GetComponent<Movable>().Move(direction, speed);
             base.Update(gameTime);
@@ -59,11 +59,12 @@ namespace Necrotroph_Eksamensprojekt
             }
             base.OnCollision(otherObject);
         }
+
         public void HearFromObserver(IObserver observer)
         {
             if (observer is DeathObserver)
             {
-                ((Movable)GetComponent<Movable>()).StandStill = true;
+                GetComponent<Movable>().StandStill = true;
             }
         }
 

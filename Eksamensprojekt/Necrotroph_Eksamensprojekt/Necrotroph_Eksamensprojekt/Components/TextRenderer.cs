@@ -17,8 +17,10 @@ namespace Necrotroph_Eksamensprojekt.Components
         private Color textColor;
         private float scale;
         #endregion
+
         #region Properties
         #endregion
+        
         #region Constructor
         public TextRenderer(UIObject uiObject, Func<string> text, Color textColor, float scale) : base(uiObject)
         {
@@ -26,6 +28,13 @@ namespace Necrotroph_Eksamensprojekt.Components
             this.textColor = textColor;
             uiObject.Transform.Scale = scale;
         }
+        public TextRenderer(UIObject uiObject, string text, Color textColor, float scale) : base(uiObject)
+        {
+            this.text = () => text;
+            this.textColor = textColor;
+            uiObject.Transform.Scale = scale;
+        }
+
         #endregion
         #region Methods
         public override void Draw(SpriteBatch spriteBatch)

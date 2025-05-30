@@ -18,7 +18,7 @@ namespace Necrotroph_Eksamensprojekt.Observer
     public class DeathObserver : IObserver
     {
         #region Fields
-        private List<IListener> listeners=new List<IListener>();
+        private List<IListener> listeners = new List<IListener>();
         #endregion
         #region Properties
         #endregion

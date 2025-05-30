@@ -12,48 +12,30 @@ using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Enemies;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.Menu;
 using Necrotroph_Eksamensprojekt.ObjectPools;
 using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt
 {
-    public class GameWorld : Game, IListener
+    public class GameWorld : Game
     {
         #region Fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private List<GameObject> gameObjectsToAdd;
-        private List<GameObject> activeGameObjects;
-        private List<GameObject> gameObjectsToRemove;
-        private Vector2 previousPlayerPosition;
         private static Vector2 screenSize;
-        private int itemsCollected;
         private static GameWorld instance;
+        
+        private static GameState gameState;
+        private static GameState gameStateToChangeTo;
+
+
         private bool gameWon = false;
         private string connectionString;
         private SqlConnection connection;
+
         #endregion
         #region Properties
-        public static GameTime Time { get; private set; }
-        public int ItemsCollected
-        {
-            get => itemsCollected;
-            set
-            {
-                if (value <= 0)
-                {
-                    itemsCollected = 0;
-                }
-                else if (value >= 5)
-                {
-                    itemsCollected = 5;
-                }
-                else
-                {
-                    itemsCollected = value;
-                }
-            }
-        }
         public static GameWorld Instance
         {
             get
@@ -65,62 +47,51 @@ namespace Necrotroph_Eksamensprojekt
                 return instance;
             }
         }
+
+        public static GameTime Time { get; private set; }
+
         public string ConnectionString { get => connectionString; set => connectionString = value; }
         public SqlConnection Connection { get => connection; set => connection = value; }
-        
+
         public static Vector2 ScreenSize { get => screenSize; set => screenSize = value; }
+        public GraphicsDeviceManager Graphics { get => _graphics; private set => _graphics = value; }
+        public SpriteBatch SpriteBatch { get => _spriteBatch; private set => _spriteBatch = value; }
+        public static GameState GameState { get => gameState; set => gameState = value; }
+        public static GameState GameStateToChangeTo { get => gameStateToChangeTo; set => gameStateToChangeTo = value; }
 
         #endregion
         #region Constructors
         private GameWorld()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            GameState = MainMenu.Instance;
         }
+
         #endregion
         #region Methods
+
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.ApplyChanges();
-
+            Graphics.PreferredBackBufferHeight = 1080;
+            Graphics.PreferredBackBufferWidth = 1920;
+            //Graphics.IsFullScreen = true;
+            Graphics.ApplyChanges();
+            ScreenSize = new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
+            
             ConnectionString =
                 "Server = localhost\\SQLEXPRESS; Database = GhostGame; Trusted_Connection = True; TrustServerCertificate = True";
-
             Connection = new SqlConnection(ConnectionString);
-
-            ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            gameObjectsToAdd = new List<GameObject>();
-            gameObjectsToRemove = new List<GameObject>();
-            activeGameObjects = new List<GameObject>();
-
-            AddPlayer(Vector2.Zero);
-            Player.Instance.Observer = new DeathObserver();
-            Player.Instance.Observer.AddListener(this);
-            //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
-            Map.GenerateMap();
-
-            InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
-            InputHandler.AddHeldKeyCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
-            InputHandler.AddHeldKeyCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
-            InputHandler.AddHeldKeyCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
-
-            InputHandler.AddUnclickedCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
-            InputHandler.AddUnclickedCommand(Keys.A, new WalkCommand(Player.Instance, new Vector2(-1, 0)));
-            InputHandler.AddUnclickedCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
-            InputHandler.AddUnclickedCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
-
-            InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
-            InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
+            
+            GameState.Initialize();
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             EnemyFactory.LoadContent(Content);
@@ -128,20 +99,11 @@ namespace Necrotroph_Eksamensprojekt
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
 
-            AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(500, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-500, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(200, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-200, 0)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(600, 0)));
-
-            DataBaseTest();
+            //DataBaseTest();
 
             SaveManager.Execute();
-
-            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2 (50, 50), 1f));
-
-            ShaderManager.SetSprite();
+            
+            GameState.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
@@ -150,73 +112,27 @@ namespace Necrotroph_Eksamensprojekt
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            InputHandler.HandleInput();
-
-            foreach (GameObject gameObject in activeGameObjects)
-            {
-                if (gameObject.Active)
-                {
-                    gameObject.Update(gameTime);
-                }
-            }
-
-            foreach (UIObject uiObject in UIManager.ActiveUIObjects)
-            {
-                if (uiObject.Active)
-                {
-                    uiObject.Update(gameTime);
-                }
-            }
-            TimeLineManager.Update(gameTime);
-            CheckCollision();
-
             SeekerEnemyManager.Update();
-            Map.CheckForObejctsToLoad();
-            Map.CheckForObjectsToUnload();
-            AddAndRemoveGameObjects();
-            UIManager.AddAndRemoveUIObjects();
-            CheckForWin();
+            GameState.Update(gameTime);
+
+            ChangeGameState(GameStateToChangeTo);
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            ShaderManager.PrepareShadows(_spriteBatch);
-
-            GraphicsDevice.Clear(Color.DarkGreen);
-
-            //Higher layer numbers are closer, lower are further away
-            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
-            foreach (GameObject gameObject in activeGameObjects)
-            {
-                if (gameObject.Active)
-                {
-                    gameObject.Draw(_spriteBatch);
-                }
-            }
-
-            foreach (UIObject uiObject in UIManager.ActiveUIObjects)
-            {
-                if (uiObject.Active)
-                {
-                    uiObject.Draw(_spriteBatch);
-                }
-            }
-            //#if !DEBUG
-            ShaderManager.Draw(_spriteBatch);
-            //#endif
-            _spriteBatch.End();
+            GameState.Draw(gameTime);
             base.Draw(gameTime);
-
         }
 
-
-        public void AddAndRemoveGameObjects()
+        private void ChangeGameState(GameState gameState)
         {
-            foreach (GameObject gameObject in gameObjectsToAdd)
+            if (gameState is not null & gameState != GameState)
             {
-                gameObject.Start();
-                activeGameObjects.Add(gameObject);
+                GameState.Exit();
+                GameState = gameState;
+                GameState.Enter();
             }
             gameObjectsToAdd.Clear();
             foreach (GameObject gameObject in gameObjectsToRemove)
@@ -324,6 +240,8 @@ namespace Necrotroph_Eksamensprojekt
             //currently appears under the shader :/
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, new Vector2(screenSize.X / 2, screenSize.Y / 2), 2f));
         }
+        
+        
         public void DataBaseTest()
         {
             try
@@ -347,7 +265,7 @@ namespace Necrotroph_Eksamensprojekt
                 UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return test; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 1f));
                 Connection.Close();
             }
-            catch(Microsoft.Data.SqlClient.SqlException)
+            catch(SqlException)
             {
                 //in case the user does not have the database
             }
