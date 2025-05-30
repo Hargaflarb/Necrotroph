@@ -25,9 +25,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private Vector2 previousPlayerPosition;
         private int itemsCollected;
         private bool gameWon = false;
-
-
-
+        private static Texture2D tileSprite;
 
         private static InGame instance;
         public static InGame Instance
@@ -66,6 +64,15 @@ namespace Necrotroph_Eksamensprojekt.Menu
                 }
             }
         }
+        public Vector2 TileOffset
+        {
+            get
+            {
+                return new Vector2(Player.Instance.Transform.WorldPosition.X % TileSprite.Width, Player.Instance.Transform.WorldPosition.Y % TileSprite.Height);
+            }
+        }
+        public static Texture2D TileSprite { get => tileSprite; set => tileSprite = value; }
+
 
 
         public override void Initialize()
@@ -150,6 +157,19 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
             //Higher layer numbers are closer, lower are further away
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
+
+            //floorTiles
+            int xReptition = (int)(GameWorld.ScreenSize.X / TileSprite.Width);
+            int yReptition = (int)(GameWorld.ScreenSize.Y / TileSprite.Height); 
+            for (int x = -1; x <= xReptition+1; x++)
+            {
+                for (int y = -1; y <= yReptition+1; y++)
+                {
+                    _spriteBatch.Draw(TileSprite, new Vector2(x * TileSprite.Width, y * TileSprite.Height) - TileOffset, Color.White);
+                }
+            }
+
+            //gameObjects
             foreach (GameObject gameObject in activeGameObjects)
             {
                 if (gameObject.Active)
@@ -157,7 +177,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
                     gameObject.Draw(_spriteBatch);
                 }
             }
-
+            
+            //UI
             foreach (UIObject uiObject in UIManager.ActiveUIObjects)
             {
                 if (uiObject.Active)
