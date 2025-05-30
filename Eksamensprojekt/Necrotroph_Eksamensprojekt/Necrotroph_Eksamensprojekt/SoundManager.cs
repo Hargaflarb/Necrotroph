@@ -57,6 +57,9 @@ namespace Necrotroph_Eksamensprojekt
             float pan = differenceX;
             //play the sfx using pan somehow
             //use soundeffectinstance
+            SoundEffectInstance newEffect = soundEffects[name].Item1.CreateInstance();
+            newEffect.Volume = soundEffects[name].Item2;
+            newEffect.Pan = pan;
         }
         public void StopSFX(string name)
         {
@@ -65,6 +68,20 @@ namespace Necrotroph_Eksamensprojekt
                 activeSFX[name].Stop();
                 activeSFX[name].Dispose();
                 activeSFX.Remove(name);
+            }
+        }
+        public void PauseSFX(string name)
+        {
+            if (activeSFX.ContainsKey(name))
+            {
+                activeSFX[name].Pause();
+            }
+        }
+        public void ResumeSFX(string name)
+        {
+            if (activeSFX.ContainsKey(name))
+            {
+                activeSFX[name].Resume();
             }
         }
         public void StopMusic(string name)
