@@ -74,18 +74,14 @@ namespace Necrotroph_Eksamensprojekt
 
         protected override void Initialize()
         {
-            Graphics.PreferredBackBufferHeight = 1080;
-            Graphics.PreferredBackBufferWidth = 1920;
-            //Graphics.IsFullScreen = true;
-            Graphics.ApplyChanges();
-            ScreenSize = new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
-            
-            ConnectionString =
-                "Server = localhost\\SQLEXPRESS; Database = GhostGame; Trusted_Connection = True; TrustServerCertificate = True";
-            Connection = new SqlConnection(ConnectionString);
-            
-            GameState.Initialize();
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.ApplyChanges();
 
+
+            ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            
+            
             base.Initialize();
         }
 
@@ -100,9 +96,7 @@ namespace Necrotroph_Eksamensprojekt
             TextFactory.LoadContent(Content);
             LightEmitter.ShaderShadowEffect = Content.Load<Effect>("ShadowShader");
 
-            //DataBaseTest();
-
-            SaveManager.Execute();
+            ShaderManager.SetSprite();
             
             GameState.LoadContent();
         }
@@ -136,37 +130,6 @@ namespace Necrotroph_Eksamensprojekt
                 GameState.Enter();
             }
         }
-        
-        
-        public void DataBaseTest()
-        {
-            try
-            {
-                Connection.Open();
-                //string insertQuery = "INSERT INTO Saves (SaveID, Light, PlayerPosX, PlayerPosY) VALUES (1, 2, 10, 50)";
-                //SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
-                //insertCommand.ExecuteNonQuery();
-
-                SqlCommand selectCommand = new SqlCommand("SELECT SaveID, Light FROM Saves", Connection);
-                SqlDataReader reader = selectCommand.ExecuteReader();
-                string test = "eh";
-
-                while (reader.Read())
-                {
-                    int saveID = reader.GetInt32(1);
-                    test = $"{saveID}";
-                }
-                reader.Close();
-
-                UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return test; }, Color.White, new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2), 1f));
-                Connection.Close();
-            }
-            catch(SqlException)
-            {
-                //in case the user does not have the database
-            }
-        }
-
         #endregion
     }
 }
