@@ -33,9 +33,9 @@ namespace Necrotroph_Eksamensprojekt.Factories
             tree1 = content.Load<Texture2D>("TreeSprites/Tree1");
             tree2 = content.Load<Texture2D>("TreeSprites/Tree2");
             tree3 = content.Load<Texture2D>("TreeSprites/SmallTree");
-            seeker1 = content.Load<Texture2D>("TreeSprites/Tree1");
-            seeker2 = content.Load<Texture2D>("TreeSprites/Tree2");
-            seeker3 = content.Load<Texture2D>("TreeSprites/SmallTree");
+            seeker1 = content.Load<Texture2D>("TreeSprites/Seeker1");
+            seeker2 = content.Load<Texture2D>("TreeSprites/Seeker2");
+            seeker3 = content.Load<Texture2D>("TreeSprites/SmallSeeker");
         }
         public static Tree CreateTree(Vector2 position)
         {

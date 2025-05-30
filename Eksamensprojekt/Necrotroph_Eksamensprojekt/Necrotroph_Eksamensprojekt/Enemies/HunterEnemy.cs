@@ -17,6 +17,7 @@ namespace Necrotroph_Eksamensprojekt
         #region Fields
         private float speed = 50;
         private bool facingLeft = true;
+        private int damage = 30;
         #endregion
         #region Properties
         #endregion
@@ -54,7 +55,7 @@ namespace Necrotroph_Eksamensprojekt
         {
             if (otherObject == Player.Instance)
             {
-                Player.Instance.TakeDamage(20, EnemyType.Hunter);
+                Player.Instance.TakeDamage(damage, EnemyType.Hunter);
             }
             base.OnCollision(otherObject);
         }
