@@ -49,6 +49,10 @@ namespace Necrotroph_Eksamensprojekt
         }
 
         public static GameTime Time { get; private set; }
+
+        public string ConnectionString { get => connectionString; set => connectionString = value; }
+        public SqlConnection Connection { get => connection; set => connection = value; }
+
         public static Vector2 ScreenSize { get => screenSize; set => screenSize = value; }
         public GraphicsDeviceManager Graphics { get => _graphics; private set => _graphics = value; }
         public SpriteBatch SpriteBatch { get => _spriteBatch; private set => _spriteBatch = value; }
@@ -76,8 +80,8 @@ namespace Necrotroph_Eksamensprojekt
 
 
             ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-
-           
+            
+            
             base.Initialize();
         }
 
@@ -90,6 +94,7 @@ namespace Necrotroph_Eksamensprojekt
             TreeFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
+            LightEmitter.ShaderShadowEffect = Content.Load<Effect>("ShadowShader");
 
             ShaderManager.SetSprite();
             
@@ -125,8 +130,6 @@ namespace Necrotroph_Eksamensprojekt
                 GameState.Enter();
             }
         }
-
-       
         #endregion
     }
 }

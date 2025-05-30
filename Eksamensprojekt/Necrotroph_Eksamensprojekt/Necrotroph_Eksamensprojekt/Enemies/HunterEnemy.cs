@@ -17,24 +17,12 @@ namespace Necrotroph_Eksamensprojekt
         #region Fields
         private float speed = 50;
         private bool facingLeft = true;
-        private static HunterEnemy instance;
         private int damage = 30;
         #endregion
         #region Properties
-        public static HunterEnemy Instance 
-        { 
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new HunterEnemy(new Vector2(-300, -300));
-                }
-                return instance;
-            }
-        }
         #endregion
         #region Constructors
-        private HunterEnemy(Vector2 position) : base(position)
+        public HunterEnemy(Vector2 position) : base(position)
         {
             Player.Instance.Observer.AddListener(this);
         }
