@@ -27,6 +27,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private MainMenu()
         {
             uIObjects = new List<UIObject>();
+            SoundManager.Instance.StopMusic();
         }
 
 

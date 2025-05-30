@@ -27,6 +27,8 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         private static int maxTimeBetweenSeekers = 120;
         private static int minTimeBetweenSeekers = 30;
         private static bool timerStarted;
+        private static int appearSFX;
+        private static int disappearSFX;
         private static Random rnd = new Random();
         #endregion
         #region Properties
@@ -36,6 +38,13 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         #region Methods
         public static void Update()
         {
+            if (appearSFX == 0)
+            {
+                appearSFX = SoundManager.Instance.PlaySFX("SeekerActivate",GameWorld.ScreenSize/2);
+                disappearSFX = SoundManager.Instance.PlaySFX("SeekerDeactivate", GameWorld.ScreenSize / 2);
+                SoundManager.Instance.PauseSFX(appearSFX);
+                SoundManager.Instance.PauseSFX(disappearSFX);
+            }
             if (!Tree.HasEyes && !timerStarted)
             {
                 timerStarted = true;
@@ -49,6 +58,9 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         }
         public static void StartHunt()
         {
+            SoundManager.Instance.ResumeSFX(appearSFX);
+            SoundManager.Instance.ChangeSFXVolume("PlayerWalk1", 700);
+            SoundManager.Instance.ChangeSFXVolume("PlayerWalk2", 700);
             //get all trees & set them to have eyes
             Tree.HasEyes = true;
             timerStarted = false;
@@ -77,6 +89,9 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         }
         public static void ReturnToNormal()
         {
+            SoundManager.Instance.ResumeSFX(disappearSFX);
+            SoundManager.Instance.ChangeSFXVolume("PlayerWalk1", 200);
+            SoundManager.Instance.ChangeSFXVolume("PlayerWalk2", 200);
             TimeLineManager.RemoveEvent(mainTimerID);
 
             //if (!Player.Instance.IsMoving)

@@ -80,8 +80,7 @@ namespace Necrotroph_Eksamensprojekt
 
 
             ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            
-            
+                        
             base.Initialize();
         }
 
@@ -93,7 +92,7 @@ namespace Necrotroph_Eksamensprojekt
             InGame.TileSprite = Content.Load<Texture2D>("grass2");
             EnemyFactory.LoadContent(Content);
             TreeFactory.LoadContent(Content);
-            MemorabiliaFactory.LoadContent(Content);
+            MemorabeliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
             LightEmitter.ShaderShadowEffect = Content.Load<Effect>("ShadowShader");
 
@@ -108,7 +107,6 @@ namespace Necrotroph_Eksamensprojekt
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            SeekerEnemyManager.Update();
             GameState.Update(gameTime);
 
             ChangeGameState(GameStateToChangeTo);
