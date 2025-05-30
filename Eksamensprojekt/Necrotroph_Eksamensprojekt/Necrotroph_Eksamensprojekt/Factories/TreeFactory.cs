@@ -45,14 +45,14 @@ namespace Necrotroph_Eksamensprojekt.Factories
             switch (rnd.Next(1, 4))
             {
                 case 1: //big 1
-                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.5f, 0.15f), new Vector2(0.55f, 0.85f));
-                    newTree.AddComponent<ShadowCaster>(100);
+                    newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
+                    newTree.AddComponent<ShadowCaster>(80);
                     animator.AddAnimation("Normal", tree1);
                     animator.AddAnimation("Seek", seeker1);
                     break;
                 case 2: //big 2
-                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(0.5f, 0.15f), new Vector2(0.55f, 0.85f));
-                    newTree.AddComponent<ShadowCaster>(100);
+                    newTree.AddComponent<SpriteRenderer>(tree2, 1f, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
+                    newTree.AddComponent<ShadowCaster>(80);
                     animator.AddAnimation("Normal", tree2);
                     animator.AddAnimation("Seek", seeker2);
                     break;
