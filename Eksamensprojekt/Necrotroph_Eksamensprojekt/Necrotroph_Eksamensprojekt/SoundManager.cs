@@ -11,7 +11,7 @@ namespace Necrotroph_Eksamensprojekt
     {
         #region Fields
         private static SoundManager instance;
-        private Dictionary<string, (SoundEffect, float)> soundEffects;
+        private Dictionary<string, (SoundEffect, float,float)> soundEffects;
         private Dictionary<string, (Song, float)> ambience;
         private Dictionary<string, SoundEffectInstance> activeSFX;
         #endregion
@@ -31,15 +31,15 @@ namespace Necrotroph_Eksamensprojekt
         #region Constructors
         private SoundManager()
         {
-            soundEffects = new Dictionary<string, (SoundEffect, float)>();
+            soundEffects = new Dictionary<string, (SoundEffect, float, float)>();
             ambience = new Dictionary<string, (Song, float)>();
             activeSFX = new Dictionary<string, SoundEffectInstance>();
         }
         #endregion
         #region Methods
-        public void AddSFX(string name, SoundEffect effect, float volume)
+        public void AddSFX(string name, SoundEffect effect, float volume,float range)
         {
-            soundEffects.Add(name, (effect, volume));
+            soundEffects.Add(name, (effect, volume,range));
         }
         public void AddSong(string name, Song song, float volume)
         {
@@ -55,11 +55,12 @@ namespace Necrotroph_Eksamensprojekt
         {
             float differenceX = position.X - Player.Instance.Transform.ScreenPosition.X;
             float pan = differenceX;
-            //play the sfx using pan somehow
+
             //use soundeffectinstance
             SoundEffectInstance newEffect = soundEffects[name].Item1.CreateInstance();
             newEffect.Volume = soundEffects[name].Item2;
             newEffect.Pan = pan;
+            activeSFX.Add(name, newEffect);
         }
         public void StopSFX(string name)
         {
@@ -87,6 +88,13 @@ namespace Necrotroph_Eksamensprojekt
         public void StopMusic(string name)
         {
             MediaPlayer.Stop();
+        }
+        public void ChangeSFXVolume(string name,float volume)
+        {
+            if (activeSFX.ContainsKey(name))
+            {
+                activeSFX[name].Volume = volume;
+            }
         }
         #endregion
     }

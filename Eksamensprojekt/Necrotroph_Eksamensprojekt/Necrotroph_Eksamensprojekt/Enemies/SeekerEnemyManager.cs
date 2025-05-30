@@ -24,8 +24,8 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         private static int mainTimerID;
         private static int walkTimerID;
         private static float walkTime;
-        private static int maxTimeBetweenSeekers = 10;
-        private static int minTimeBetweenSeekers = 3;
+        private static int maxTimeBetweenSeekers = 120;
+        private static int minTimeBetweenSeekers = 30;
         private static bool timerStarted;
         private static Random rnd = new Random();
         #endregion
