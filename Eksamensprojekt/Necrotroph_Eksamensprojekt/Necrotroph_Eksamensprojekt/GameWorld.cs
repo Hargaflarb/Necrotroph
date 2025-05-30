@@ -281,7 +281,7 @@ namespace Necrotroph_Eksamensprojekt
             (newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
             (newPlayer.GetComponent<Animator>()).AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
             (newPlayer.GetComponent<Animator>()).PlayAnimation("IdleDownLightOn");
-            newPlayer.Transform.Scale = 0.3f;
+            newPlayer.Transform.Scale = 0.25f;
             AddObject(newPlayer);
         }
 

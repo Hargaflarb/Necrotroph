@@ -10,19 +10,23 @@ using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.Observer;
 
-namespace Necrotroph_Eksamensprojekt
+namespace Necrotroph_Eksamensprojekt.Enemies
 {
-    public class HunterEnemy : GameObject, IListener
+    public class LightEaterEnemy : GameObject, IListener
     {
         #region Fields
         private float speed = 50;
+        private int damage = 10;
         private bool facingLeft = true;
-        private int damage = 30;
+        private int wanderDistance = 200;
+        private Vector2 wanderLocation;
+        private Random rnd = new Random();
+        private bool wandering = false;
         #endregion
         #region Properties
         #endregion
         #region Constructors
-        public HunterEnemy(Vector2 position) : base(position)
+        public LightEaterEnemy(Vector2 position) : base(position)
         {
             Player.Instance.Observer.AddListener(this);
         }
@@ -30,8 +34,27 @@ namespace Necrotroph_Eksamensprojekt
         #region Methods
         public override void Update(GameTime gameTime)
         {
-            //finds player position & moves toward it
-            Vector2 direction = new Vector2(Player.Instance.Transform.ScreenPosition.X - Transform.ScreenPosition.X, Player.Instance.Transform.ScreenPosition.Y - Transform.ScreenPosition.Y);
+            Vector2 direction;
+            //if the player has light on
+            if (Player.Instance.LightOn)
+            {
+                //finds player position & moves toward it
+                direction = new Vector2(Player.Instance.Transform.ScreenPosition.X - Transform.ScreenPosition.X, Player.Instance.Transform.ScreenPosition.Y - Transform.ScreenPosition.Y);
+            }
+            //if the player has light off
+            else
+            {
+                if (wanderLocation == Vector2.Zero)
+                {
+                    wanderLocation = new Vector2(rnd.Next(0, wanderDistance), rnd.Next(0, wanderDistance));
+                }
+                direction = new Vector2(wanderLocation.X- Transform.ScreenPosition.X, wanderLocation.Y - Transform.ScreenPosition.Y);
+                if (Transform.ScreenPosition == wanderLocation)
+                {
+                    wandering = false;
+                }
+            }
+            //picks a random lolcation, moves toward it, stands around a bit, repeat
             if (direction.X > 0 && facingLeft)
             {
                 GetComponent<SpriteRenderer>().Flipped = true;
@@ -55,7 +78,7 @@ namespace Necrotroph_Eksamensprojekt
         {
             if (otherObject == Player.Instance)
             {
-                Player.Instance.TakeDamage(damage, EnemyType.Hunter);
+                Player.Instance.TakeDamage(damage, EnemyType.LightEater);
             }
             base.OnCollision(otherObject);
         }

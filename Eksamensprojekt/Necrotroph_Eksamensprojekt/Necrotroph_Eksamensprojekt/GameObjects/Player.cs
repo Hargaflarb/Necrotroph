@@ -30,6 +30,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         public Vector2 Direction { get => direction; set => direction = value; }
         public int Life { get => life; }
         public DeathObserver Observer { get => observer; set => observer = value; }
+        public bool LightOn { get => lightOn; }
         public bool IsMoving
         {
             get
@@ -54,7 +55,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             speed = 300;
             life = maxLife;
-            
+
         }
         #endregion
         #region Methods
@@ -78,7 +79,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                     PlayerDeath(source);
                 }
                 life -= damage;
-                ((LightEmitter)GetComponent<LightEmitter>()).LightRadius = ((float)life / 500f)+0.01f;
+                ((LightEmitter)GetComponent<LightEmitter>()).LightRadius = ((float)life / 500f) + 0.01f;
                 TimeLineManager.AddEvent(invincibilityTime * 1000, UndoInvincibility);
                 if (life <= 0)
                 {
@@ -97,6 +98,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         /// <param name="source">Which enemy caused the death</param>
         public void PlayerDeath(EnemyType source)
         {
+            lightOn = false;
             NotifyObserver();
             ((Movable)GetComponent<Movable>()).StandStill = true;
         }

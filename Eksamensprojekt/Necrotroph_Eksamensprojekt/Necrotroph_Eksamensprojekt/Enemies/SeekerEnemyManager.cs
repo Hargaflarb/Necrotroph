@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +24,8 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         private static int mainTimerID;
         private static int walkTimerID;
         private static float walkTime;
-        private static int maxTimeBetweenSeekers = 120;
-        private static int minTimeBetweenSeekers = 30;
+        private static int maxTimeBetweenSeekers = 10;
+        private static int minTimeBetweenSeekers = 3;
         private static bool timerStarted;
         private static Random rnd = new Random();
         #endregion
@@ -38,28 +39,39 @@ namespace Necrotroph_Eksamensprojekt.Enemies
             if (!Tree.HasEyes && !timerStarted)
             {
                 timerStarted = true;
-                TimeLineManager.AddEvent((float)rnd.Next(minTimeBetweenSeekers, maxTimeBetweenSeekers) * 1000, Hunt);
+                int time = rnd.Next(minTimeBetweenSeekers, maxTimeBetweenSeekers);
+                TimeLineManager.AddEvent((float)time * 1000, StartHunt);
+            }
+            else if (Tree.HasEyes)
+            {
+                Hunt();
             }
         }
-        private static void Hunt()
+        public static void StartHunt()
         {
             //get all trees & set them to have eyes
             Tree.HasEyes = true;
             timerStarted = false;
             mainTimerID = TimeLineManager.AddEvent(huntTime * 1000, ReturnToNormal);
             //get SoundManager & increase player sounds, decrease ambience & enemy sounds
-            if (Player.Instance.IsMoving && walkTimerID == 0)
+            walkTimerID = TimeLineManager.AddEvent(timeBeforeDeath * 1000, KillPlayer);
+        }
+        private static void Hunt()
+        {
+            if (!Player.Instance.IsMoving)
             {
-                walkTimerID = TimeLineManager.AddEvent(timeBeforeDeath * 1000, KillPlayer);
+                float temp = TimeLineManager.GetTime(walkTimerID);
+                if (temp != -1)
+                {
+                    walkTime = temp/1000;
+                    TimeLineManager.RemoveEvent(walkTimerID);
+                    walkTimerID = 0;
+                }
             }
-            else if (!Player.Instance.IsMoving)
-            {
-                walkTime = TimeLineManager.GetTime(walkTimerID);
-                TimeLineManager.RemoveEvent(walkTimerID);
-            }
-            else
+            else if(walkTimerID==0)
             {
                 walkTimerID = TimeLineManager.AddEvent(walkTime * 1000, KillPlayer);
+                Debug.WriteLine(walkTime + " seconds left...");
             }
         }
         public static void ReturnToNormal()

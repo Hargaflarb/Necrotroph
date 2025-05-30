@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -13,6 +14,8 @@ namespace Necrotroph_Eksamensprojekt
     {
         #region Fields
         private static Dictionary<int, (float time, Action action)> timeLineEvents;
+        private static Dictionary<int, (float time, Action action)> eventsToAdd;
+        private static Dictionary<int, (float time, Action action)> eventsToRemove;
         private static int nextID;
         #endregion
         #region Properties
@@ -22,6 +25,8 @@ namespace Necrotroph_Eksamensprojekt
         static TimeLineManager()
         {
             TimeLineEvents = new Dictionary<int, (float time, Action action)>();
+            eventsToAdd = new Dictionary<int, (float time, Action action)>();
+            eventsToRemove = new Dictionary<int, (float time, Action action)>();
             nextID = 1;
         }
         #endregion
@@ -34,13 +39,25 @@ namespace Necrotroph_Eksamensprojekt
         /// <returns>The events ID, which is used for removal.</returns>
         public static int AddEvent(float time, Action action)
         {
-            TimeLineEvents.Add(nextID, (time, action));
-            return nextID++;
+            eventsToAdd.Add(nextID, (time, action));
+            nextID++;
+            return nextID-1;
         }
 
         public static float GetTime(int eventID)
         {
-            return TimeLineEvents[eventID].time;
+            if (timeLineEvents.ContainsKey(eventID))
+            {
+                return TimeLineEvents[eventID].time;
+            }
+            else if (eventsToAdd.ContainsKey(eventID))
+            {
+                return eventsToAdd[eventID].time;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         /// <summary>
@@ -50,7 +67,15 @@ namespace Necrotroph_Eksamensprojekt
         /// <returns>true, if successfully removed.</returns>
         public static bool RemoveEvent(int ID)
         {
-            return TimeLineEvents.Remove(ID);
+            if (TimeLineEvents.ContainsKey(ID))
+            {
+                eventsToRemove.Add(ID, (TimeLineEvents[ID]));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -74,6 +99,18 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
             TimeLineEvents = tempTimeline;
+
+            foreach (KeyValuePair<int, (float time, Action action)> timeLineEvent in eventsToAdd)
+            {
+                timeLineEvents.Add(timeLineEvent.Key,timeLineEvent.Value);
+            }
+            eventsToAdd.Clear();
+
+            foreach (KeyValuePair<int, (float time, Action action)> timeLineEvent in eventsToRemove)
+            {
+                timeLineEvents.Remove(timeLineEvent.Key);
+            }
+            eventsToRemove.Clear();
         }
         #endregion
     }
