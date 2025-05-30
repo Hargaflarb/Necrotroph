@@ -31,9 +31,5 @@ namespace Necrotroph_Eksamensprojekt.Components
             // it would have to be inside the shadowcaster's radius.
             return MathF.Asin(objectRadius / lightDistance);
         }
-        public float NormalizedDistanceToLight(LightEmitter light)
-        {
-            return ((light.GameObject.Transform.ScreenPosition - GameObject.Transform.ScreenPosition) / GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Size.ToVector2().X).Length();
-        }
     }
 }

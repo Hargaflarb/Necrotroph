@@ -98,6 +98,7 @@ namespace Necrotroph_Eksamensprojekt
             TreeFactory.LoadContent(Content);
             MemorabiliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
+            LightEmitter.ShaderShadowEffect = Content.Load<Effect>("ShadowShader");
 
             //DataBaseTest();
 

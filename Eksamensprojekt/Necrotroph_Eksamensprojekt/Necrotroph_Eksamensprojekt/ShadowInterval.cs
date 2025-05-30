@@ -16,25 +16,31 @@ namespace Necrotroph_Eksamensprojekt
 
         public ShadowInterval(ShadowCaster shadowCaster, LightEmitter light)
         {
-            distance = shadowCaster.NormalizedDistanceToLight(light);
+            distance = light.NormalizedDistanceToLight(shadowCaster);
             float nondistance = shadowCaster.CalculateDistanceToLight(light);
             float BaseAngle = shadowCaster.CalculateLightToShadowAngle(light);
             float AngleIntervalSize = shadowCaster.CalculateAngle(nondistance);
-            if (BaseAngle + AngleIntervalSize > MathF.PI * 2)
-            {
-                angleOffset = -((MathF.PI * 2) % (BaseAngle + AngleIntervalSize));
-            }
-            else if (BaseAngle - AngleIntervalSize < 0)
-            {
-                // double negativity
-                angleOffset = -(BaseAngle - AngleIntervalSize);
-            }
-            else
-            {
-                angleOffset = 0;
-            }
-            upperAngle = BaseAngle + AngleIntervalSize;// + angleOffset;
-            lowerAngle = BaseAngle - AngleIntervalSize;// + angleOffset;
+            // double negativity
+
+            angleOffset = -(BaseAngle - AngleIntervalSize);
+            upperAngle = BaseAngle + AngleIntervalSize + angleOffset;
+
+
+            //if (BaseAngle + AngleIntervalSize > MathF.PI * 2)
+            //{
+            //    angleOffset = -((MathF.PI * 2) % (BaseAngle + AngleIntervalSize));
+            //}
+            //else if (BaseAngle - AngleIntervalSize < 0)
+            //{
+            //    // double negativity
+            //    angleOffset = -(BaseAngle - AngleIntervalSize);
+            //}
+            //else
+            //{
+            //    angleOffset = 0;
+            //}
+            //upperAngle = BaseAngle + AngleIntervalSize;// + angleOffset;
+            //lowerAngle = BaseAngle - AngleIntervalSize;// + angleOffset;
         }
 
         public float UpperAngle { get => upperAngle; }
@@ -44,7 +50,8 @@ namespace Necrotroph_Eksamensprojekt
 
         public Color ToDataPass()
         {
-            return new Color(upperAngle, lowerAngle, angleOffset, distance);
+            float Pi = 6.28318530718f;
+            return new Color(UpperAngle / (Pi), (AngleOffset / (Pi)) + 0.5f, Distance);
         }
     }
 

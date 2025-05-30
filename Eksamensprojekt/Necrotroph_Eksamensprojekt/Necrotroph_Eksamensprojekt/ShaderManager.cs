@@ -46,71 +46,53 @@ namespace Necrotroph_Eksamensprojekt
         {
             ShadowSprite = GameWorld.Instance.Content.Load<Texture2D>("darkshaddow");
             LightEffect = GameWorld.Instance.Content.Load<Effect>("LightingShader");
-            //ShadowEffect = GameWorld.Instance.Content.Load<Effect>("TestShaderShadow");
+            //ShadowEffect = GameWorld.Instance.Content.Load<Effect>("ShadowShader");
             InvertAplha = GameWorld.Instance.Content.Load<Effect>("InvertAlpha");
             //ShadowMapSprite = GameWorld.Instance.Content.Load<Texture2D>("shadowMap");
         }
 
         public static void PrepareShadows(SpriteBatch spriteBatch)
         {
+            List<(LightEmitter lightEmitter, List<ShadowInterval> shadowIntervals)> components = InGame.Instance.GetShaderData();
 
+            //-------------
 
-            //Vector2[] hi = new Vector2[] { GameWorld.Instance.PlayerObject.Transform.Position / GameWorld.Instance.GraphicsDevice.PresentationParameters.Bounds.Size.ToVector2(), new Vector2(0.4f, 0.4f), Vector2.One * 2, Vector2.One * 2, new Vector2(0.1f, 0.7f) };
-            //shaderEffect.Parameters["lightPositions"].SetValue(hi);
-            //shaderEffect.Parameters["lightRadius"].SetValue(0.15f);
+            foreach ((LightEmitter lightEmitter, List<ShadowInterval> shadowIntervals) shadow in components)
+            {
+                shadow.lightEmitter.DrawShadowsToTarget(spriteBatch, shadow.shadowIntervals);
+            }
 
-
-            //ShadowInterval shadowr = new ShadowInterval(GameWorld.Instance.BugObject.GetComponent<ShadowCaster>(), GameWorld.Instance.PlayerObject.GetComponent<LightEmitter>());
-            //shaderEffect.Parameters["Upper"].SetValue(shadowr.UpperAngle);
-            //shaderEffect.Parameters["Lower"].SetValue(shadowr.LowerAngle);
-            //shaderEffect.Parameters["Offset"].SetValue(shadowr.AngleOffset);
-            //shaderEffect.Parameters["Distance"].SetValue(shadowr.Distance);
-
-
-
-
-
-            (List<LightEmitter> lightEmitters, List<ShadowInterval> shadowIntervals) components = InGame.Instance.GetShaderData();
-
+            //-------------
             GameWorld.Instance.GraphicsDevice.SetRenderTarget(LightTarget);
             GameWorld.Instance.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
 
-            spriteBatch.Begin(blendState: BlendState.Additive, effect: lightEffect);
-            foreach (LightEmitter light in components.lightEmitters)
+            spriteBatch.Begin(blendState: BlendState.Additive, effect: LightEffect);
+            foreach ((LightEmitter lightEmitter, List<ShadowInterval> shadowIntervals) shadow in components)
             {
-                Color dataPass = new Color(light.X, light.Y, light.LightRadius);
-                spriteBatch.Draw(ShadowSprite, new Vector2(0, 0), dataPass);
+                shadow.lightEmitter.DrawToLightMask(spriteBatch);
             }
+
             spriteBatch.End();
 
 
-            //GameWorld.Instance.GraphicsDevice.SetRenderTarget(ShadowTarget);
-            //GameWorld.Instance.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
-
-            //spriteBatch.Begin(blendState: BlendState.Additive, effect: shaderEffect);
-            //foreach (ShadowCaster shadow in components.shadowIntervals)
-            //{
-            //Color dataPass = new Color(shadow.X, shadow.Y, shadow.Radius);
-            //spriteBatch.Draw(ShadowSprite, new Vector2(0, 0), dataPass);
-            //}
-            //spriteBatch.Draw(ShadowSprite, new Vector2(0, 0), new Color(hi[1].X, hi[1].Y, 0.15f));
-            //spriteBatch.End();
-
+            //-------------
             GameWorld.Instance.GraphicsDevice.SetRenderTarget(FinalLightTarget);
             GameWorld.Instance.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
 
             spriteBatch.Begin(blendState: BlendState.Additive, effect: InvertAplha);
-            spriteBatch.Draw(LightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
+            spriteBatch.Draw(LightTarget, new Vector2(0, 0), Color.White);
             spriteBatch.End();
 
+
             GameWorld.Instance.GraphicsDevice.SetRenderTarget(null);
+
         }
 
 
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(FinalLightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 0.95f);
+            spriteBatch.Draw(FinalLightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
     }

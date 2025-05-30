@@ -11,7 +11,7 @@ Texture2D SpriteTexture;
 
 static const float aspectRatio = 9.0 / 16.0;
 static const float fadeLength = 0.05;
-static const float resizer = 1 / fadeLength;
+static const float resizer = 1.0 / fadeLength;
 
 
 sampler2D SpriteTextureSampler = sampler_state
@@ -33,19 +33,35 @@ float2 AdjustForAspectRatio(float2 position)
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-    float4 pixelColor = tex2D(SpriteTextureSampler, input.TextureCoordinates);
-    float2 pixelPosition = input.TextureCoordinates;
-    float2 lightPosition = input.Color.xy;
-    float1 lightRadius = input.Color.z;
+    float isInShadow = tex2D(SpriteTextureSampler, input.TextureCoordinates).a;
+    float4 pixelColor = float4(0,0,0,1);
     
-    float2 dif = AdjustForAspectRatio(pixelPosition - lightPosition);
-    //float2 dif = AdjustForAspectRatio(pixelPosition - lightPositions[0]);
-    float distance = length(dif);
-    pixelColor.a -= 1 - clamp((distance - (lightRadius - fadeLength)) * resizer, 0, 1);
-    //pixelColor.a += IsInShadow(dif) * step(Distance, distance);
+    float2 pixelPosition = input.TextureCoordinates;
+    float2 lightPosition = float2(0.5, 0.5);
+    float1 lightRadius = float1(0.5);
+    
+    float distance = length(pixelPosition - lightPosition);
+    pixelColor.a -= 1 - clamp((distance - (lightRadius - fadeLength)) * resizer, 0.0, 1.0);
     
     pixelColor.a = 1 - pixelColor.a;
+    
+    pixelColor.a -= isInShadow;
+
     return pixelColor;
+
+    //float4 pixelColor = tex2D(SpriteTextureSampler, input.TextureCoordinates);
+    //float2 pixelPosition = input.TextureCoordinates;
+    //float2 lightPosition = input.Color.xy;
+    //float1 lightRadius = input.Color.z;
+    
+    //float2 dif = AdjustForAspectRatio(pixelPosition - lightPosition);
+    //float2 dif = AdjustForAspectRatio(pixelPosition - lightPositions[0]);
+    //float distance = length(dif);
+    //pixelColor.a -= 1 - clamp((distance - (lightRadius - fadeLength)) * resizer, 0, 1);
+    //pixelColor.a += IsInShadow(dif) * step(Distance, distance);
+    
+    //pixelColor.a = 1 - pixelColor.a;
+    //return pixelColor;
 }
 
 technique SpriteDrawing
