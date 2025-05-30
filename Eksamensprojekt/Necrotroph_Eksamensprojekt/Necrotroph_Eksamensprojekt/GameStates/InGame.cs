@@ -95,15 +95,15 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
         public override void LoadContent()
         {
-            AddObject(EnemyFactory.CreateEnemy(new Vector2(-300, -300), EnemyType.Hunter));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(7000, -500)));
+            AddObject(EnemyFactory.CreateEnemy(new Vector2(-1000, -1000), EnemyType.Hunter));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(4000, -500)));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-4000, 2500)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(5600, 1000)));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(3600, 1000)));
             AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-1500, 500)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-6066, 0)));
+            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-2066, 0)));
 
 
-            UIManager.AddUIObject(new UIButton(new Vector2(1000,200), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
+            UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X/2, 1000), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2(50, 50), 1f));
 
             ShaderManager.SetSpritesAndShaders();
