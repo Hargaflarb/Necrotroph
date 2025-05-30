@@ -40,7 +40,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
             switch (enemy)
             {
                 case EnemyType.Hunter:
-                    newEnemy = new HunterEnemy(position);
+                    newEnemy = HunterEnemy.Instance;
                     newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
                     /*newEnemy.AddComponent<Animator>();
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);

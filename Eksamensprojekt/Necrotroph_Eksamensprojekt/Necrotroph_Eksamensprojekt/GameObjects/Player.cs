@@ -28,7 +28,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Properties
         public float Speed { get => speed; set => speed = value; }
         public Vector2 Direction { get => direction; set => direction = value; }
-        public int Life { get => life; }
+        public int Life { get => life; set => life = value; }
         public DeathObserver Observer { get => observer; set => observer = value; }
         public bool LightOn { get => lightOn; }
         public bool IsMoving
