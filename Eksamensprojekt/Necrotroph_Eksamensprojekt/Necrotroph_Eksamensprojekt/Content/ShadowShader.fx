@@ -11,8 +11,10 @@ Texture2D SpriteTexture;
 
 static const float fadeLength = 0.15;
 static const float resizer = 1.0 / fadeLength;
-static const float Pi = 3.14159265359;
-static const float toRadians = 6.28318530718;
+//static const float Pi = 3.14159265359;
+//static const float toRadians = 6.28318530718;
+static const float Pi = 3.1416;
+static const float toRadians = 6.2832;
 
 sampler2D SpriteTextureSampler = sampler_state
 {
