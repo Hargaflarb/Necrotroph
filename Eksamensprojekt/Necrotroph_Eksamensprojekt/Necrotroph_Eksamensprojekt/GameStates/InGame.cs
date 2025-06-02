@@ -12,7 +12,6 @@ using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.ObjectPools;
 using Necrotroph_Eksamensprojekt.Observer;
-using PathFinding;
 
 namespace Necrotroph_Eksamensprojekt.Menu
 {

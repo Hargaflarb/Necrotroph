@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Necrotroph_Eksamensprojekt.Menu;
+using Necrotroph_Eksamensprojekt.PathFinding;
 
 
 namespace Necrotroph_Eksamensprojekt
@@ -17,6 +18,7 @@ namespace Necrotroph_Eksamensprojekt
     public static class Map
     {
         private const float treeSpacing = 800;
+        private const float NodeSpacing = 200;
         private static Random random;
         private static readonly Vector2 size;
         private static readonly Vector2 loadBound;
@@ -91,14 +93,49 @@ namespace Necrotroph_Eksamensprojekt
                 {
                     Vector2 offset = new Vector2(random.Next(50) - 25, random.Next(50) - 25);
                     Vector2 treePos = new Vector2(x, y) * treeSpacing;
-                    unloadedMapObjects.Add(((new Vector2(x, y) * treeSpacing) + offset * 6, TreePool.Instance));
+                    unloadedMapObjects.Add((treePos + offset * 6, TreePool.Instance));
 
-                    Node node = pathFindingGraph.AddNode((int)(treePos.X + treeSpacing * 0.5f), (int)(treePos.Y + treeSpacing * 0.5f));
-                    pathFindingGraph.TryAddEdge(node, ((int)(treePos.X - treeSpacing * 0.5f), (int)(treePos.Y - treeSpacing * 0.5f)));
+
+                    float halfSpacing = treeSpacing * 0.5f;
+                    Node FromNode = pathFindingGraph.AddNode((int)(treePos.X + halfSpacing), (int)(treePos.Y + halfSpacing));
+                    
+                    Node ToNodeVertical = pathFindingGraph.FindNearestNode(((int)(treePos.X + halfSpacing), (int)(treePos.Y - halfSpacing)), 10, out bool success1);
+                    if (success1)
+                    {
+                        pathFindingGraph.AddEdge(FromNode, ToNodeVertical);
+                    }
+                    
+                    Node ToNodeHorisontal = pathFindingGraph.FindNearestNode(((int)(treePos.X - halfSpacing), (int)(treePos.Y + halfSpacing)), 10, out bool success2);
+                    if (success2)
+                    {
+                        pathFindingGraph.AddEdge(FromNode, ToNodeHorisontal);
+                    }
                 }
             }
             CheckForObjectsToUnload();
             InGame.Instance.AddAndRemoveGameObjects();
+        }
+
+
+        public static Vector2 PathfoundDirection(Vector2 position, Vector2 destination, Node lastNode)
+        {
+            Node endingNode = pathFindingGraph.FindNearestNode(((int)position.X, (int)position.Y), out bool endSuccess);
+            if (!endSuccess)
+            {
+                return Vector2.One;
+            }
+
+            Node startingNode = pathFindingGraph.FindNearestNode(((int)position.X, (int)position.Y), 20, out bool startSuccess);
+            bool doStartingNode = !startSuccess;
+
+
+            LinkedList<Node> path = Graph.AStar(startingNode, endingNode, out bool AStarSuccess);
+            
+            Node NextdoStartingNode)
+            {
+
+            }
+
         }
     }
 }
