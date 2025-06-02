@@ -9,9 +9,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.CodeDom;
-using System.Security.Cryptography;
 using Necrotroph_Eksamensprojekt.Menu;
+using PathFinding;
+
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -23,6 +23,7 @@ namespace Necrotroph_Eksamensprojekt
         private static readonly Vector2 loadBound;
         private static readonly Vector2 unloadBound;
         private static List<(Vector2 position, ObjectPool poolType)> unloadedMapObjects;
+        private static Graph pathFindingGraph;
 
         static Map()
         {
@@ -31,6 +32,7 @@ namespace Necrotroph_Eksamensprojekt
             loadBound = new Vector2(1250, 900);
             unloadBound = new Vector2(1350, 1000);
             unloadedMapObjects = new List<(Vector2 position, ObjectPool poolType)>();
+            pathFindingGraph = new Graph();
         }
 
         /// <summary>
@@ -89,7 +91,11 @@ namespace Necrotroph_Eksamensprojekt
                 for (float y = -heightAmount; y < heightAmount; y++)
                 {
                     Vector2 offset = new Vector2(random.Next(50) - 25, random.Next(50) - 25);
-                    unloadedMapObjects.Add(((new Vector2(x, y) * treeSpacing) + offset*6, TreePool.Instance));
+                    Vector2 treePos = new Vector2(x, y) * treeSpacing;
+                    unloadedMapObjects.Add(((new Vector2(x, y) * treeSpacing) + offset * 6, TreePool.Instance));
+
+                    Node node = pathFindingGraph.AddNode((int)(treePos.X + treeSpacing * 0.5f), (int)(treePos.Y + treeSpacing * 0.5f));
+                    pathFindingGraph.TryAddEdge(node, ((int)(treePos.X - treeSpacing * 0.5f), (int)(treePos.Y - treeSpacing * 0.5f)));
                 }
             }
             CheckForObjectsToUnload();

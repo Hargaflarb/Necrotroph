@@ -12,6 +12,7 @@ using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.ObjectPools;
 using Necrotroph_Eksamensprojekt.Observer;
+using PathFinding;
 
 namespace Necrotroph_Eksamensprojekt.Menu
 {
@@ -26,7 +27,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private int itemsCollected;
         private bool gameWon = false;
 
-
+        
 
 
         private static InGame instance;
@@ -44,6 +45,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private InGame()
         {
             uIObjects = new List<UIObject>();
+
+            
         }
 
 
