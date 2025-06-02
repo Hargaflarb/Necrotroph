@@ -15,19 +15,20 @@ namespace Necrotroph_Eksamensprojekt
     public class HunterEnemy : GameObject, IListener
     {
         #region Fields
-        private float speed = 50;
         private bool facingLeft = true;
         private int damage = 30;
+        private static Vector2 position;
         private static HunterEnemy instance;
         #endregion
         #region Properties
+        public static Vector2 Position;
         public static HunterEnemy Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new HunterEnemy(new Vector2(-300, -300));
+                    instance = new HunterEnemy(Position);
                 }
                 return instance;
             }
@@ -59,7 +60,7 @@ namespace Necrotroph_Eksamensprojekt
             //float YDirection = (float)Math.Sin(remap);
             //direction = new Vector2(XDirection, YDirection);
             direction.Normalize();
-            GetComponent<Movable>().Move(direction, speed);
+            HunterEnemy.Instance.GetComponent<Movable>().Direction += direction;
             base.Update(gameTime);
         }
 

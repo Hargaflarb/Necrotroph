@@ -73,4 +73,5 @@ namespace Necrotroph_Eksamensprojekt
             Connection.Close();
         }
         #endregion
+    }
 }

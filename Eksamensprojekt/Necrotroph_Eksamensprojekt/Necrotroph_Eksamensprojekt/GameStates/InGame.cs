@@ -144,6 +144,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
                 {
                     gameObject.Update(gameTime);
                 }
+                
             }
 
             foreach (UIObject uiObject in UIManager.ActiveUIObjects)
@@ -286,7 +287,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private void AddPlayer(Vector2 position)
         {
             Player newPlayer = Player.Instance;
-            newPlayer.AddComponent<Movable>();
+            newPlayer.AddComponent<Movable>(300);
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f, new Vector2(0.6f, 0.3f), new Vector2(0.5f, 0.85f));
             newPlayer.AddComponent<Animator>();
             newPlayer.AddComponent<LightEmitter>(0.2f);

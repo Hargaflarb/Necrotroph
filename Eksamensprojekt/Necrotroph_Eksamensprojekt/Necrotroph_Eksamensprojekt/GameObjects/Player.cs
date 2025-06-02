@@ -17,8 +17,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Fields
         private int maxLife = 100;
         private int life;
-        private float speed;
-        private Vector2 direction;
         private static Player instance;
         private static bool lightOn = true;
         private DeathObserver observer;
@@ -32,8 +30,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         private bool oneSoundPlayed = false;
         #endregion
         #region Properties
-        public float Speed { get => speed; set => speed = value; }
-        public Vector2 Direction { get => direction; set => direction = value; }
         public int Life { get => life; set => life = value; }
         public DeathObserver Observer { get => observer; set => observer = value; }
         public bool LightOn { get => lightOn; }
@@ -41,7 +37,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             get
             {
-                return (direction != Vector2.Zero);
+                return (GetComponent<Movable>().Direction != Vector2.Zero);
             }
         }
         public static Player Instance
@@ -59,7 +55,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Constructors
         private Player(Vector2 position) : base(position)
         {
-            speed = 300;
             life = maxLife;
         }
         #endregion

@@ -22,19 +22,19 @@ namespace Necrotroph_Eksamensprojekt.Commands
         #region Constructor
         public SprintCommand()
         {
-            normalSpeed = Player.Instance.Speed;
+            //normalSpeed = Player.Instance.Speed;
         }
         #endregion
 
         #region Methods
         public void Execute()
         {
-            Player.Instance.Speed = speed;
+            Player.Instance.GetComponent<Movable>().Speed = speed;
         }
 
         public void Undo()
         {
-            Player.Instance.Speed = normalSpeed;
+            //Player.Instance.Speed = normalSpeed;
         }
         #endregion
     }

@@ -30,15 +30,15 @@ namespace Necrotroph_Eksamensprojekt.Commands
 
         public void Execute()
         {
-            ((Movable)Player.Instance.GetComponent<Movable>()).Move(direction, Player.Instance.Speed);
-            Player.Instance.Direction = direction;
+            //((Movable)Player.Instance.GetComponent<Movable>()).Move(direction, Player.Instance.Speed);
+            Player.Instance.GetComponent<Movable>().Direction += direction;
         }
 
         public void Undo()
         {
-            if (Player.Instance.Direction == direction)
+            if (Player.Instance.GetComponent<Movable>().Direction == direction)
             {
-                Player.Instance.Direction = Vector2.Zero;
+                Player.Instance.GetComponent<Movable>().Direction = Vector2.Zero;
             }
         }
         #endregion
