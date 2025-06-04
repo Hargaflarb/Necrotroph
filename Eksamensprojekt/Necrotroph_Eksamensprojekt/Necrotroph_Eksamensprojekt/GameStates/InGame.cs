@@ -27,6 +27,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private int itemsCollected;
         private bool gameWon = false;
         private static Texture2D tileSprite;
+        
 
         private static InGame instance;
         public static InGame Instance
@@ -43,6 +44,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private InGame()
         {
             uIObjects = new List<UIObject>();
+
+            
         }
 
 

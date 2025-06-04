@@ -18,6 +18,7 @@ namespace Necrotroph_Eksamensprojekt
         private bool facingLeft = true;
         private int damage = 30;
         private static Vector2 position;
+        private Vector2 nextDestination;
         private static HunterEnemy instance;
         #endregion
         #region Properties
@@ -38,13 +39,16 @@ namespace Necrotroph_Eksamensprojekt
         private HunterEnemy(Vector2 position) : base(position)
         {
             Player.Instance.Observer.AddListener(this);
+            nextDestination = Transform.WorldPosition;
         }
         #endregion
         #region Methods
         public override void Update(GameTime gameTime)
         {
             //finds player position & moves toward it
-            Vector2 direction = new Vector2(Player.Instance.Transform.ScreenPosition.X - Transform.ScreenPosition.X, Player.Instance.Transform.ScreenPosition.Y - Transform.ScreenPosition.Y);
+            nextDestination = Map.PathfoundDestination(Transform.WorldPosition, Player.Instance.Transform.WorldPosition, nextDestination);
+            Vector2 direction = nextDestination - Transform.WorldPosition;
+            //Vector2 direction = new Vector2(Player.Instance.Transform.ScreenPosition.X - Transform.ScreenPosition.X, Player.Instance.Transform.ScreenPosition.Y - Transform.ScreenPosition.Y);
             if (direction.X > 0 && facingLeft)
             {
                 GetComponent<SpriteRenderer>().Flipped = true;

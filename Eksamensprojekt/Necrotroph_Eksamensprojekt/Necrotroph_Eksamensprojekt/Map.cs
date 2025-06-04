@@ -9,20 +9,23 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.CodeDom;
-using System.Security.Cryptography;
 using Necrotroph_Eksamensprojekt.Menu;
+using Necrotroph_Eksamensprojekt.PathFinding;
+using System.Reflection.Metadata.Ecma335;
+
 
 namespace Necrotroph_Eksamensprojekt
 {
     public static class Map
     {
         private const float treeSpacing = 800;
+        private const float NodeSpacing = 200;
         private static Random random;
         private static readonly Vector2 size;
         private static readonly Vector2 loadBound;
         private static readonly Vector2 unloadBound;
         private static List<(Vector2 position, ObjectPool poolType)> unloadedMapObjects;
+        private static Graph pathFindingGraph;
 
         static Map()
         {
@@ -31,6 +34,7 @@ namespace Necrotroph_Eksamensprojekt
             loadBound = new Vector2(1250, 900);
             unloadBound = new Vector2(1350, 1000);
             unloadedMapObjects = new List<(Vector2 position, ObjectPool poolType)>();
+            pathFindingGraph = new Graph();
         }
 
         /// <summary>
@@ -89,11 +93,76 @@ namespace Necrotroph_Eksamensprojekt
                 for (float y = -heightAmount; y < heightAmount; y++)
                 {
                     Vector2 offset = new Vector2(random.Next(50) - 25, random.Next(50) - 25);
-                    unloadedMapObjects.Add(((new Vector2(x, y) * treeSpacing) + offset*6, TreePool.Instance));
+                    Vector2 treePos = new Vector2(x, y) * treeSpacing;
+                    unloadedMapObjects.Add((treePos + offset * 6, TreePool.Instance));
+
+
+                    float halfSpacing = treeSpacing * 0.5f;
+                    Node FromNodeCenter = pathFindingGraph.AddNode((int)(treePos.X + halfSpacing), (int)(treePos.Y + halfSpacing));
+                    Node FromNodeVertical = pathFindingGraph.AddNode((int)(treePos.X + halfSpacing), (int)treePos.Y);
+                    Node FromNodeHorizontal = pathFindingGraph.AddNode((int)treePos.X, (int)(treePos.Y + halfSpacing));
+
+                    pathFindingGraph.AddEdge(FromNodeCenter, FromNodeVertical);
+                    pathFindingGraph.AddEdge(FromNodeCenter, FromNodeHorizontal);
+
+                    Node ToNodeVertical = pathFindingGraph.FindNearestNode(((int)(treePos.X + halfSpacing), (int)(treePos.Y - halfSpacing)), 10, out bool success1);
+                    if (success1)
+                    {
+                        //pathFindingGraph.AddEdge(FromNodeCenter, ToNodeVertical);
+                        pathFindingGraph.AddEdge(FromNodeVertical, ToNodeVertical);
+                    }
+
+                    Node ToNodeHorisontal = pathFindingGraph.FindNearestNode(((int)(treePos.X - halfSpacing), (int)(treePos.Y + halfSpacing)), 10, out bool success2);
+                    if (success2)
+                    {
+                        //pathFindingGraph.AddEdge(FromNodeCenter, ToNodeHorisontal);
+                        pathFindingGraph.AddEdge(FromNodeHorizontal, ToNodeHorisontal);
+                    }
                 }
             }
             CheckForObjectsToUnload();
             InGame.Instance.AddAndRemoveGameObjects();
+        }
+
+        /// <summary>
+        /// Using Astar, the next sub-destination is found.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="finalDestination"></param>
+        /// <param name="nextDestination"></param>
+        /// <returns></returns>
+        public static Vector2 PathfoundDestination(Vector2 position, Vector2 finalDestination, Vector2 nextDestination)
+        {
+            // else if a new path is to be found.
+
+            Node endingNode = pathFindingGraph.FindNearestNode(((int)finalDestination.X, (int)finalDestination.Y), out bool endSuccess);
+            if (!endSuccess)
+            {
+                // shouldn't happen.
+                return new Vector2(0, 0);
+            }
+
+            Node startingNode = pathFindingGraph.FindNearestNode(((int)position.X, (int)position.Y), out bool startSuccess);
+
+            // if starting and ending point is the same - pathfinding isn't needed.
+            if (endingNode == startingNode)
+            {
+                return finalDestination;
+            }
+
+            // if it's still aproching a Node.
+            if ((float)Math.Sqrt(Math.Pow(nextDestination.X - position.X, 2) + Math.Pow(nextDestination.Y - position.Y, 2)) > 70)
+            {
+                // could add a "if distance to final is shorter; go to final"
+                return nextDestination;
+            }
+
+
+            LinkedList<Node> path = Graph.AStar(startingNode, endingNode, out bool AStarSuccess);
+
+            nextDestination = new Vector2(path.First.Next.Value.X, path.First.Next.Value.Y);
+            return nextDestination;
+            
         }
     }
 }
