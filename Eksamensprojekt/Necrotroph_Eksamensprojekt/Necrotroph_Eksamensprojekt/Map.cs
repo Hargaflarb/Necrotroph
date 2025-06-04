@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Necrotroph_Eksamensprojekt.Menu;
 using Necrotroph_Eksamensprojekt.PathFinding;
+using System.Reflection.Metadata.Ecma335;
 
 
 namespace Necrotroph_Eksamensprojekt
@@ -97,18 +98,25 @@ namespace Necrotroph_Eksamensprojekt
 
 
                     float halfSpacing = treeSpacing * 0.5f;
-                    Node FromNode = pathFindingGraph.AddNode((int)(treePos.X + halfSpacing), (int)(treePos.Y + halfSpacing));
-                    
+                    Node FromNodeCenter = pathFindingGraph.AddNode((int)(treePos.X + halfSpacing), (int)(treePos.Y + halfSpacing));
+                    Node FromNodeVertical = pathFindingGraph.AddNode((int)(treePos.X + halfSpacing), (int)treePos.Y);
+                    Node FromNodeHorizontal = pathFindingGraph.AddNode((int)treePos.X, (int)(treePos.Y + halfSpacing));
+
+                    pathFindingGraph.AddEdge(FromNodeCenter, FromNodeVertical);
+                    pathFindingGraph.AddEdge(FromNodeCenter, FromNodeHorizontal);
+
                     Node ToNodeVertical = pathFindingGraph.FindNearestNode(((int)(treePos.X + halfSpacing), (int)(treePos.Y - halfSpacing)), 10, out bool success1);
                     if (success1)
                     {
-                        pathFindingGraph.AddEdge(FromNode, ToNodeVertical);
+                        //pathFindingGraph.AddEdge(FromNodeCenter, ToNodeVertical);
+                        pathFindingGraph.AddEdge(FromNodeVertical, ToNodeVertical);
                     }
-                    
+
                     Node ToNodeHorisontal = pathFindingGraph.FindNearestNode(((int)(treePos.X - halfSpacing), (int)(treePos.Y + halfSpacing)), 10, out bool success2);
                     if (success2)
                     {
-                        pathFindingGraph.AddEdge(FromNode, ToNodeHorisontal);
+                        //pathFindingGraph.AddEdge(FromNodeCenter, ToNodeHorisontal);
+                        pathFindingGraph.AddEdge(FromNodeHorizontal, ToNodeHorisontal);
                     }
                 }
             }
@@ -116,26 +124,45 @@ namespace Necrotroph_Eksamensprojekt
             InGame.Instance.AddAndRemoveGameObjects();
         }
 
-
-        public static Vector2 PathfoundDirection(Vector2 position, Vector2 destination, Node lastNode)
+        /// <summary>
+        /// Using Astar, the next sub-destination is found.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="finalDestination"></param>
+        /// <param name="nextDestination"></param>
+        /// <returns></returns>
+        public static Vector2 PathfoundDestination(Vector2 position, Vector2 finalDestination, Vector2 nextDestination)
         {
-            Node endingNode = pathFindingGraph.FindNearestNode(((int)position.X, (int)position.Y), out bool endSuccess);
+            // else if a new path is to be found.
+
+            Node endingNode = pathFindingGraph.FindNearestNode(((int)finalDestination.X, (int)finalDestination.Y), out bool endSuccess);
             if (!endSuccess)
             {
-                return Vector2.One;
+                // shouldn't happen.
+                return new Vector2(0, 0);
             }
 
-            Node startingNode = pathFindingGraph.FindNearestNode(((int)position.X, (int)position.Y), 20, out bool startSuccess);
-            bool doStartingNode = !startSuccess;
+            Node startingNode = pathFindingGraph.FindNearestNode(((int)position.X, (int)position.Y), out bool startSuccess);
+
+            // if starting and ending point is the same - pathfinding isn't needed.
+            if (endingNode == startingNode)
+            {
+                return finalDestination;
+            }
+
+            // if it's still aproching a Node.
+            if ((float)Math.Sqrt(Math.Pow(nextDestination.X - position.X, 2) + Math.Pow(nextDestination.Y - position.Y, 2)) > 70)
+            {
+                // could add a "if distance to final is shorter; go to final"
+                return nextDestination;
+            }
 
 
             LinkedList<Node> path = Graph.AStar(startingNode, endingNode, out bool AStarSuccess);
+
+            nextDestination = new Vector2(path.First.Next.Value.X, path.First.Next.Value.Y);
+            return nextDestination;
             
-            Node NextdoStartingNode)
-            {
-
-            }
-
         }
     }
 }
