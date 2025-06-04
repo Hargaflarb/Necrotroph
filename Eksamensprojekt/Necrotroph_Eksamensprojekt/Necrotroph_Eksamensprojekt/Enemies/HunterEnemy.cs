@@ -15,15 +15,28 @@ namespace Necrotroph_Eksamensprojekt
     public class HunterEnemy : GameObject, IListener
     {
         #region Fields
-        private float speed = 200;//50;
         private bool facingLeft = true;
         private int damage = 30;
+        private static Vector2 position;
         private Vector2 nextDestination;
+        private static HunterEnemy instance;
         #endregion
         #region Properties
+        public static Vector2 Position;
+        public static HunterEnemy Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new HunterEnemy(Position);
+                }
+                return instance;
+            }
+        }
         #endregion
         #region Constructors
-        public HunterEnemy(Vector2 position) : base(position)
+        private HunterEnemy(Vector2 position) : base(position)
         {
             Player.Instance.Observer.AddListener(this);
             nextDestination = Transform.WorldPosition;
@@ -51,7 +64,7 @@ namespace Necrotroph_Eksamensprojekt
             //float YDirection = (float)Math.Sin(remap);
             //direction = new Vector2(XDirection, YDirection);
             direction.Normalize();
-            GetComponent<Movable>().Move(direction, speed);
+            HunterEnemy.Instance.GetComponent<Movable>().Direction += direction;
             base.Update(gameTime);
         }
 

@@ -22,12 +22,14 @@ namespace Necrotroph_Eksamensprojekt.Components
 
         #endregion
         #region Properties
+        public Vector2 Direction { get => direction; set => direction = value; }
+        public float Speed { get => speed; set => speed = value; }
         public bool StandStill { get => standStill; set => standStill = value; }
         #endregion
         #region Constructors
-        public Movable(GameObject gameObject) : base(gameObject)
+        public Movable(GameObject gameObject, float speed) : base(gameObject)
         {
-
+            Speed = speed;
         }
         #endregion
         #region Methods
@@ -47,9 +49,16 @@ namespace Necrotroph_Eksamensprojekt.Components
             }
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            Move(Direction, Speed);
+            Direction = Vector2.Zero;
+            base.Update(gameTime);
+        }
+
         public void Sprint(float speed)
         {
-            Player.Instance.Speed = speed;
+            //Player.Instance.Speed = speed;
         }
 
         #endregion

@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Ambience/darker-ambient-in-scandinavian-forest-190400.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Ambience/darker-ambient-in-scandinavian-forest-190400.mp3
+
+#begin Ambience/smooth-cold-wind-looped-135538.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Ambience/smooth-cold-wind-looped-135538.mp3
+
 #begin butan.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -36,6 +48,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:darkshaddow.png
+
+#begin grass2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:grass2.png
 
 #begin HunterSprites/hunterSouthWest.png
 /importer:TextureImporter
@@ -150,6 +174,66 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:resd.png
+
+#begin SFX/Hunter/branch-drag-329004.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Hunter/branch-drag-329004.mp3
+
+#begin SFX/Hunter/dragging-84771.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Hunter/dragging-84771.mp3
+
+#begin SFX/Player/break06-36414.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Player/break06-36414.mp3
+
+#begin SFX/Player/breaking-glass-83809.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Player/breaking-glass-83809.mp3
+
+#begin SFX/Player/bushmovement-6986.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Player/bushmovement-6986.mp3
+
+#begin SFX/Player/glass-breaking-99389.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Player/glass-breaking-99389.mp3
+
+#begin SFX/Player/light-switch-81967.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Player/light-switch-81967.mp3
+
+#begin SFX/Player/rustling-grass-3-101284.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Player/rustling-grass-3-101284.mp3
+
+#begin SFX/Seeker/hugecrack-86690.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Seeker/hugecrack-86690.mp3
+
+#begin SFX/Seeker/very-loud-eviscerating-2-89000.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Seeker/very-loud-eviscerating-2-89000.mp3
 
 #begin ShadowShader.fx
 /importer:EffectImporter

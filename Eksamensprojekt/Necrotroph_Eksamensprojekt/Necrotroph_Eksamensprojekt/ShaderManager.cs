@@ -122,7 +122,7 @@ namespace Necrotroph_Eksamensprojekt
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(FinalLightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            spriteBatch.Draw(FinalLightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 0.001f);
             spriteBatch.Draw(FinalOverlayTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 0.95f);
         }
 

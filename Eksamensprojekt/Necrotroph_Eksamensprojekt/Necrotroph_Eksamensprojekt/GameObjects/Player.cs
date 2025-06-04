@@ -17,25 +17,27 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Fields
         private int maxLife = 100;
         private int life;
-        private float speed;
-        private Vector2 direction;
         private static Player instance;
         private static bool lightOn = true;
         private DeathObserver observer;
         private float invincibilityTime = 1f;
         private bool invincible = false;
+        private int walkSFX1;
+        private int walkSFX2;
+        private int damageSFX1;
+        private int damageSFX2;
+        private int deathSFX;
+        private bool oneSoundPlayed = false;
         #endregion
         #region Properties
-        public float Speed { get => speed; set => speed = value; }
-        public Vector2 Direction { get => direction; set => direction = value; }
-        public int Life { get => life; }
+        public int Life { get => life; set => life = value; }
         public DeathObserver Observer { get => observer; set => observer = value; }
         public bool LightOn { get => lightOn; }
         public bool IsMoving
         {
             get
             {
-                return (direction != Vector2.Zero);
+                return (GetComponent<Movable>().Direction != Vector2.Zero);
             }
         }
         public static Player Instance
@@ -53,13 +55,38 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Constructors
         private Player(Vector2 position) : base(position)
         {
-            speed = 300;
             life = maxLife;
         }
         #endregion
         #region Methods
         public override void Update(GameTime gameTime)
         {
+            if (IsMoving)
+            {
+                if (walkSFX1 != 0)
+                {
+                    SoundManager.Instance.ResumeSFX(walkSFX1);
+                    //SoundManager.Instance.ResumeSFX(walkSFX2);
+                }
+                else
+                {
+                    walkSFX1 = SoundManager.Instance.PlaySFX("PlayerWalk1", Transform.ScreenPosition);
+                    walkSFX2 = SoundManager.Instance.PlaySFX("PlayerWalk2", Transform.ScreenPosition);
+                    damageSFX1 = SoundManager.Instance.PlaySFX("PlayerDamaged1", Transform.ScreenPosition);
+                    damageSFX2 = SoundManager.Instance.PlaySFX("PlayerDamaged2", Transform.ScreenPosition);
+                    deathSFX = SoundManager.Instance.PlaySFX("PlayerDeath", Transform.ScreenPosition);
+                    SoundManager.Instance.PauseSFX(walkSFX1);
+                    SoundManager.Instance.PauseSFX(walkSFX2);
+                    SoundManager.Instance.PauseSFX(damageSFX1);
+                    SoundManager.Instance.PauseSFX(damageSFX2);
+                    SoundManager.Instance.PauseSFX(deathSFX);
+                }
+            }
+            else
+            {
+                SoundManager.Instance.PauseSFX(walkSFX1);
+                //SoundManager.Instance.PauseSFX(walkSFX2);
+            }
             base.Update(gameTime);
         }
 
@@ -78,13 +105,25 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                     PlayerDeath(source);
                 }
                 life -= damage;
-                
-                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f)+0.01f;
+
+                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
                 TimeLineManager.AddEvent(invincibilityTime * 1000, UndoInvincibility);
-                if (life <= 0)
+                if (life <= 0 && lightOn)
                 {
                     lightOn = false;
                     GetComponent<LightEmitter>().LightRadius = 0;
+                    
+                    switch (oneSoundPlayed)
+                    {
+                        case true:
+                            SoundManager.Instance.ResumeSFX(damageSFX2);
+                            break;
+                        case false:
+                            SoundManager.Instance.ResumeSFX(damageSFX1);
+                            break;
+                    }
+                    oneSoundPlayed = !oneSoundPlayed;
+                    
                 }
             }
         }
@@ -99,6 +138,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         public void PlayerDeath(EnemyType source)
         {
             lightOn = false;
+            SoundManager.Instance.ResumeSFX(deathSFX);
             NotifyObserver();
             GetComponent<Movable>().StandStill = true;
         }

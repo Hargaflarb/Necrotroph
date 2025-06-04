@@ -129,7 +129,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             return Hitbox.Intersects(otherObject.Hitbox);
         }
-
         #endregion
     }
 }

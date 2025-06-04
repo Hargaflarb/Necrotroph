@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Enemies;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.ObjectPools;
@@ -25,9 +26,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private Vector2 previousPlayerPosition;
         private int itemsCollected;
         private bool gameWon = false;
-
+        private static Texture2D tileSprite;
         
-
 
         private static InGame instance;
         public static InGame Instance
@@ -68,6 +68,15 @@ namespace Necrotroph_Eksamensprojekt.Menu
                 }
             }
         }
+        public Vector2 TileOffset
+        {
+            get
+            {
+                return new Vector2(Player.Instance.Transform.WorldPosition.X % TileSprite.Width, Player.Instance.Transform.WorldPosition.Y % TileSprite.Height);
+            }
+        }
+        public static Texture2D TileSprite { get => tileSprite; set => tileSprite = value; }
+
 
 
         public override void Initialize()
@@ -89,23 +98,38 @@ namespace Necrotroph_Eksamensprojekt.Menu
             InputHandler.AddUnclickedCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
             InputHandler.AddUnclickedCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
 
-            InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
-            InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand(Player.Instance));
-            
+            InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand());
+            InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand());
+
             base.Initialize();
         }
 
         public override void LoadContent()
         {
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-1000, -1000), EnemyType.Hunter));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(4000, -500)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-4000, 2500)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(3600, 1000)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-1500, 500)));
-            AddObject(MemorabiliaFactory.CreateMemorabilia(new Vector2(-2066, 0)));
+            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500)));
+            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(-4000, 2500)));
+            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(3600, 1000)));
+            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(-1500, 500)));
+            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(-2066, 0)));
 
+            //Sound things
+            SoundManager.Instance.AddSFX("PlayerWalk1", Content.Load<SoundEffect>("SFX/Player/rustling-grass-3-101284"), 300, true);
+            SoundManager.Instance.AddSFX("PlayerWalk2", Content.Load<SoundEffect>("SFX/Player/bushmovement-6986"), 300, true);
+            SoundManager.Instance.AddSFX("PlayerDamaged1", Content.Load<SoundEffect>("SFX/Player/glass-breaking-99389"), 400, false);
+            SoundManager.Instance.AddSFX("PlayerDamaged2", Content.Load<SoundEffect>("SFX/Player/break06-36414"), 400, false);
+            SoundManager.Instance.AddSFX("PlayerDeath", Content.Load<SoundEffect>("SFX/Player/breaking-glass-83809"), 400, false);
+            SoundManager.Instance.AddSFX("PlayerLightToggle", Content.Load<SoundEffect>("SFX/Player/light-switch-81967"), 300, false);
+            SoundManager.Instance.AddSFX("SeekerActivate", Content.Load<SoundEffect>("SFX/Seeker/very-loud-eviscerating-2-89000"), 400, false);
+            SoundManager.Instance.AddSFX("SeekerDeactivate", Content.Load<SoundEffect>("SFX/Seeker/hugecrack-86690"), 300, false);
+            SoundManager.Instance.AddSFX("HunterMove1", Content.Load<SoundEffect>("SFX/Hunter/dragging-84771"), 300, true);
+            SoundManager.Instance.AddSFX("HunterMove2", Content.Load<SoundEffect>("SFX/Hunter/branch-drag-329004"), 300, true);
 
-            UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X/2, 1000), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
+            SoundManager.Instance.AddAmbience("SpookyAmbience1", Content.Load<Song>("Ambience/darker-ambient-in-scandinavian-forest-190400"), 0.5f);
+            SoundManager.Instance.AddAmbience("Wind", Content.Load<Song>("Ambience/smooth-cold-wind-looped-135538"), 0.1f);
+            SoundManager.Instance.PlayAmbience("SpookyAmbience1");
+
+            UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X / 2, 1000), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2(50, 50), 1f));
 
             ShaderManager.SetSpritesAndShaders();
@@ -116,13 +140,14 @@ namespace Necrotroph_Eksamensprojekt.Menu
         public override void Update(GameTime gameTime)
         {
             InputHandler.HandleInput();
-
+            SeekerEnemyManager.Update();
             foreach (GameObject gameObject in activeGameObjects)
             {
                 if (gameObject.Active)
                 {
                     gameObject.Update(gameTime);
                 }
+                
             }
 
             foreach (UIObject uiObject in UIManager.ActiveUIObjects)
@@ -152,6 +177,19 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
             //Higher layer numbers are closer, lower are further away
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
+
+            //floorTiles
+            int xReptition = (int)(GameWorld.ScreenSize.X / TileSprite.Width);
+            int yReptition = (int)(GameWorld.ScreenSize.Y / TileSprite.Height);
+            for (int x = -1; x <= xReptition + 1; x++)
+            {
+                for (int y = -1; y <= yReptition + 1; y++)
+                {
+                    _spriteBatch.Draw(TileSprite, new Vector2(x * TileSprite.Width, y * TileSprite.Height) - TileOffset, Color.White);
+                }
+            }
+
+            //gameObjects
             foreach (GameObject gameObject in activeGameObjects)
             {
                 if (gameObject.Active)
@@ -160,6 +198,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
                 }
             }
 
+            //UI
             foreach (UIObject uiObject in UIManager.ActiveUIObjects)
             {
                 if (uiObject.Active)
@@ -251,7 +290,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private void AddPlayer(Vector2 position)
         {
             Player newPlayer = Player.Instance;
-            newPlayer.AddComponent<Movable>();
+            newPlayer.AddComponent<Movable>(300);
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f, new Vector2(0.6f, 0.3f), new Vector2(0.5f, 0.85f));
             newPlayer.AddComponent<Animator>();
             newPlayer.AddComponent<LightEmitter>(0.2f);
@@ -273,7 +312,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         public void HearFromObserver(IObserver observer)
         {
             //currently appears under the shader :/
-            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, GameWorld.ScreenSize/2, 2f));
+            UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, GameWorld.ScreenSize / 2, 2f));
         }
 
         public List<(LightEmitter lightEmitters, List<ShadowInterval> shadowIntervals)> GetShaderData()
