@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Menu
 {
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public class MainMenu : GameState
     {
         private static List<UIObject> uIObjects;

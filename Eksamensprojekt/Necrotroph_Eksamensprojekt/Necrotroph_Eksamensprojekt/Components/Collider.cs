@@ -12,7 +12,7 @@ using Necrotroph_Eksamensprojekt.GameObjects;
 namespace Necrotroph_Eksamensprojekt.Components
 {
     /// <summary>
-    /// Collider should be added after spriteRendere
+    /// Collider should be added after spriteRendere - Malthe
     /// </summary>
     public class Collider : Component
     {

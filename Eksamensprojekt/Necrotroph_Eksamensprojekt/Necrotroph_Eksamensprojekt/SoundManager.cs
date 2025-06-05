@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    /// <summary>
+    /// Emma
+    /// </summary>
     public class SoundManager
     {
         #region Fields

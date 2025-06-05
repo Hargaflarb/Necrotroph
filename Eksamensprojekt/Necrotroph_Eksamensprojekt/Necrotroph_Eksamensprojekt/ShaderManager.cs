@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public static class ShaderManager
     {
         private static Texture2D shadowSprite;

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
+    //emma
     public class Animation
     {
         #region Fields

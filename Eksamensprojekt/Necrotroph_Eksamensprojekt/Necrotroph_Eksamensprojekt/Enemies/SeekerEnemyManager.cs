@@ -14,6 +14,7 @@ using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt.Enemies
 {
+    //emma
     public static class SeekerEnemyManager
     {
         #region Fields

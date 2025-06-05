@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public struct ShadowInterval
     {
         private float upperAngle;

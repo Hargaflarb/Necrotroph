@@ -10,6 +10,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public static class TimeLineManager
     {
         #region Fields
@@ -44,6 +47,11 @@ namespace Necrotroph_Eksamensprojekt
             return nextID-1;
         }
 
+        /// <summary>
+        /// Emma
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <returns></returns>
         public static float GetTime(int eventID)
         {
             if (timeLineEvents.ContainsKey(eventID))
@@ -84,6 +92,7 @@ namespace Necrotroph_Eksamensprojekt
         /// <param name="gameTime">Gametime object.</param>
         public static void Update(GameTime gameTime)
         {
+            //Malthe
             Dictionary<int, (float time, Action action)> tempTimeline = new Dictionary<int, (float time, Action action)>();
             foreach (KeyValuePair<int, (float time, Action action)> timeLineEvent in timeLineEvents)
             {
@@ -100,6 +109,7 @@ namespace Necrotroph_Eksamensprojekt
             }
             TimeLineEvents = tempTimeline;
 
+            //Emma
             foreach (KeyValuePair<int, (float time, Action action)> timeLineEvent in eventsToAdd)
             {
                 timeLineEvents.Add(timeLineEvent.Key,timeLineEvent.Value);

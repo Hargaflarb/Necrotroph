@@ -7,6 +7,8 @@
 	#define PS_SHADERMODEL ps_4_0_level_9_1
 #endif
 
+// Malthe
+
 Texture2D SpriteTexture;
 
 static const float fadeLength = 0.15;

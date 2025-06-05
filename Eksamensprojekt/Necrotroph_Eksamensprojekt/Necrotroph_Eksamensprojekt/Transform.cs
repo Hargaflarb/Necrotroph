@@ -14,6 +14,7 @@ using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    //emma
     public class Transform
     {
         #region Fields
@@ -58,6 +59,9 @@ namespace Necrotroph_Eksamensprojekt
         #endregion
     }
 
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public class UITransform
     {
         #region Fields
