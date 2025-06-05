@@ -11,6 +11,7 @@ using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
+    //Echo
     public class WalkCommand : ICommand
     {
         #region Fields

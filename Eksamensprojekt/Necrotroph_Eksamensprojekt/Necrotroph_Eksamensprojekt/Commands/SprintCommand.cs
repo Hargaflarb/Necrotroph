@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
+    //Echo
     /// <summary>
     /// Used by the player to go real fast. Don't use it for other things
     /// </summary>

@@ -30,7 +30,12 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private int itemsCollected;
         private bool gameWon = false;
         private static Texture2D tileSprite;
-        
+        private Dictionary<int, GameObject> activeMemorabilia;
+        private GameObject mem1;
+        private GameObject mem2;
+        private GameObject mem3;
+        private GameObject mem4;
+        private GameObject mem5;
 
         private static InGame instance;
         public static InGame Instance
@@ -79,6 +84,12 @@ namespace Necrotroph_Eksamensprojekt.Menu
             }
         }
         public static Texture2D TileSprite { get => tileSprite; set => tileSprite = value; }
+        public Dictionary<int, GameObject> ActiveMemorabilia { get => activeMemorabilia; set => activeMemorabilia = value; }
+        public GameObject Mem1 { get => mem1; set => mem1 = value; }
+        public GameObject Mem2 { get => mem2; set => mem2 = value; }
+        public GameObject Mem3 { get => mem3; set => mem3 = value; }
+        public GameObject Mem4 { get => mem4; set => mem4 = value; }
+        public GameObject Mem5 { get => mem5; set => mem5 = value; }
 
 
 
@@ -87,6 +98,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             gameObjectsToAdd = new List<GameObject>();
             gameObjectsToRemove = new List<GameObject>();
             activeGameObjects = new List<GameObject>();
+            activeMemorabilia = new Dictionary<int, GameObject>();
 
             AddPlayer(Vector2.Zero);
             //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
@@ -101,8 +113,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
             InputHandler.AddUnclickedCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
             InputHandler.AddUnclickedCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
 
-            InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand());
-            InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand());
+            //InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand());
+            //InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand());
 
             base.Initialize();
         }
@@ -110,11 +122,22 @@ namespace Necrotroph_Eksamensprojekt.Menu
         public override void LoadContent()
         {
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-1000, -1000), EnemyType.Hunter));
-            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500)));
-            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(-4000, 2500)));
-            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(3600, 1000)));
-            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(-1500, 500)));
-            AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(-2066, 0)));
+            GameObject mem1 = MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500)); 
+            AddObject(mem1);
+            activeMemorabilia.Add(1, mem1);
+            GameObject mem2 = MemorabeliaFactory.CreateMemorabilia(new Vector2(-4000, 2500));
+            AddObject(mem2);
+            activeMemorabilia.Add(2, mem2);
+            GameObject mem3 = MemorabeliaFactory.CreateMemorabilia(new Vector2(3600, 1000));
+            AddObject(mem3);
+            activeMemorabilia.Add(4, mem3);
+            GameObject mem4 = MemorabeliaFactory.CreateMemorabilia(new Vector2(-1500, 500));
+            AddObject(mem4);
+            activeMemorabilia.Add(8, mem4);
+            GameObject mem5 = MemorabeliaFactory.CreateMemorabilia(new Vector2(-2066, 0));
+            AddObject(mem5);
+            activeMemorabilia.Add(16, mem5);
+           
 
             //Sound things - Emma
             SoundManager.Instance.AddSFX("PlayerWalk1", Content.Load<SoundEffect>("SFX/Player/rustling-grass-3-101284"), 300, true);
@@ -133,6 +156,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
             SoundManager.Instance.PlayAmbience("SpookyAmbience1");
 
             UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X / 2, 1000), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
+            UIManager.AddUIObject(new UIButton(new Vector2(150, 900), new Vector2(50, 50), "Save Game", () => { SaveManager.SaveGame(); }));
+            UIManager.AddUIObject(new UIButton(new Vector2(150, 1000), new Vector2(50, 50), "Load Game", () => { SaveManager.LoadGame(); }));
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2(50, 50), 1f));
 
             ShaderManager.SetSpritesAndShaders();

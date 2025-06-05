@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
+    //Malthe and Echo
     /// <summary>
     /// Handles all the key presses of the player. Will eventually be able to configure keybinds
     /// </summary>
@@ -20,8 +21,12 @@ namespace Necrotroph_Eksamensprojekt.Commands
         private static Dictionary<Keys, ICommand> unclickedCommandKeys;
         private static KeyboardState lastKeyboardState;
         private static bool pressed = true;
+        private static MouseState lastMouseState;
+        private static MouseState currentMouseState;
         #endregion
         #region Properties
+        public static MouseState LastMouseState { get => lastMouseState; set => lastMouseState = value; }
+        public static MouseState CurrentMouseState { get => currentMouseState; set => currentMouseState = value; }
         #endregion
         #region Constructors
         static InputHandler()
@@ -83,6 +88,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
         public static void HandleInput()
         {
             KeyboardState keyState = Keyboard.GetState();
+            CurrentMouseState = Mouse.GetState();
 
             foreach(Keys pressedKey in keyState.GetPressedKeys())
             {
@@ -103,6 +109,8 @@ namespace Necrotroph_Eksamensprojekt.Commands
                     unclickedKey.Value.Undo();
                 }
             }
+
+            lastKeyboardState = keyState;
         }
 
         #endregion

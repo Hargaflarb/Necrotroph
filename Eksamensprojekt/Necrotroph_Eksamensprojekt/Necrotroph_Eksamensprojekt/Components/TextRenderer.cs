@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
+    //Echo
     public class TextRenderer : Component
     {
         #region Fields
