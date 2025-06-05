@@ -12,6 +12,7 @@ using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    //emama
     public class HunterEnemy : GameObject, IListener
     {
         #region Fields

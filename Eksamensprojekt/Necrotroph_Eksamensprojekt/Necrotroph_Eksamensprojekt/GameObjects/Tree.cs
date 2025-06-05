@@ -12,7 +12,7 @@ using Necrotroph_Eksamensprojekt.Components;
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
     /// <summary>
-    /// Malthe
+    /// emma
     /// </summary>
     public class Tree : GameObject
     {

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.ObjectPools
 {
+    //emma
     public abstract class ObjectPool
     {
         #region Fields

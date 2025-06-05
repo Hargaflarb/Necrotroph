@@ -12,6 +12,7 @@ using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt.Enemies
 {
+    //emma
     public class LightEaterEnemy : GameObject, IListener
     {
         #region Fields
