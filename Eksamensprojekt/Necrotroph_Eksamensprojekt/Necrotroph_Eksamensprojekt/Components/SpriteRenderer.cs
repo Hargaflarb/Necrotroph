@@ -14,6 +14,7 @@ using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
+    //emma
     public class SpriteRenderer : Component
     {
         #region Fields

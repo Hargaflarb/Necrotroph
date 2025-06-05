@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Commands
 {
+    //Echo
     public interface ICommand
     {
         void Execute();

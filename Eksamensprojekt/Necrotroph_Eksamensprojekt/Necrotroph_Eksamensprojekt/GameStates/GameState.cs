@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Menu
 {
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public abstract class GameState
     {
         private bool hasBeenLoaded = false;

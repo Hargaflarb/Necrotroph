@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public class LightEmitter : Component
     {
         #region Fields

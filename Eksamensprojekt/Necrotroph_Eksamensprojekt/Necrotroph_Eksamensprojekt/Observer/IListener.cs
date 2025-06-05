@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Observer
 {
+    //emma
     public interface IListener
     {
         #region Properties

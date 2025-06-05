@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
+    //Echo
     /// <summary>
     /// Same as GameObject but specifically for things to do with the UI
     /// </summary>

@@ -12,6 +12,7 @@ using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Factories
 {
+    //emma
     public static class EnemyFactory
     {
         #region Fields
@@ -40,12 +41,13 @@ namespace Necrotroph_Eksamensprojekt.Factories
             switch (enemy)
             {
                 case EnemyType.Hunter:
-                    newEnemy = new HunterEnemy(position);
+                    HunterEnemy.Position = position;
+                    newEnemy = HunterEnemy.Instance;
                     newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
                     /*newEnemy.AddComponent<Animator>();
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
                     newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
-                    newEnemy.AddComponent<Movable>();
+                    newEnemy.AddComponent<Movable>(50);
                     newEnemy.Transform.Scale = 0.2f;
                     return newEnemy;
                 case EnemyType.Seeker:

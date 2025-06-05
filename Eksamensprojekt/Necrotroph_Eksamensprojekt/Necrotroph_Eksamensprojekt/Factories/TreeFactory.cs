@@ -12,6 +12,7 @@ using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Factories
 {
+    //emma
     public static class TreeFactory
     {
         #region Fields
@@ -21,7 +22,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
         private static Texture2D seeker1;
         private static Texture2D seeker2;
         private static Texture2D seeker3;
-        private static Random rnd = new Random();
         #endregion
         #region Properties
         #endregion
@@ -42,7 +42,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
             Tree newTree = new Tree(position);
             Animator animator = newTree.AddComponent<Animator>();
             //randomly select sprite
-            switch (rnd.Next(1, 4))
+            switch (GameWorld.Rnd.Next(1, 4))
             {
                 case 1: //big 1
                     newTree.AddComponent<SpriteRenderer>(tree1, 1f, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));

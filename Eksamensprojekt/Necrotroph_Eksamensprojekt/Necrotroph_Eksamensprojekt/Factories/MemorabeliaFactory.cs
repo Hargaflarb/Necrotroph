@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Factories
 {
-    public static class MemorabiliaFactory
+    //Echo
+    public static class MemorabeliaFactory
     {
         #region Fields
         private static Texture2D sprite;

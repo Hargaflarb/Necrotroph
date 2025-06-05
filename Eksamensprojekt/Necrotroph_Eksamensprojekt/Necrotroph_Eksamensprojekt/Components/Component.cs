@@ -10,6 +10,7 @@ using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
+    //emma
     public abstract class Component
     {
         #region Fields

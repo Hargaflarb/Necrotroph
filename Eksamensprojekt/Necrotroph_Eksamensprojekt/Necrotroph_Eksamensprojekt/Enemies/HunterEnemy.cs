@@ -12,26 +12,44 @@ using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    //emama
     public class HunterEnemy : GameObject, IListener
     {
         #region Fields
-        private float speed = 50;
         private bool facingLeft = true;
         private int damage = 30;
+        private static Vector2 position;
+        private Vector2 nextDestination;
+        private static HunterEnemy instance;
         #endregion
         #region Properties
+        public static Vector2 Position;
+        public static HunterEnemy Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new HunterEnemy(Position);
+                }
+                return instance;
+            }
+        }
         #endregion
         #region Constructors
-        public HunterEnemy(Vector2 position) : base(position)
+        private HunterEnemy(Vector2 position) : base(position)
         {
             Player.Instance.Observer.AddListener(this);
+            nextDestination = Transform.WorldPosition;
         }
         #endregion
         #region Methods
         public override void Update(GameTime gameTime)
         {
             //finds player position & moves toward it
-            Vector2 direction = new Vector2(Player.Instance.Transform.ScreenPosition.X - Transform.ScreenPosition.X, Player.Instance.Transform.ScreenPosition.Y - Transform.ScreenPosition.Y);
+            nextDestination = Map.PathfoundDestination(Transform.WorldPosition, Player.Instance.Transform.WorldPosition, nextDestination);
+            Vector2 direction = nextDestination - Transform.WorldPosition;
+            //Vector2 direction = new Vector2(Player.Instance.Transform.ScreenPosition.X - Transform.ScreenPosition.X, Player.Instance.Transform.ScreenPosition.Y - Transform.ScreenPosition.Y);
             if (direction.X > 0 && facingLeft)
             {
                 GetComponent<SpriteRenderer>().Flipped = true;
@@ -47,7 +65,7 @@ namespace Necrotroph_Eksamensprojekt
             //float YDirection = (float)Math.Sin(remap);
             //direction = new Vector2(XDirection, YDirection);
             direction.Normalize();
-            GetComponent<Movable>().Move(direction, speed);
+            HunterEnemy.Instance.GetComponent<Movable>().Direction += direction;
             base.Update(gameTime);
         }
 

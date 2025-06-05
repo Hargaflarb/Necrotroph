@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
+    //Echo
     public class TextObject : UIObject
     {
         public TextObject(Vector2 position) : base(position)

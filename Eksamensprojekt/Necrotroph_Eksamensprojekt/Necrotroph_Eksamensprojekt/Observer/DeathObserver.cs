@@ -15,6 +15,7 @@ using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt.Observer
 {
+    //emma
     public class DeathObserver : IObserver
     {
         #region Fields
