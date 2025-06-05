@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.Factories
 {
+    //Echo
     public static class MemorabeliaFactory
     {
         #region Fields

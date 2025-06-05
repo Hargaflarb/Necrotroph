@@ -1,4 +1,5 @@
-﻿using Necrotroph_Eksamensprojekt.Components;
+﻿using Necrotroph_Eksamensprojekt.Commands;
+using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Menu;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            IsButtonPressed(Mouse.GetState());
+            IsButtonPressed(InputHandler.CurrentMouseState);
             base.Update(gameTime);
         }
 
@@ -39,7 +40,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         /// <param name="mousePosition">The position of the mouse when it was pressed.</param>
         public void IsButtonPressed(MouseState mouseState)
         {
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            if (mouseState.LeftButton == ButtonState.Pressed & InputHandler.LastMouseState != InputHandler.CurrentMouseState)
             {
                 Vector2 dif = Transform.ScreenPosition - mouseState.Position.ToVector2();
                 if (MathF.Abs(dif.X) < Transform.Size.X & MathF.Abs(dif.Y) < Transform.Size.Y)

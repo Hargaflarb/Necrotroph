@@ -29,7 +29,6 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         private static bool timerStarted;
         private static int appearSFX;
         private static int disappearSFX;
-        private static Random rnd = new Random();
         #endregion
         #region Properties
         #endregion
@@ -48,7 +47,7 @@ namespace Necrotroph_Eksamensprojekt.Enemies
             if (!Tree.HasEyes && !timerStarted)
             {
                 timerStarted = true;
-                int time = rnd.Next(minTimeBetweenSeekers, maxTimeBetweenSeekers);
+                int time = GameWorld.Rnd.Next(minTimeBetweenSeekers, maxTimeBetweenSeekers);
                 TimeLineManager.AddEvent((float)time * 1000, StartHunt);
             }
             else if (Tree.HasEyes)

@@ -25,7 +25,9 @@ namespace Necrotroph_Eksamensprojekt
         private SpriteBatch _spriteBatch;
         private static Vector2 screenSize;
         private static GameWorld instance;
-        
+        private static Random rnd;
+        private static int seed;
+
         private static GameState gameState;
         private static GameState gameStateToChangeTo;
 
@@ -33,6 +35,7 @@ namespace Necrotroph_Eksamensprojekt
         private bool gameWon = false;
         private string connectionString;
         private SqlConnection connection;
+        private static MemorabiliaProgress memProgress;
 
         #endregion
         #region Properties
@@ -58,6 +61,9 @@ namespace Necrotroph_Eksamensprojekt
         public SpriteBatch SpriteBatch { get => _spriteBatch; private set => _spriteBatch = value; }
         public static GameState GameState { get => gameState; set => gameState = value; }
         public static GameState GameStateToChangeTo { get => gameStateToChangeTo; set => gameStateToChangeTo = value; }
+        public static Random Rnd { get => rnd; set => rnd = value; }
+        public static int Seed { get => seed; set => seed = value; }
+        public static MemorabiliaProgress MemProgress { get => memProgress; set => memProgress = value; }
 
         #endregion
         #region Constructors
@@ -74,10 +80,13 @@ namespace Necrotroph_Eksamensprojekt
 
         protected override void Initialize()
         {
+            
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.ApplyChanges();
 
+            Seed = (new Random()).Next();
+            Rnd = new Random(Seed);
 
             ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
                         
@@ -107,10 +116,11 @@ namespace Necrotroph_Eksamensprojekt
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            InputHandler.CurrentMouseState = Mouse.GetState();
             GameState.Update(gameTime);
 
             ChangeGameState(GameStateToChangeTo);
-
+            InputHandler.LastMouseState = InputHandler.CurrentMouseState;
             base.Update(gameTime);
         }
 

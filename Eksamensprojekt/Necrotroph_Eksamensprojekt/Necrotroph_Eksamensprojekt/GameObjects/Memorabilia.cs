@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
+    //Echo
     public class Memorabilia : GameObject
     {
         public Memorabilia(Vector2 position) : base(position)
@@ -25,8 +26,8 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             {
                 InGame.Instance.ItemsCollected++;
                 this.GetComponent<Pickupable>().RemoveObject();
+               
                 base.OnCollision(otherObject);
-
             }
         }
     }
