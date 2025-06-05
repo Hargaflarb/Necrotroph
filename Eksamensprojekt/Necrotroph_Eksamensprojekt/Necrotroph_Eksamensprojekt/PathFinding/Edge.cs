@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Necrotroph_Eksamensprojekt.PathFinding
 {
     /// <summary>
-    /// Represents a connection between two <see cref="Node"/>'s.
+    /// Represents a connection between two <see cref="Node"/>'s. - Malthe
     /// </summary>
     internal sealed class Edge
     {

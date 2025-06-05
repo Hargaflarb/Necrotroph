@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Necrotroph_Eksamensprojekt.PathFinding
 {
     /// <summary>
-    /// Represents a traversable point.
+    /// Represents a traversable point. - Malthe
     /// </summary>
     public class Node
     {
@@ -87,6 +87,9 @@ namespace Necrotroph_Eksamensprojekt.PathFinding
 
     }
 
+    /// <summary>
+    /// aldrig brugt - Malthe
+    /// </summary>
     public class MovableNode : Node
     {
         private Transform transform;

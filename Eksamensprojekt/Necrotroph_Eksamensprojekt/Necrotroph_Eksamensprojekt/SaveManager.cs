@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    /// <summary>
+    /// Echo
+    /// </summary>
     public static class SaveManager
     {
         #region Fields

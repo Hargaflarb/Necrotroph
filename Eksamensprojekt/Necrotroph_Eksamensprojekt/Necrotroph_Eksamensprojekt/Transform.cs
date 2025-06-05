@@ -58,6 +58,9 @@ namespace Necrotroph_Eksamensprojekt
         #endregion
     }
 
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public class UITransform
     {
         #region Fields

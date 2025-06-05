@@ -78,6 +78,8 @@ namespace Necrotroph_Eksamensprojekt.Commands
         {
 
         }
+
+
         public static void HandleInput()
         {
             KeyboardState keyState = Keyboard.GetState();

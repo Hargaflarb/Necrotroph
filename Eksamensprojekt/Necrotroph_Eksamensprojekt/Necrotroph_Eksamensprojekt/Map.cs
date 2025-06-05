@@ -16,6 +16,9 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public static class Map
     {
         private const float treeSpacing = 800;

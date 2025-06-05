@@ -16,6 +16,9 @@ using Necrotroph_Eksamensprojekt.Observer;
 
 namespace Necrotroph_Eksamensprojekt.Menu
 {
+    /// <summary>
+    /// Selve classen var lavet af Malthe, men meget af inholdet var copiret fra GameWorld, hvilket var et fældes arbejde
+    /// </summary>
     public class InGame : GameState, IListener
     {
         private List<UIObject> uIObjects;
@@ -113,7 +116,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(-1500, 500)));
             AddObject(MemorabeliaFactory.CreateMemorabilia(new Vector2(-2066, 0)));
 
-            //Sound things
+            //Sound things - Emma
             SoundManager.Instance.AddSFX("PlayerWalk1", Content.Load<SoundEffect>("SFX/Player/rustling-grass-3-101284"), 300, true);
             SoundManager.Instance.AddSFX("PlayerWalk2", Content.Load<SoundEffect>("SFX/Player/bushmovement-6986"), 300, true);
             SoundManager.Instance.AddSFX("PlayerDamaged1", Content.Load<SoundEffect>("SFX/Player/glass-breaking-99389"), 400, false);
@@ -178,7 +181,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             //Higher layer numbers are closer, lower are further away
             _spriteBatch.Begin(SpriteSortMode.FrontToBack);
 
-            //floorTiles
+            //floorTiles - Malthe
             int xReptition = (int)(GameWorld.ScreenSize.X / TileSprite.Width);
             int yReptition = (int)(GameWorld.ScreenSize.Y / TileSprite.Height);
             for (int x = -1; x <= xReptition + 1; x++)
@@ -208,6 +211,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             }
 
 #if !DEBUG
+            //Shader - Malthe
             ShaderManager.Draw(_spriteBatch);
 #endif
 
@@ -215,6 +219,9 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
         }
 
+        /// <summary>
+        /// Malthe
+        /// </summary>
         public override void Enter()
         {
             UIManager.UIObjectsToAdd.AddRange(uIObjects);
@@ -222,6 +229,9 @@ namespace Necrotroph_Eksamensprojekt.Menu
             base.Enter();
         }
 
+        /// <summary>
+        /// Malthe
+        /// </summary>
         public override void Exit()
         {
             uIObjects.AddRange(UIManager.ClearUIObjects());
@@ -246,6 +256,9 @@ namespace Necrotroph_Eksamensprojekt.Menu
             gameObjectsToRemove.Clear();
         }
 
+        /// <summary>
+        /// Malthe i think
+        /// </summary>
         public void CheckCollision()
         {
             for (int i = 0; i < activeGameObjects.Count; i++)
@@ -315,6 +328,10 @@ namespace Necrotroph_Eksamensprojekt.Menu
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, GameWorld.ScreenSize / 2, 2f));
         }
 
+        /// <summary>
+        /// Gathers <see cref="LightEmitter"/>s and <see cref="ShadowCaster"/>s and converts it to shader data. - Malthe
+        /// </summary>
+        /// <returns>A List of <see cref="LightEmitter"/>s and their corrosponding <see cref="ShadowInterval"/>s.</returns>
         public List<(LightEmitter lightEmitters, List<ShadowInterval> shadowIntervals)> GetShaderData()
         {
             List<LightEmitter> lightEmitters = new List<LightEmitter>();

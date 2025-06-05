@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt
 {
+    /// <summary>
+    /// Emma
+    /// </summary>
     public class SFXInstance
     {
         #region Fields

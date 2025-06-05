@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Necrotroph_Eksamensprojekt.PathFinding
 {
     /// <summary>
-    /// Represents a collection of <see cref="Node"/>'s used for pathfinding.
+    /// Represents a collection of <see cref="Node"/>'s used for pathfinding. - Malthe
     /// </summary>
     public sealed class Graph
     {

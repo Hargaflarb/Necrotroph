@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
+    /// <summary>
+    /// Malthe
+    /// </summary>
     public class UIButton : UIObject
     {
         private string text;
