@@ -17,7 +17,7 @@ using Necrotroph_Eksamensprojekt.Observer;
 namespace Necrotroph_Eksamensprojekt.Menu
 {
     /// <summary>
-    /// Selve classen var lavet af Malthe, men meget af inholdet var copiret fra GameWorld, hvilket var et fældes arbejde
+    /// Selve classen var lavet af Malthe, men meget af indholdet var copiret fra GameWorld, hvilket var et fælles arbejde
     /// </summary>
     public class InGame : GameState, IListener
     {
