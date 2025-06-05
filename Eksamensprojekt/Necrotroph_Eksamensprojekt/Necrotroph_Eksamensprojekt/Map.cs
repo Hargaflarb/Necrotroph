@@ -95,6 +95,7 @@ namespace Necrotroph_Eksamensprojekt
                 for (float y = -heightAmount; y < heightAmount; y++)
                 {
                     Vector2 offset = new Vector2(GameWorld.Rnd.Next(50) - 25, GameWorld.Rnd.Next(50) - 25);
+                    Vector2 treePos = new Vector2(x, y) * treeSpacing;
                     unloadedMapObjects.Add(((new Vector2(x, y) * treeSpacing) + offset*6, TreePool.Instance));
 
                     float halfSpacing = treeSpacing * 0.5f;
