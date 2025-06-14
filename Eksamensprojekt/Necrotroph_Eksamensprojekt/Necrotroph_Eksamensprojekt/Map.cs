@@ -70,6 +70,15 @@ namespace Necrotroph_Eksamensprojekt
                 }
             }
 
+            //lights
+            foreach(LightRefill light in LightPool.Instance.Active.ToList())
+            {
+                Vector2 dif = light.Transform.WorldPosition - Player.Instance.Transform.WorldPosition;
+                if (MathF.Abs(dif.X) > unloadBound.X | MathF.Abs(dif.Y) > unloadBound.Y)
+                {
+                    LightPool.Instance.ReleaseObject(light);
+                }
+            }
         }
 
 

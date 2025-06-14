@@ -28,6 +28,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private List<GameObject> gameObjectsToRemove;
         private Vector2 previousPlayerPosition;
         private int itemsCollected;
+        private float lightSpawnRate = 25;
         private bool gameWon = false;
         private static Texture2D tileSprite;
         private Dictionary<int, GameObject> activeMemorabilia;
@@ -139,7 +140,6 @@ namespace Necrotroph_Eksamensprojekt.Menu
             GameObject mem5 = MemorabeliaFactory.CreateMemorabilia(new Vector2(-2066, 0));
             AddObject(mem5);
             activeMemorabilia.Add(16, mem5);
-            AddObject(LightPool.Instance.GetObject(new Vector2(200, 200)));
 
             UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X / 2, 1000), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
             UIManager.AddUIObject(new UIButton(new Vector2(150, 900), new Vector2(50, 50), "Save Game", () => { SaveManager.SaveGame(); }));
@@ -147,6 +147,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2(50, 50), 1f));
 
             ShaderManager.SetSpritesAndShaders();
+            TimeLineManager.AddEvent(lightSpawnRate * 1000, SpawnLightRefill);
 
             base.LoadContent();
         }
@@ -391,5 +392,36 @@ namespace Necrotroph_Eksamensprojekt.Menu
             }
         }
 
+        /// <summary>
+        /// Spawns a light refill in a random direction outside the screen borders, lights spawn twice as fast if the player has low health
+        /// </summary>
+        public void SpawnLightRefill()
+        {
+            Vector2 newPosition = Vector2.Zero;
+            switch (GameWorld.Rnd.Next(0, 4))
+            {
+                case 0:
+                    newPosition = new Vector2(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2) - 20, GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2)), (int)(Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2))));
+                    break;
+                case 1:
+                    newPosition = new Vector2(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2) + 20, GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2)), (int)(Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2))));
+                    break;
+                case 2:
+                    newPosition = new Vector2(GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2)), (int)(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2))), Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2) - 20);
+                    break;
+                case 3:
+                    newPosition = new Vector2(GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2)), (int)(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2))), Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2) + 20);
+                    break;
+            }
+            AddObject(LightPool.Instance.GetObject(newPosition));
+            if (Player.Instance.Life < 20)
+            {
+                TimeLineManager.AddEvent(lightSpawnRate / 2 * 1000, SpawnLightRefill);
+            }
+            else
+            {
+                TimeLineManager.AddEvent(lightSpawnRate * 1000, SpawnLightRefill);
+            }
+        }
     }
 }
