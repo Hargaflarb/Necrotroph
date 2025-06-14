@@ -131,15 +131,10 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                 {
                     PlayerDeath(source);
                 }
-                life -= damage;
-
-                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
-                TimeLineManager.AddEvent(invincibilityTime * 1000, UndoInvincibility);
-                if (life <= 0 && lightOn)
+                else
                 {
-                    lightOn = false;
-                    GetComponent<LightEmitter>().LightRadius = 0;
-
+                    SoundManager.Instance.PauseSFX(damageSFX1);
+                    SoundManager.Instance.PauseSFX(damageSFX2);
                     switch (oneSoundPlayed)
                     {
                         case true:
@@ -150,7 +145,15 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                             break;
                     }
                     oneSoundPlayed = !oneSoundPlayed;
+                }
+                    life -= damage;
 
+                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
+                TimeLineManager.AddEvent(invincibilityTime * 1000, UndoInvincibility);
+                if (life <= 0 && lightOn)
+                {
+                    lightOn = false;
+                    GetComponent<LightEmitter>().LightRadius = 0;
                 }
             }
         }

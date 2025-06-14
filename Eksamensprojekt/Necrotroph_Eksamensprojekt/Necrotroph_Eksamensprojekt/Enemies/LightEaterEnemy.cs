@@ -19,6 +19,7 @@ namespace Necrotroph_Eksamensprojekt.Enemies
     {
         #region Fields
         private float speed = 300;
+        private float chaseSpeed = 300;
         private float wanderSpeed = 70;
         private int damage = 10;
         private bool facingLeft = false;
@@ -111,6 +112,9 @@ namespace Necrotroph_Eksamensprojekt.Enemies
             if (otherObject == Player.Instance)
             {
                 Player.Instance.TakeDamage(damage, EnemyType.LightEater);
+                //slow down for a bit to give the player a chance to escape
+                speed = wanderSpeed;
+                TimeLineManager.AddEvent(0.5f * 1000, SpeedUp);
             }
             base.OnCollision(otherObject);
         }
@@ -120,6 +124,11 @@ namespace Necrotroph_Eksamensprojekt.Enemies
             {
                 ((Movable)GetComponent<Movable>()).StandStill = true;
             }
+        }
+
+        public void SpeedUp()
+        {
+            speed = chaseSpeed;
         }
 
         public void Wander()
