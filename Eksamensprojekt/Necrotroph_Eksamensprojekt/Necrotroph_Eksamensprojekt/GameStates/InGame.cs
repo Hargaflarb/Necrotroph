@@ -53,7 +53,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         {
             uIObjects = new List<UIObject>();
 
-            
+
         }
 
 
@@ -113,6 +113,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
             InputHandler.AddUnclickedCommand(Keys.W, new WalkCommand(Player.Instance, new Vector2(0, -1)));
             InputHandler.AddUnclickedCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
 
+            InputHandler.AddPressedKeyCommand(Keys.F, new TurnLightOnOffCommand());
+
             //InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand());
             //InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand());
 
@@ -122,7 +124,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         public override void LoadContent()
         {
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-1000, -1000), EnemyType.Hunter));
-            GameObject mem1 = MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500)); 
+            GameObject mem1 = MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500));
             AddObject(mem1);
             activeMemorabilia.Add(1, mem1);
             GameObject mem2 = MemorabeliaFactory.CreateMemorabilia(new Vector2(-4000, 2500));
@@ -137,7 +139,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             GameObject mem5 = MemorabeliaFactory.CreateMemorabilia(new Vector2(-2066, 0));
             AddObject(mem5);
             activeMemorabilia.Add(16, mem5);
-           
+
 
             //Sound things - Emma
             SoundManager.Instance.AddSFX("PlayerWalk1", Content.Load<SoundEffect>("SFX/Player/rustling-grass-3-101284"), 300, true);
@@ -175,7 +177,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
                 {
                     gameObject.Update(gameTime);
                 }
-                
+
             }
 
             foreach (UIObject uiObject in UIManager.ActiveUIObjects)
