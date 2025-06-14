@@ -97,9 +97,29 @@ namespace Necrotroph_Eksamensprojekt
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
+
+            //Sound things - Emma
+            SoundManager.Instance.AddSFX("PlayerWalk1", Content.Load<SoundEffect>("SFX/Player/rustling-grass-3-101284"), 300, true);
+            SoundManager.Instance.AddSFX("PlayerWalk2", Content.Load<SoundEffect>("SFX/Player/bushmovement-6986"), 300, true);
+            SoundManager.Instance.AddSFX("PlayerDamaged1", Content.Load<SoundEffect>("SFX/Player/glass-breaking-99389"), 400, false);
+            SoundManager.Instance.AddSFX("PlayerDamaged2", Content.Load<SoundEffect>("SFX/Player/break06-36414"), 400, false);
+            SoundManager.Instance.AddSFX("PlayerDeath", Content.Load<SoundEffect>("SFX/Player/breaking-glass-83809"), 400, false);
+            SoundManager.Instance.AddSFX("PlayerLightToggle", Content.Load<SoundEffect>("SFX/Player/light-switch-81967"), 300, false);
+            SoundManager.Instance.AddSFX("PlayerPickUpLight", Content.Load<SoundEffect>("SFX/Player/sfx9-fwoosh-324525"), 100, false);
+            SoundManager.Instance.AddSFX("SeekerActivate", Content.Load<SoundEffect>("SFX/Seeker/very-loud-eviscerating-2-89000"), 400, false);
+            SoundManager.Instance.AddSFX("SeekerDeactivate", Content.Load<SoundEffect>("SFX/Seeker/hugecrack-86690"), 300, false);
+            SoundManager.Instance.AddSFX("HunterMove1", Content.Load<SoundEffect>("SFX/Hunter/dragging-84771"), 300, true);
+            SoundManager.Instance.AddSFX("HunterMove2", Content.Load<SoundEffect>("SFX/Hunter/branch-drag-329004"), 300, true);
+
+            SoundManager.Instance.AddAmbience("SpookyAmbience1", Content.Load<Song>("Ambience/darker-ambient-in-scandinavian-forest-190400"), 0.5f);
+            SoundManager.Instance.AddAmbience("Wind", Content.Load<Song>("Ambience/smooth-cold-wind-looped-135538"), 0.1f);
+            SoundManager.Instance.PlayAmbience("SpookyAmbience1");
+
+
             GameObject.Pixel = Content.Load<Texture2D>("resd");
             InGame.TileSprite = Content.Load<Texture2D>("grass2");
             EnemyFactory.LoadContent(Content);
+            LightRefillFactory.LoadContent(Content);
             TreeFactory.LoadContent(Content);
             MemorabeliaFactory.LoadContent(Content);
             TextFactory.LoadContent(Content);
