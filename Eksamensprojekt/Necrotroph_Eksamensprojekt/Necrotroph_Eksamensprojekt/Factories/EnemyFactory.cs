@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.Enemies;
 using Necrotroph_Eksamensprojekt.GameObjects;
 
 namespace Necrotroph_Eksamensprojekt.Factories
@@ -18,7 +19,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
         #region Fields
         private static Texture2D hunterSprite;
         private static Texture2D[] hunterWalkAnim;
-        private static Texture2D seekerSprite;
         private static Texture2D lightEaterSprite;
         private static Texture2D stalkerSprite;
         #endregion
@@ -30,8 +30,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
         public static void LoadContent(ContentManager contentManager)
         {
             hunterSprite = contentManager.Load<Texture2D>("HunterSprites/hunterSouthWest");
-            seekerSprite = contentManager.Load<Texture2D>("noImageFound");
-            lightEaterSprite = contentManager.Load<Texture2D>("noImageFound");
+            lightEaterSprite = contentManager.Load<Texture2D>("LightEaterSprites/lighteaterSouthEast");
             stalkerSprite = contentManager.Load<Texture2D>("noImageFound");
         }
         public static GameObject CreateEnemy(Vector2 position, EnemyType enemy)
@@ -47,12 +46,19 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     /*newEnemy.AddComponent<Animator>();
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
                     newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
-                    newEnemy.AddComponent<Movable>(50);
+                    newEnemy.AddComponent<Movable>();
                     newEnemy.Transform.Scale = 0.2f;
                     return newEnemy;
                 case EnemyType.Seeker:
+                    throw new NotImplementedException();
                     break;
                 case EnemyType.LightEater:
+                    newEnemy = new LightEaterEnemy(position);
+                    newEnemy.AddComponent<SpriteRenderer>(lightEaterSprite,1f,new Vector2(0.6f,0.8f),new Vector2(0.5f,0.6f));
+                    newEnemy.AddComponent<Movable>();
+                    newEnemy.AddComponent<LightEmitter>(0.05f);
+                    newEnemy.Transform.Scale = 0.2f;
+                    return newEnemy;
                     break;
                 case EnemyType.Stalker:
                     break;

@@ -21,6 +21,7 @@ namespace Necrotroph_Eksamensprojekt
     /// </summary>
     public static class Map
     {
+        #region Fields
         private const float treeSpacing = 800;
         private const float NodeSpacing = 200;
         private static readonly Vector2 size;
@@ -28,8 +29,11 @@ namespace Necrotroph_Eksamensprojekt
         private static readonly Vector2 unloadBound;
         private static List<(Vector2 position, ObjectPool poolType)> unloadedMapObjects;
         private static Graph pathFindingGraph;
-
-
+        #endregion
+        #region Properties
+        public static Vector2 UnloadBound { get { return unloadBound; } }
+        #endregion
+        #region Constructors
         static Map()
         {
             size = new Vector2(10000, 10000);
@@ -38,7 +42,8 @@ namespace Necrotroph_Eksamensprojekt
             unloadedMapObjects = new List<(Vector2 position, ObjectPool poolType)>();
             pathFindingGraph = new Graph();
         }
-
+        #endregion
+        #region Methods
         /// <summary>
         /// Checks the Objects pools to see if any 
         /// </summary>
@@ -174,5 +179,6 @@ namespace Necrotroph_Eksamensprojekt
             return nextDestination;
             
         }
+        #endregion
     }
 }

@@ -31,6 +31,10 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             Speed = speed;
         }
+        public Movable(GameObject gameObject) : base(gameObject)
+        {
+
+        }
         #endregion
         #region Methods
         public void Move(Vector2 direction, float speed)
