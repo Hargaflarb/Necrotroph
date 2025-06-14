@@ -101,7 +101,18 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             if (lightOn)
             {
                 life -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
+                if (life > 100)
+                {
+                    GetComponent<LightEmitter>().LightRadius = (100 / 500f) + 0.01f;
+                }
+                else
+                {
+                    GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
+                }
+                if (life <= 0)
+                {
+                    lightOn = false;
+                }
             }
             base.Update(gameTime);
         }
