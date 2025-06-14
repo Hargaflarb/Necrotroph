@@ -17,7 +17,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
     {
         #region Fields
         private int maxLife = 100;
-        private int life;
+        private float life;
         private static Player instance;
         private bool lightOn = true;
         private DeathObserver observer;
@@ -32,7 +32,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         private bool oneSoundPlayed = false;
         #endregion
         #region Properties
-        public int Life { get => life; set => life = value; }
+        public float Life { get => life; set => life = value; }
         public DeathObserver Observer { get => observer; set => observer = value; }
         public bool LightOn
         {
@@ -97,6 +97,11 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             {
                 SoundManager.Instance.PauseSFX(walkSFX1);
                 //SoundManager.Instance.PauseSFX(walkSFX2);
+            }
+            if (lightOn)
+            {
+                life -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
             }
             base.Update(gameTime);
         }
