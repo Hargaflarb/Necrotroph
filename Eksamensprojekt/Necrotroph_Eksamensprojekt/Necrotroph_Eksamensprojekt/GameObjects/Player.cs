@@ -30,9 +30,21 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         private int deathSFX;
         private int lightToggleSFX;
         private bool oneSoundPlayed = false;
+        private bool lightBurstOngoing = false;
         #endregion
         #region Properties
-        public float Life { get => life; set => life = value; }
+        public float Life
+        {
+            get => life;
+            set
+            {
+                life = value;
+                if (life < 0)
+                {
+                    life = 0;
+                }
+            }
+        }
         public DeathObserver Observer { get => observer; set => observer = value; }
         public bool LightOn
         {
@@ -100,16 +112,16 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             }
             if (lightOn)
             {
-                life -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (life > 100)
+                Life -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (Life > maxLife && !lightBurstOngoing)
                 {
-                    GetComponent<LightEmitter>().LightRadius = (100 / 500f) + 0.01f;
+                    GetComponent<LightEmitter>().LightRadius = (maxLife / 500f) + 0.01f;
                 }
-                else
+                else if (!lightBurstOngoing)
                 {
                     GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
                 }
-                if (life <= 0)
+                if (Life <= 0)
                 {
                     lightOn = false;
                 }
@@ -131,15 +143,10 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                 {
                     PlayerDeath(source);
                 }
-                life -= damage;
-
-                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
-                TimeLineManager.AddEvent(invincibilityTime * 1000, UndoInvincibility);
-                if (life <= 0 && lightOn)
+                else
                 {
-                    lightOn = false;
-                    GetComponent<LightEmitter>().LightRadius = 0;
-
+                    SoundManager.Instance.PauseSFX(damageSFX1);
+                    SoundManager.Instance.PauseSFX(damageSFX2);
                     switch (oneSoundPlayed)
                     {
                         case true:
@@ -150,7 +157,15 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                             break;
                     }
                     oneSoundPlayed = !oneSoundPlayed;
+                }
+                Life -= damage;
 
+                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
+                TimeLineManager.AddEvent(invincibilityTime * 1000, UndoInvincibility);
+                if (Life <= 0 && lightOn)
+                {
+                    lightOn = false;
+                    GetComponent<LightEmitter>().LightRadius = 0;
                 }
             }
         }
@@ -195,11 +210,41 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             SoundManager.Instance.ResumeSFX(lightToggleSFX);
             if (lightOn)
             {
-                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
+                GetComponent<LightEmitter>().LightRadius = ((float)Life / 500f) + 0.01f;
+                //there has to be a better way to do this
+                string newstring = GetComponent<Animator>().CurrentAnimationName;
+                newstring = newstring.Remove(newstring.Length - 1);
+                newstring = newstring.Remove(newstring.Length - 1);
+                newstring += "n";
+                GetComponent<Animator>().PlayAnimation(newstring);
             }
             else
             {
+                string newstring = GetComponent<Animator>().CurrentAnimationName.Remove(GetComponent<Animator>().CurrentAnimationName.Length - 1);
+                newstring += "ff";
+                GetComponent<Animator>().PlayAnimation(newstring);
                 GetComponent<LightEmitter>().LightRadius = 0f;
+            }
+        }
+        public void LightBurst()
+        {
+            if (lightOn && !lightBurstOngoing)
+            {
+                Life -= 20;
+                //will hopefully add a wave overlay at some point
+                //would be better if we could just make the darkness seethrough for a second, this messes with the shadows
+                GetComponent<LightEmitter>().LightRadius = 50;
+                lightBurstOngoing = true;
+                TimeLineManager.AddEvent(500, NormalLight);
+            }
+        }
+        public void NormalLight()
+        {
+            lightBurstOngoing = false;
+            if (life <= 0)
+            {
+                lightOn = false;
+                GetComponent<LightEmitter>().LightRadius = 0;
             }
         }
         #endregion

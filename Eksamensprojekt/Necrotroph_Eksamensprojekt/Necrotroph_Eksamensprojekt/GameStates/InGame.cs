@@ -115,6 +115,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             InputHandler.AddUnclickedCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
 
             InputHandler.AddPressedKeyCommand(Keys.F, new TurnLightOnOffCommand());
+            InputHandler.AddPressedKeyCommand(Keys.Space, new LightBurstCommand());
 
             //InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand());
             //InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand());
@@ -125,6 +126,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         public override void LoadContent()
         {
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-1000, -1000), EnemyType.Hunter));
+            //AddObject(EnemyFactory.CreateEnemy(new Vector2(200, 200), EnemyType.LightEater));
             GameObject mem1 = MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500));
             AddObject(mem1);
             activeMemorabilia.Add(1, mem1);
@@ -318,12 +320,16 @@ namespace Necrotroph_Eksamensprojekt.Menu
             newPlayer.AddComponent<Movable>(300);
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f, new Vector2(0.6f, 0.3f), new Vector2(0.5f, 0.85f));
             newPlayer.AddComponent<Animator>();
-            newPlayer.AddComponent<LightEmitter>(0.2f);
+            newPlayer.AddComponent<LightEmitter>(0.2f,new Vector2(0,-55));
             //remember to add more animations
             newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
             newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
             newPlayer.GetComponent<Animator>().AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
             newPlayer.GetComponent<Animator>().AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleRightLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleEastLightOff"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleRightLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleEastLightOn"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleUpLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleNorthLightOff"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleUpLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleNorthLightOn"));
             newPlayer.GetComponent<Animator>().PlayAnimation("IdleDownLightOn");
             newPlayer.Transform.Scale = 0.3f;
 
@@ -401,16 +407,16 @@ namespace Necrotroph_Eksamensprojekt.Menu
             switch (GameWorld.Rnd.Next(0, 4))
             {
                 case 0:
-                    newPosition = new Vector2(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2) - 20, GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2)), (int)(Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2))));
+                    newPosition = new Vector2(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2) - 40, GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2)), (int)(Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2))));
                     break;
                 case 1:
-                    newPosition = new Vector2(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2) + 20, GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2)), (int)(Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2))));
+                    newPosition = new Vector2(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2) + 40, GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2)), (int)(Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2))));
                     break;
                 case 2:
-                    newPosition = new Vector2(GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2)), (int)(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2))), Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2) - 20);
+                    newPosition = new Vector2(GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2)), (int)(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2))), Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2) - 40);
                     break;
                 case 3:
-                    newPosition = new Vector2(GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2)), (int)(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2))), Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2) + 20);
+                    newPosition = new Vector2(GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2)), (int)(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2))), Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2) + 40);
                     break;
             }
             AddObject(LightPool.Instance.GetObject(newPosition));
