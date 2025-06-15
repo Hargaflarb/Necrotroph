@@ -33,6 +33,50 @@ namespace Necrotroph_Eksamensprojekt.Commands
         {
             //((Movable)Player.Instance.GetComponent<Movable>()).Move(direction, Player.Instance.Speed);
             Player.Instance.GetComponent<Movable>().Direction += direction;
+            if (Player.Instance.LightOn)
+            {
+                switch (direction.X)
+                {
+                    case > 0:
+                        Player.Instance.GetComponent<Animator>().PlayAnimation("IdleRightLightOn");
+                        break;
+                    case < 0:
+                        Player.Instance.GetComponent<Animator>().PlayAnimation("IdleLeftLightOn");
+                        break;
+                    default:
+                        if (direction.Y > 0)
+                        {
+                            Player.Instance.GetComponent<Animator>().PlayAnimation("IdleDownLightOn");
+                        }
+                        else
+                        {
+                            Player.Instance.GetComponent<Animator>().PlayAnimation("IdleUpLightOn");
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                switch (direction.X)
+                {
+                    case > 0:
+                        Player.Instance.GetComponent<Animator>().PlayAnimation("IdleRightLightOff");
+                        break;
+                    case < 0:
+                        Player.Instance.GetComponent<Animator>().PlayAnimation("IdleLeftLightOff");
+                        break;
+                    default:
+                        if (direction.Y > 0)
+                        {
+                            Player.Instance.GetComponent<Animator>().PlayAnimation("IdleDownLightOff");
+                        }
+                        else
+                        {
+                            Player.Instance.GetComponent<Animator>().PlayAnimation("IdleUpLightOff");
+                        }
+                        break;
+                }
+            }
         }
 
         public void Undo()
@@ -40,6 +84,7 @@ namespace Necrotroph_Eksamensprojekt.Commands
             if (Player.Instance.GetComponent<Movable>().Direction == direction)
             {
                 Player.Instance.GetComponent<Movable>().Direction = Vector2.Zero;
+                //also switch this to play an idle anim, nce the walk anims are implemented
             }
         }
         #endregion

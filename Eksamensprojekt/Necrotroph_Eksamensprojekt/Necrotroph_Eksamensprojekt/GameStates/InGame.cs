@@ -326,6 +326,10 @@ namespace Necrotroph_Eksamensprojekt.Menu
             newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
             newPlayer.GetComponent<Animator>().AddAnimation("IdleDownLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOff"));
             newPlayer.GetComponent<Animator>().AddAnimation("IdleDownLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleRightLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleEastLightOff"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleRightLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleEastLightOn"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleUpLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleNorthLightOff"));
+            newPlayer.GetComponent<Animator>().AddAnimation("IdleUpLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleNorthLightOn"));
             newPlayer.GetComponent<Animator>().PlayAnimation("IdleDownLightOn");
             newPlayer.Transform.Scale = 0.3f;
 

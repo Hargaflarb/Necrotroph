@@ -78,7 +78,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     newEnemy = new LightEaterEnemy(position);
                     newEnemy.AddComponent<SpriteRenderer>(lightEaterSprite,1f,new Vector2(0.6f,0.8f),new Vector2(0.5f,0.6f));
                     newEnemy.AddComponent<Movable>();
-                    newEnemy.AddComponent<LightEmitter>(0.05f);
+                    newEnemy.AddComponent<LightEmitter>(0.05f,new Vector2(0,40));
                     newEnemy.Transform.Scale = 0.2f;
                     return newEnemy;
                     break;

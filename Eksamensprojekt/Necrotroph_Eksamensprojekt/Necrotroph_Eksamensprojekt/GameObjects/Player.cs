@@ -211,9 +211,18 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             if (lightOn)
             {
                 GetComponent<LightEmitter>().LightRadius = ((float)Life / 500f) + 0.01f;
+                //there has to be a better way to do this
+                string newstring = GetComponent<Animator>().CurrentAnimationName;
+                newstring = newstring.Remove(newstring.Length - 1);
+                newstring = newstring.Remove(newstring.Length - 1);
+                newstring += "n";
+                GetComponent<Animator>().PlayAnimation(newstring);
             }
             else
             {
+                string newstring = GetComponent<Animator>().CurrentAnimationName.Remove(GetComponent<Animator>().CurrentAnimationName.Length - 1);
+                newstring += "ff";
+                GetComponent<Animator>().PlayAnimation(newstring);
                 GetComponent<LightEmitter>().LightRadius = 0f;
             }
         }

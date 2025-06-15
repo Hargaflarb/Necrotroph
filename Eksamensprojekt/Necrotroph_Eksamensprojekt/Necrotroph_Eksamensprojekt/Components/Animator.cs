@@ -26,6 +26,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         private float timeSinceLastFrame = 0;
         #endregion
         #region Properties
+        public string CurrentAnimationName { get { return animations.FirstOrDefault(x => x.Value == currentAnimation).Key; } }
         #endregion
         #region Constructors
         public Animator(GameObject gameObject) : base(gameObject)
