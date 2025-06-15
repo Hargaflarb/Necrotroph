@@ -18,7 +18,7 @@ namespace Necrotroph_Eksamensprojekt.Enemies
     public class LightEaterEnemy : GameObject, IListener
     {
         #region Fields
-        private float speed = 300;
+        private float speed;
         private float chaseSpeed = 300;
         private float wanderSpeed = 70;
         private int damage = 10;
@@ -37,6 +37,7 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         public LightEaterEnemy(Vector2 position) : base(position)
         {
             Player.Instance.Observer.AddListener(this);
+            speed = chaseSpeed;
         }
         #endregion
         #region Methods

@@ -21,6 +21,28 @@ namespace Necrotroph_Eksamensprojekt.Factories
         private static Texture2D[] hunterWalkAnim;
         private static Texture2D lightEaterSprite;
         private static Texture2D stalkerSprite;
+        #region StalkerHidingSprites
+        private static Texture2D stalkerHideLeft1Stage1;
+        private static Texture2D stalkerHideLeft1Stage2;
+        private static Texture2D stalkerHideLeft1Stage3;
+        private static Texture2D stalkerHideLeft1Stage4;
+        private static Texture2D stalkerHideLeft1Stage5;
+        private static Texture2D stalkerHideLeft2Stage1;
+        private static Texture2D stalkerHideLeft2Stage2;
+        private static Texture2D stalkerHideLeft2Stage3;
+        private static Texture2D stalkerHideLeft2Stage4;
+        private static Texture2D stalkerHideLeft2Stage5;
+        private static Texture2D stalkerHideRight1Stage1;
+        private static Texture2D stalkerHideRight1Stage2;
+        private static Texture2D stalkerHideRight1Stage3;
+        private static Texture2D stalkerHideRight1Stage4;
+        private static Texture2D stalkerHideRight1Stage5;
+        private static Texture2D stalkerHideRight2Stage1;
+        private static Texture2D stalkerHideRight2Stage2;
+        private static Texture2D stalkerHideRight2Stage3;
+        private static Texture2D stalkerHideRight2Stage4;
+        private static Texture2D stalkerHideRight2Stage5;
+        #endregion
         #endregion
         #region Properties
         #endregion
@@ -61,6 +83,35 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     return newEnemy;
                     break;
                 case EnemyType.Stalker:
+                    newEnemy = new LurkerEnemy(position);
+                    newEnemy.AddComponent<SpriteRenderer>(stalkerSprite, 1f);
+                    newEnemy.AddComponent<Animator>();
+                    #region AddAllTheSprites
+                    newEnemy.GetComponent<Animator>().AddAnimation("Run", stalkerSprite);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft1Stage1", stalkerHideLeft1Stage1);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft1Stage2", stalkerHideLeft1Stage2);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft1Stage3", stalkerHideLeft1Stage3);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft1Stage4", stalkerHideLeft1Stage4);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft1Stage5", stalkerHideLeft1Stage5);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft2Stage1", stalkerHideLeft2Stage1);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft2Stage2", stalkerHideLeft2Stage2);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft2Stage3", stalkerHideLeft2Stage3);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft2Stage4", stalkerHideLeft2Stage4);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideLeft2Stage5", stalkerHideLeft2Stage5);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight1Stage1", stalkerHideRight1Stage1);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight1Stage2", stalkerHideRight1Stage2);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight1Stage3", stalkerHideRight1Stage3);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight1Stage4", stalkerHideRight1Stage4);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight1Stage5", stalkerHideRight1Stage5);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight2Stage1", stalkerHideRight2Stage1);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight2Stage2", stalkerHideRight2Stage2);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight2Stage3", stalkerHideRight2Stage3);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight2Stage4", stalkerHideRight2Stage4);
+                    newEnemy.GetComponent<Animator>().AddAnimation("HideRight2Stage5", stalkerHideRight2Stage5);
+                    #endregion
+                    newEnemy.AddComponent<Movable>();
+                    newEnemy.Transform.Scale = 1f;
+                    return newEnemy;
                     break;
             }
             return null;

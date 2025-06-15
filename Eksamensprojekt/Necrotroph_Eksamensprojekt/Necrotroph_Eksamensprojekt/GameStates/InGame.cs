@@ -115,6 +115,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             InputHandler.AddUnclickedCommand(Keys.S, new WalkCommand(Player.Instance, new Vector2(0, 1)));
 
             InputHandler.AddPressedKeyCommand(Keys.F, new TurnLightOnOffCommand());
+            InputHandler.AddPressedKeyCommand(Keys.Space, new LightBurstCommand());
 
             //InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand());
             //InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand());
@@ -125,7 +126,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         public override void LoadContent()
         {
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-1000, -1000), EnemyType.Hunter));
-            AddObject(EnemyFactory.CreateEnemy(new Vector2(200, 200), EnemyType.LightEater));
+            //AddObject(EnemyFactory.CreateEnemy(new Vector2(200, 200), EnemyType.LightEater));
             GameObject mem1 = MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500));
             AddObject(mem1);
             activeMemorabilia.Add(1, mem1);
@@ -319,7 +320,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             newPlayer.AddComponent<Movable>(300);
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f, new Vector2(0.6f, 0.3f), new Vector2(0.5f, 0.85f));
             newPlayer.AddComponent<Animator>();
-            newPlayer.AddComponent<LightEmitter>(0.2f);
+            newPlayer.AddComponent<LightEmitter>(0.2f,new Vector2(0,-55));
             //remember to add more animations
             newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
             newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));

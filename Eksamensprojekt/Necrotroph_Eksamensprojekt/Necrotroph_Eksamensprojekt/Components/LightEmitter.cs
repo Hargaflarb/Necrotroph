@@ -16,14 +16,15 @@ namespace Necrotroph_Eksamensprojekt.Components
         private float lightRadius;
         private RenderTarget2D shadowTarget;
         private static Effect shaderShadowEffect;
+        private Vector2 offset;
 
         #endregion
         #region Properties
         public float LightRadius { get => lightRadius; set => lightRadius = value; }
-        public float X { get => GameObject.Transform.ScreenPosition.X / (GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth + 50); }
-        public float Y { get => (GameObject.Transform.ScreenPosition.Y - gameObject.GetComponent<SpriteRenderer>().Sprite.Height * gameObject.Transform.Scale / 2) / GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferHeight; }
+        public float X { get => GameObject.Transform.ScreenPosition.X / (GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth + 50) + offset.X; }
+        public float Y { get => (GameObject.Transform.ScreenPosition.Y - gameObject.GetComponent<SpriteRenderer>().Sprite.Height * gameObject.Transform.Scale / 2) / GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferHeight + offset.Y; }
         public static Effect ShaderShadowEffect { get => shaderShadowEffect; set => shaderShadowEffect = value; }
-
+        public Vector2 Offset { get => offset; set => offset = value; }
 
         #endregion
         #region Constructors
@@ -33,11 +34,24 @@ namespace Necrotroph_Eksamensprojekt.Components
             GraphicsDevice device = GameWorld.Instance.GraphicsDevice;
             shadowTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferHeight, device.PresentationParameters.BackBufferHeight);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <param name="radius"></param>
+        /// <param name="offset">If the light doesn't emit frm the center of the gameobject</param>
+        public LightEmitter(GameObject gameObject, float radius, Vector2 offset) : base(gameObject)
+        {
+            LightRadius = radius;
+            GraphicsDevice device = GameWorld.Instance.GraphicsDevice;
+            shadowTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferHeight, device.PresentationParameters.BackBufferHeight);
+            this.offset = offset;
+        }
         #endregion
         #region Methods
         public float NormalizedDistanceToLight(ShadowCaster shadow)
         {
-            return ((shadow.GameObject.Transform.ScreenPosition- GameObject.Transform.ScreenPosition) / (LightRadius * GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth * 2)).Length();
+            return ((shadow.GameObject.Transform.ScreenPosition - GameObject.Transform.ScreenPosition + offset) / (LightRadius * GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth * 2)).Length();
         }
 
 
@@ -63,7 +77,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             float resizedRadius = LightRadius * GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth * 2;
             Vector2 size = new Vector2((int)resizedRadius, (int)resizedRadius);
-            Point position = (GameObject.Transform.ScreenPosition - (size / 2)).ToPoint();
+            Point position = (GameObject.Transform.ScreenPosition - (size / 2) + offset).ToPoint();
             spriteBatch.Draw(shadowTarget, new Rectangle(position, size.ToPoint()), Color.White);
 
             //spriteBatch.Draw(shadowTarget, new Vector2(0, 0), Color.White);
