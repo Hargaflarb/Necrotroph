@@ -59,11 +59,13 @@ namespace Necrotroph_Eksamensprojekt
             LightEffect = GameWorld.Instance.Content.Load<Effect>("LightingShader");
             LightOverlay = GameWorld.Instance.Content.Load<Effect>("LightOverlay");
             InvertAplha = GameWorld.Instance.Content.Load<Effect>("InvertAlpha");
-            //ShadowMapSprite = GameWorld.Instance.Content.Load<Texture2D>("shadowMap");
+            ShadowSprite = GameWorld.Instance.Content.Load<Texture2D>("darkshaddow");
         }
 
         public static void PrepareShadows(SpriteBatch spriteBatch)
         {
+            InvertAplha.Parameters["ShadowTexture"].SetValue(ShadowSprite);
+
             List<(LightEmitter lightEmitter, List<ShadowInterval> shadowIntervals)> components = InGame.Instance.GetShaderData();
 
             //------------- Shadows

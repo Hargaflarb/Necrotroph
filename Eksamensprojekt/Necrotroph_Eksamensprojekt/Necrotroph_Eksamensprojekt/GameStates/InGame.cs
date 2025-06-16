@@ -318,7 +318,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         {
             Player newPlayer = Player.Instance;
             newPlayer.AddComponent<Movable>(300);
-            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f, new Vector2(0.6f, 0.3f), new Vector2(0.5f, 0.85f));
+            newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), new Vector2(0.6f, 0.3f), new Vector2(0.5f, 0.85f)).Layer = 0.96f;
             newPlayer.AddComponent<Animator>();
             newPlayer.AddComponent<LightEmitter>(0.2f,new Vector2(0,-55));
             //remember to add more animations

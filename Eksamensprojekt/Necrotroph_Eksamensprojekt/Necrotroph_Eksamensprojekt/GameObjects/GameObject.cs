@@ -58,7 +58,12 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             }
             catch (Exception)
             {
-                throw new InvalidOperationException($"Klassen {componentType.Name} har ikke en konstruktør der matcher de leverede parametre.");
+                string types = "";
+                foreach (var item in additionalParameters)
+                {
+                    types += $", {item.GetType()}";
+                }
+                throw new InvalidOperationException($"Klassen {componentType.Name} har ikke en konstruktør der matcher de leverede parametre.\n{componentType.Name}(GameObject{types})");
             }
         }
         public T GetComponent<T>() where T : Component

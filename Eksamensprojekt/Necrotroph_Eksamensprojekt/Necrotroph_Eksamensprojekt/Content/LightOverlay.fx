@@ -12,7 +12,7 @@
 Texture2D SpriteTexture;
 
 static const float aspectRatio = 9.0 / 16.0;
-static const float fadeLength = 0.15;
+static const float fadeLength = 0.3;
 static const float resizer = 1.0 / fadeLength;
 
 

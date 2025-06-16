@@ -64,7 +64,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
                 case EnemyType.Hunter:
                     HunterEnemy.Position = position;
                     newEnemy = HunterEnemy.Instance;
-                    newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
+                    newEnemy.AddComponent<SpriteRenderer>(hunterSprite, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
                     /*newEnemy.AddComponent<Animator>();
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
                     newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
@@ -73,18 +73,16 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     return newEnemy;
                 case EnemyType.Seeker:
                     throw new NotImplementedException();
-                    break;
                 case EnemyType.LightEater:
                     newEnemy = new LightEaterEnemy(position);
-                    newEnemy.AddComponent<SpriteRenderer>(lightEaterSprite,1f,new Vector2(0.6f,0.8f),new Vector2(0.5f,0.6f));
+                    newEnemy.AddComponent<SpriteRenderer>(lightEaterSprite,new Vector2(0.6f,0.8f),new Vector2(0.5f,0.6f));
                     newEnemy.AddComponent<Movable>();
                     newEnemy.AddComponent<LightEmitter>(0.05f,new Vector2(0,40));
                     newEnemy.Transform.Scale = 0.2f;
                     return newEnemy;
-                    break;
                 case EnemyType.Stalker:
                     newEnemy = new LurkerEnemy(position);
-                    newEnemy.AddComponent<SpriteRenderer>(stalkerSprite, 1f);
+                    newEnemy.AddComponent<SpriteRenderer>(stalkerSprite);
                     newEnemy.AddComponent<Animator>();
                     #region AddAllTheSprites
                     newEnemy.GetComponent<Animator>().AddAnimation("Run", stalkerSprite);
@@ -112,7 +110,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     newEnemy.AddComponent<Movable>();
                     newEnemy.Transform.Scale = 1f;
                     return newEnemy;
-                    break;
             }
             return null;
         }

@@ -22,11 +22,12 @@ namespace Necrotroph_Eksamensprojekt.Components
         private Color colour = Color.White;
         private Vector2 origin;
         private SpriteEffects flipped = SpriteEffects.None;
+        private float layer = -1;
         #endregion
         #region Properties
         public Texture2D Sprite { get => sprite; set => sprite = value; }
         public Color Colour { get => colour; set => colour = value; }
-        public bool Flipped 
+        public bool Flipped
         {
             set
             {
@@ -40,30 +41,36 @@ namespace Necrotroph_Eksamensprojekt.Components
                 }
             }
         }
-        public float Layer 
+        public float Layer
         {
             get
             {
-                return MathF.Min((gameObject.Transform.ScreenPosition.Y / GameWorld.ScreenSize.Y) * 0.9f, 0.9f);
+                if (layer < 0)
+                {
+                    return MathF.Min((gameObject.Transform.ScreenPosition.Y / GameWorld.ScreenSize.Y) * 0.9f, 0.9f);
+                }
+                return layer;
             }
+            set => layer = value;
         }
 
         #endregion
         #region Constructors
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="gameObject">What object is the SpriteRenderer attached to (should be automatically filled out with AddComponent</param>
         /// <param name="sprite">What sprite is the first one being shown</param>
         /// <param name="layer">Which draw layer is it on (higher means closer)</param>
-        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer) : base(gameObject)
+        public SpriteRenderer(GameObject gameObject, Texture2D sprite) : base(gameObject)
         {
             this.sprite = sprite;
             this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2();
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
-        public SpriteRenderer(GameObject gameObject, Texture2D sprite, float layer, Vector2 hitboxSizeScale, Vector2 originPlacement) : base(gameObject)
+        public SpriteRenderer(GameObject gameObject, Texture2D sprite, Vector2 hitboxSizeScale, Vector2 originPlacement) : base(gameObject)
         {
             this.sprite = sprite;
             this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2() * hitboxSizeScale;
