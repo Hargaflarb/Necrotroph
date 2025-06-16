@@ -74,7 +74,7 @@ namespace Necrotroph_Eksamensprojekt
                 }
 
                 string insertQuery = $"INSERT INTO Saves (Light, ItemsCollected, PlayerPosX, PlayerPosY, HunterPosX, HunterPosY, MapSeed) " +
-                    $"VALUES ({Player.Instance.Life}, {InGame.Instance.ItemsCollected}, {playerPosX}, {playerPosY}, {hunterPosX}, {hunterPosY}, {GameWorld.Seed})";
+                    $"VALUES ({playerLight}, {InGame.Instance.ItemsCollected}, {playerPosX}, {playerPosY}, {hunterPosX}, {hunterPosY}, {GameWorld.Seed})";
                 SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
                 insertCommand.ExecuteNonQuery();
                 Connection.Close();
