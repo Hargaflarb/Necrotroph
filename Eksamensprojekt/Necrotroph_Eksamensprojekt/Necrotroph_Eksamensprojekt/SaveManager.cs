@@ -56,7 +56,7 @@ namespace Necrotroph_Eksamensprojekt
 
                 Connection = new SqlConnection(ConnectionString);
                 Connection.Open();
-                string playerLight = Player.Instance.Life.ToString().Remove(',', '.');
+                string playerLight = Player.Instance.Life.ToString().Replace(',', '.');
                 string playerPosX = Player.Instance.Transform.WorldPosition.X.ToString().Replace(',', '.');
                 string playerPosY = Player.Instance.Transform.WorldPosition.Y.ToString().Replace(',', '.');
                 string hunterPosX = HunterEnemy.Instance.Transform.WorldPosition.X.ToString().Replace(',', '.');
@@ -96,17 +96,18 @@ namespace Necrotroph_Eksamensprojekt
 
                 Connection = new SqlConnection(ConnectionString);
                 Connection.Open();
-                SqlCommand selectCommand = new SqlCommand("SELECT TOP (1) Light, ItemsCollected, PlayerPosX, PlayerPosY, HunterPosX, HunterPosY FROM Saves ORDER BY SaveID DESC;", Connection);
+                SqlCommand selectCommand = new SqlCommand("SELECT TOP (1) Light, ItemsCollected, PlayerPosX, PlayerPosY, HunterPosX, HunterPosY, MapSeed FROM Saves ORDER BY SaveID DESC;", Connection);
                 SqlDataReader reader = selectCommand.ExecuteReader();
 
                 bool rowExists = reader.Read();
 
                 if (rowExists)
                 {
-                    Player.Instance.Life = reader.GetInt32(0);
+                    Player.Instance.Life = (float)reader.GetDouble(0);
                     InGame.Instance.ItemsCollected = reader.GetInt32(1);
                     Player.Instance.Transform.WorldPosition = new Vector2((float)reader.GetDouble(2), (float)reader.GetDouble(3));
                     HunterEnemy.Instance.Transform.WorldPosition = new Vector2((float)reader.GetDouble(4), (float)reader.GetDouble(5));
+                    GameWorld.Seed = reader.GetInt32(6);
                 }
                 reader.Close();
 
