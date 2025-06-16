@@ -145,7 +145,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
             UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X / 2, 1000), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
             UIManager.AddUIObject(new UIButton(new Vector2(150, 900), new Vector2(50, 50), "Save Game", () => { SaveManager.SaveGame(); }));
-            UIManager.AddUIObject(new UIButton(new Vector2(150, 1000), new Vector2(50, 50), "Load Game", () => { SaveManager.LoadGame(); }));
+            UIManager.AddUIObject(new UIButton(new Vector2(150, 1000), new Vector2(50, 50), "Load Game", () => { SaveManager.Load(); }));
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2(50, 50), 1f));
 
             ShaderManager.SetSpritesAndShaders();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.Menu;
+using Necrotroph_Eksamensprojekt.ObjectPools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,15 +36,7 @@ namespace Necrotroph_Eksamensprojekt
 
             saveThread.Start();
         }
-        /// <summary>
-        /// Runs the Load thread
-        /// </summary>
-        public static void LoadGame()
-        {
-            Thread loadThread = new Thread(Load);
 
-            loadThread.Start();
-        }
         /// <summary>
         /// Method for Saving the game, does a lot
         /// </summary>
@@ -87,7 +80,7 @@ namespace Necrotroph_Eksamensprojekt
         /// <summary>
         /// Method for loading the game, also does a lot
         /// </summary>
-        private static void Load()
+        public static void Load()
         {
             try
             {
@@ -108,8 +101,14 @@ namespace Necrotroph_Eksamensprojekt
                     Player.Instance.Transform.WorldPosition = new Vector2((float)reader.GetDouble(2), (float)reader.GetDouble(3));
                     HunterEnemy.Instance.Transform.WorldPosition = new Vector2((float)reader.GetDouble(4), (float)reader.GetDouble(5));
                     GameWorld.Seed = reader.GetInt32(6);
+                    GameWorld.Rnd = new Random(GameWorld.Seed);
+                    Map.Rnd = new Random(GameWorld.Seed);
                 }
                 reader.Close();
+
+                TreePool.Instance.Clear();
+                Map.Clear();
+                Map.GenerateMap();
 
                 //InGame.Instance.ActiveMemorabilia.Clear();
                 //if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem1))

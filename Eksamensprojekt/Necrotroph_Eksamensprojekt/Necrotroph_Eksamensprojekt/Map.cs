@@ -29,13 +29,16 @@ namespace Necrotroph_Eksamensprojekt
         private static readonly Vector2 unloadBound;
         private static List<(Vector2 position, ObjectPool poolType)> unloadedMapObjects;
         private static Graph pathFindingGraph;
+        private static Random rnd;
         #endregion
         #region Properties
         public static Vector2 UnloadBound { get { return unloadBound; } }
+        public static Random Rnd;
         #endregion
         #region Constructors
         static Map()
         {
+            rnd = new Random(GameWorld.Seed);
             size = new Vector2(10000, 10000);
             loadBound = new Vector2(1250, 900);
             unloadBound = new Vector2(1350, 1000);
@@ -179,6 +182,13 @@ namespace Necrotroph_Eksamensprojekt
             return nextDestination;
             
         }
+
+        public static void Clear()
+        {
+            unloadedMapObjects.Clear();
+            pathFindingGraph.ClearNodes();
+        }
+
         #endregion
     }
 }
