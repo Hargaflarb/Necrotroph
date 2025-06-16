@@ -56,6 +56,7 @@ namespace Necrotroph_Eksamensprojekt
 
                 Connection = new SqlConnection(ConnectionString);
                 Connection.Open();
+                string playerLight = Player.Instance.Life.ToString().Remove(',', '.');
                 string playerPosX = Player.Instance.Transform.WorldPosition.X.ToString().Replace(',', '.');
                 string playerPosY = Player.Instance.Transform.WorldPosition.Y.ToString().Replace(',', '.');
                 string hunterPosX = HunterEnemy.Instance.Transform.WorldPosition.X.ToString().Replace(',', '.');
