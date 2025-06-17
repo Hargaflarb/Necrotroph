@@ -36,6 +36,7 @@ namespace Necrotroph_Eksamensprojekt
         private string connectionString;
         private SqlConnection connection;
         private static MemorabiliaProgress memProgress;
+        private static int progressNum;
 
         #endregion
         #region Properties
@@ -64,6 +65,8 @@ namespace Necrotroph_Eksamensprojekt
         public static Random Rnd { get => rnd; set => rnd = value; }
         public static int Seed { get => seed; set => seed = value; }
         public static MemorabiliaProgress MemProgress { get => memProgress; set => memProgress = value; }
+        public static int ProgressNum { get => progressNum; set => progressNum = value; }
+
 
         #endregion
         #region Constructors

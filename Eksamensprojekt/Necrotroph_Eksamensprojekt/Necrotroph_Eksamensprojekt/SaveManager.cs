@@ -67,7 +67,7 @@ namespace Necrotroph_Eksamensprojekt
                 }
 
                 string insertQuery = $"INSERT INTO Saves (Light, ItemsCollected, PlayerPosX, PlayerPosY, HunterPosX, HunterPosY, MapSeed) " +
-                    $"VALUES ({playerLight}, {InGame.Instance.ItemsCollected}, {playerPosX}, {playerPosY}, {hunterPosX}, {hunterPosY}, {GameWorld.Seed})";
+                    $"VALUES ({playerLight}, {GameWorld.MemProgress}, {playerPosX}, {playerPosY}, {hunterPosX}, {hunterPosY}, {GameWorld.Seed})";
                 SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
                 insertCommand.ExecuteNonQuery();
                 Connection.Close();
@@ -110,27 +110,27 @@ namespace Necrotroph_Eksamensprojekt
                 Map.Clear();
                 Map.GenerateMap();
 
-                //InGame.Instance.ActiveMemorabilia.Clear();
-                //if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem1))
-                //{
-                //    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem1, InGame.Instance.Mem1);
-                //}
-                //if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem2))
-                //{
-                //    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem2, InGame.Instance.Mem2);
-                //}
-                //if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem3))
-                //{
-                //    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem3, InGame.Instance.Mem3);
-                //}
-                //if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem4))
-                //{
-                //    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem4, InGame.Instance.Mem4);
-                //}
-                //if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem5))
-                //{
-                //    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem5, InGame.Instance.Mem5);
-                //}
+                InGame.Instance.ActiveMemorabilia.Clear();
+                if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem1))
+                {
+                    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem1, InGame.Instance.Mem1);
+                }
+                if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem2))
+                {
+                    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem2, InGame.Instance.Mem2);
+                }
+                if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem3))
+                {
+                    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem3, InGame.Instance.Mem3);
+                }
+                if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem4))
+                {
+                    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem4, InGame.Instance.Mem4);
+                }
+                if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem5))
+                {
+                    InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem5, InGame.Instance.Mem5);
+                }
 
                 Connection.Close();
             }

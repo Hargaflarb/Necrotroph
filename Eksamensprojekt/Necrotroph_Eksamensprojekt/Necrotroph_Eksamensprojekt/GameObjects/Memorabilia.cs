@@ -24,7 +24,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             if (otherObject is Player)
             {
-                InGame.Instance.ItemsCollected++;
                 this.GetComponent<Pickupable>().RemoveObject();
                
                 base.OnCollision(otherObject);
