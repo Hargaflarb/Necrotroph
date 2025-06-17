@@ -107,6 +107,16 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             DrawRectangle(spriteBatch);
 #endif
         }
+
+        public virtual void DrawLuminescent(SpriteBatch spriteBatch)
+        {
+            foreach (Component component in components)
+            {
+                component.DrawLuminescent(spriteBatch);
+            }
+        }
+
+
         public virtual void OnCollision(GameObject otherObject)
         {
             foreach (Component component in components)

@@ -23,6 +23,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         private Vector2 origin;
         private SpriteEffects flipped = SpriteEffects.None;
         private float layer = -1;
+        private Color luminescentColor = Color.Black;
         #endregion
         #region Properties
         public Texture2D Sprite { get => sprite; set => sprite = value; }
@@ -52,6 +53,21 @@ namespace Necrotroph_Eksamensprojekt.Components
                 return layer;
             }
             set => layer = value;
+        }
+
+        public bool Luminescent
+        {
+            set
+            {
+                if (value)
+                {
+                    luminescentColor = Color.White;
+                }
+                else
+                {
+                    luminescentColor = Color.Black;
+                }
+            }
         }
 
         #endregion
@@ -96,6 +112,16 @@ namespace Necrotroph_Eksamensprojekt.Components
             }
 
             spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, colour, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, flipped, Layer);
+        }
+
+        public override void DrawLuminescent(SpriteBatch spriteBatch)
+        {
+            if (sprite == null | Layer < 0.449)
+            {
+                return;
+            }
+
+            spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, luminescentColor, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, flipped, Layer);
         }
         #endregion
     }
