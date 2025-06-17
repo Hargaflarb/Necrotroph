@@ -75,9 +75,9 @@ namespace Necrotroph_Eksamensprojekt
         /// <returns>true, if successfully removed.</returns>
         public static bool RemoveEvent(int ID)
         {
-            if (TimeLineEvents.ContainsKey(ID))
+            if (timeLineEvents.ContainsKey(ID))
             {
-                eventsToRemove.Add(ID, (TimeLineEvents[ID]));
+                eventsToRemove.Add(ID, (timeLineEvents[ID]));
                 return true;
             }
             else

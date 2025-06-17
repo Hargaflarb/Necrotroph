@@ -102,7 +102,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             activeMemorabilia = new Dictionary<int, GameObject>();
 
             AddPlayer(Vector2.Zero);
-            //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
+            AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
             Map.GenerateMap();
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
@@ -126,7 +126,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
         public override void LoadContent()
         {
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-1000, -1000), EnemyType.Hunter));
-            //AddObject(EnemyFactory.CreateEnemy(new Vector2(200, 200), EnemyType.LightEater));
+            TimeLineManager.AddEvent(GameWorld.Rnd.Next((int)LightEaterEnemy.MinTimeBetweenLighteaters, (int)LightEaterEnemy.MaxTimeBetweenLighteaters) * 1000, SpawnLightEater);
             GameObject mem1 = MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500));
             AddObject(mem1);
             activeMemorabilia.Add(1, mem1);
@@ -320,7 +320,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             newPlayer.AddComponent<Movable>(300);
             newPlayer.AddComponent<SpriteRenderer>(Content.Load<Texture2D>("PlayerSprites/playerIdleSouthLightOn"), 1f, new Vector2(0.6f, 0.3f), new Vector2(0.5f, 0.85f));
             newPlayer.AddComponent<Animator>();
-            newPlayer.AddComponent<LightEmitter>(0.2f,new Vector2(0,-55));
+            newPlayer.AddComponent<LightEmitter>(0.2f, new Vector2(0, -55));
             //remember to add more animations
             newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOff", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOff"));
             newPlayer.GetComponent<Animator>().AddAnimation("IdleLeftLightOn", Content.Load<Texture2D>("PlayerSprites/playerIdleWestLightOn"));
@@ -428,6 +428,28 @@ namespace Necrotroph_Eksamensprojekt.Menu
             {
                 TimeLineManager.AddEvent(lightSpawnRate * 1000, SpawnLightRefill);
             }
+        }
+        public void SpawnLightEater()
+        {
+            Vector2 newPosition = Vector2.Zero;
+            switch (GameWorld.Rnd.Next(0, 4))
+            {
+                case 0:
+                    newPosition = new Vector2(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2) - 40, GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2)), (int)(Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2))));
+                    break;
+                case 1:
+                    newPosition = new Vector2(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2) + 40, GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2)), (int)(Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2))));
+                    break;
+                case 2:
+                    newPosition = new Vector2(GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2)), (int)(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2))), Player.Instance.Transform.WorldPosition.Y - (GameWorld.ScreenSize.Y / 2) - 40);
+                    break;
+                case 3:
+                    newPosition = new Vector2(GameWorld.Rnd.Next((int)(Player.Instance.Transform.WorldPosition.X - (GameWorld.ScreenSize.X / 2)), (int)(Player.Instance.Transform.WorldPosition.X + (GameWorld.ScreenSize.X / 2))), Player.Instance.Transform.WorldPosition.Y + (GameWorld.ScreenSize.Y / 2) + 40);
+                    break;
+            }
+            AddObject(EnemyFactory.CreateEnemy(newPosition, EnemyType.LightEater));
+
+            TimeLineManager.AddEvent(GameWorld.Rnd.Next((int)LightEaterEnemy.MinTimeBetweenLighteaters,(int)LightEaterEnemy.MaxTimeBetweenLighteaters) * 1000, SpawnLightEater);
         }
     }
 }
