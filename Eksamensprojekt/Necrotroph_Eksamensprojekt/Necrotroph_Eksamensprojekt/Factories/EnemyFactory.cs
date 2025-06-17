@@ -58,19 +58,18 @@ namespace Necrotroph_Eksamensprojekt.Factories
         public static GameObject CreateEnemy(Vector2 position, EnemyType enemy)
         {
             GameObject newEnemy;
-            //oooo  <- What does this mean???
+            //oooo  <- What does this mean??? - wouldn't you like to know weatherboy
             switch (enemy)
             {
                 case EnemyType.Hunter:
                     HunterEnemy.Position = position;
-                    newEnemy = HunterEnemy.Instance;
-                    newEnemy.AddComponent<SpriteRenderer>(hunterSprite, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
+                    HunterEnemy.Instance.AddComponent<SpriteRenderer>(hunterSprite, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
                     /*newEnemy.AddComponent<Animator>();
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
                     newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
-                    newEnemy.AddComponent<Movable>();
-                    newEnemy.Transform.Scale = 0.2f;
-                    return newEnemy;
+                    HunterEnemy.Instance.AddComponent<Movable>(150);
+                    HunterEnemy.Instance.Transform.Scale = 0.2f;
+                    return HunterEnemy.Instance;
                 case EnemyType.Seeker:
                     throw new NotImplementedException();
                 case EnemyType.LightEater:
