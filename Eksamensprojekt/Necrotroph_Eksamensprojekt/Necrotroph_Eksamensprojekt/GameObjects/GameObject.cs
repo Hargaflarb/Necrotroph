@@ -58,7 +58,12 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             }
             catch (Exception)
             {
-                throw new InvalidOperationException($"Klassen {componentType.Name} har ikke en konstruktør der matcher de leverede parametre.");
+                string types = "";
+                foreach (var item in additionalParameters)
+                {
+                    types += $", {item.GetType()}";
+                }
+                throw new InvalidOperationException($"Klassen {componentType.Name} har ikke en konstruktør der matcher de leverede parametre.\n{componentType.Name}(GameObject{types})");
             }
         }
         public T GetComponent<T>() where T : Component
@@ -102,6 +107,16 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             DrawRectangle(spriteBatch);
 #endif
         }
+
+        public virtual void DrawLuminescent(SpriteBatch spriteBatch)
+        {
+            foreach (Component component in components)
+            {
+                component.DrawLuminescent(spriteBatch);
+            }
+        }
+
+
         public virtual void OnCollision(GameObject otherObject)
         {
             foreach (Component component in components)

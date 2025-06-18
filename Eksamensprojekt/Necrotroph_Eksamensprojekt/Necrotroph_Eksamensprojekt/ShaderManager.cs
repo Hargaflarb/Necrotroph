@@ -1,4 +1,5 @@
 ﻿using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.Menu;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,13 @@ namespace Necrotroph_Eksamensprojekt
         private static Effect shadowEffect;
         private static Effect invertAplha;
         private static Effect lightOverlay;
+        private static Effect luminescenseFilter;
         private static RenderTarget2D lightTarget;
         private static RenderTarget2D finalLightTarget;
         private static RenderTarget2D shadowTarget;
         private static RenderTarget2D lightOverlayTarget;
         private static RenderTarget2D finalOverlayTarget;
+        private static RenderTarget2D luminescenseTarget;
         private static Color color = Color.White;
 
 
@@ -31,11 +34,13 @@ namespace Necrotroph_Eksamensprojekt
         public static Effect ShadowEffect { get => shadowEffect; set => shadowEffect = value; }
         public static Effect InvertAplha { get => invertAplha; set => invertAplha = value; }
         public static Effect LightOverlay { get => lightOverlay; set => lightOverlay = value; }
+        public static Effect LuminescenseFilter { get => luminescenseFilter; set => luminescenseFilter = value; }
         public static RenderTarget2D LightTarget { get => lightTarget; set => lightTarget = value; }
         public static RenderTarget2D FinalLightTarget { get => finalLightTarget; set => finalLightTarget = value; }
         public static RenderTarget2D ShadowTarget { get => shadowTarget; set => shadowTarget = value; }
         public static RenderTarget2D LightOverlayTarget { get => lightOverlayTarget; set => lightOverlayTarget = value; }
         public static RenderTarget2D FinalOverlayTarget { get => finalOverlayTarget; set => finalOverlayTarget = value; }
+        public static RenderTarget2D LuminescenseTarget { get => luminescenseTarget; set => luminescenseTarget = value; }
         public static Color Color { get => color; set => color = value; }
 
         static ShaderManager()
@@ -46,6 +51,7 @@ namespace Necrotroph_Eksamensprojekt
             FinalLightTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
             LightOverlayTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
             FinalOverlayTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
+            LuminescenseTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
         }
 
 
@@ -59,11 +65,33 @@ namespace Necrotroph_Eksamensprojekt
             LightEffect = GameWorld.Instance.Content.Load<Effect>("LightingShader");
             LightOverlay = GameWorld.Instance.Content.Load<Effect>("LightOverlay");
             InvertAplha = GameWorld.Instance.Content.Load<Effect>("InvertAlpha");
-            //ShadowMapSprite = GameWorld.Instance.Content.Load<Texture2D>("shadowMap");
+            LuminescenseFilter = GameWorld.Instance.Content.Load<Effect>("LuminescenseFilter");
+            ShadowSprite = GameWorld.Instance.Content.Load<Texture2D>("darkshaddow");
         }
 
         public static void PrepareShadows(SpriteBatch spriteBatch)
         {
+            //------------- LuminescenseFilter
+
+            GameWorld.Instance.GraphicsDevice.SetRenderTarget(LuminescenseTarget);
+            GameWorld.Instance.GraphicsDevice.Clear(Color.Black);
+
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend, effect: LuminescenseFilter);
+            foreach (GameObject gameObject in InGame.Instance.ActiveGameObjects)
+            {
+                if (gameObject.Active)
+                {
+                    gameObject.DrawLuminescent(spriteBatch);
+                }
+            }
+
+            spriteBatch.End();
+
+            //------------- Prep
+
+            InvertAplha.Parameters["ShadowTexture"].SetValue(ShadowSprite);
+            InvertAplha.Parameters["Luminescense"].SetValue((Texture2D)LuminescenseTarget);
+
             List<(LightEmitter lightEmitter, List<ShadowInterval> shadowIntervals)> components = InGame.Instance.GetShaderData();
 
             //------------- Shadows
@@ -127,6 +155,7 @@ namespace Necrotroph_Eksamensprojekt
         {
             spriteBatch.Draw(FinalLightTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 0.001f);
             spriteBatch.Draw(FinalOverlayTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 0.95f);
+            //spriteBatch.Draw(LuminescenseTarget, Vector2.Zero, null, Color, 0, Vector2.Zero, 1, SpriteEffects.None, 0.96f);
         }
 
     }

@@ -10,10 +10,22 @@
 // Malthe
 
 Texture2D SpriteTexture;
+Texture2D ShadowTexture;
+Texture2D Luminescense;
 
 sampler2D SpriteTextureSampler = sampler_state
 {
 	Texture = <SpriteTexture>;
+};
+
+sampler2D ShadowTextureSampler = sampler_state
+{
+    Texture = <ShadowTexture>;
+};
+
+sampler2D LuminescenseTextureSampler = sampler_state
+{
+    Texture = <Luminescense>;
 };
 
 struct VertexShaderOutput
@@ -25,8 +37,13 @@ struct VertexShaderOutput
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	float4 color = tex2D(SpriteTextureSampler,input.TextureCoordinates);
-	color.a = 1-color.a;
+	float4 color = tex2D(SpriteTextureSampler, input.TextureCoordinates);
+    float3 shadowColor = tex2D(ShadowTextureSampler, input.TextureCoordinates).rgb;
+    float3 lumiColor = tex2D(LuminescenseTextureSampler, input.TextureCoordinates).rgb;
+    float luminescense = (lumiColor.r + lumiColor.g + lumiColor.b) / 3;
+	
+	color.a = (1-color.a) - luminescense;
+    color.rgb = shadowColor;
 	return color;
 }
 

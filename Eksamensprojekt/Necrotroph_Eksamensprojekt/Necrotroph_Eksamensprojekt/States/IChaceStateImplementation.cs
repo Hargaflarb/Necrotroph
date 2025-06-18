@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Necrotroph_Eksamensprojekt.States
 {
-    /// <summary>
-    /// so proud of this one haha - Malthe
-    /// </summary>
-    internal interface IState
+    public interface IChaceStateImplementation
     {
-        
+        public ChaceState CurrentChaceState { get; protected set; }
+        void ChangeChaceState(ChaceState state);
     }
 }
