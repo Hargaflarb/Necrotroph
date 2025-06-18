@@ -92,6 +92,9 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
                     newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
                     newEnemy.AddComponent<Movable>();
+                    SoundManager.Instance.PlaySFX("HunterMove1", newEnemy);
+                    SoundManager.Instance.PlaySFX("HunterMove2", newEnemy);
+                    SoundManager.Instance.PlaySFX("HunterGrowl", newEnemy);
                     newEnemy.Transform.Scale = 0.2f;
                     return newEnemy;
                 case EnemyType.Seeker:
@@ -103,6 +106,8 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     newEnemy.AddComponent<Movable>();
                     newEnemy.AddComponent<LightEmitter>(0.05f,new Vector2(0,40));
                     newEnemy.Transform.Scale = 0.2f;
+                    int test=SoundManager.Instance.PlaySFX("LightEaterBuzzing", newEnemy);
+                    SoundManager.Instance.ResumeSFX(test);
                     return newEnemy;
                     break;
                 case EnemyType.Stalker:

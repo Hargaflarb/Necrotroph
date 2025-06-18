@@ -13,6 +13,7 @@ using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.ObjectPools;
 using Necrotroph_Eksamensprojekt.Observer;
+using SharpDX.Direct3D9;
 
 namespace Necrotroph_Eksamensprojekt.Menu
 {
@@ -264,6 +265,11 @@ namespace Necrotroph_Eksamensprojekt.Menu
             {
                 if (activeGameObjects.Contains(gameObject))
                 {
+                    foreach(KeyValuePair<string,SoundEffectInstance> sfx in gameObject.AttachedSoundEffects)
+                    {
+                        sfx.Value.Stop();
+                        sfx.Value.Dispose();
+                    }
                     activeGameObjects.Remove(gameObject);
                 }
             }

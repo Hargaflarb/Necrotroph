@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,12 +17,14 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Fields
         private List<Component> components;
         private Transform transform;
+        protected Dictionary<string, SoundEffectInstance> attachedSoundEffects;
         #endregion
 
         #region Properties
         public static Texture2D Pixel;
         public Transform Transform { get => transform; }
         public bool Active { get; set; }
+        public Dictionary<string, SoundEffectInstance> AttachedSoundEffects { get => attachedSoundEffects; set => attachedSoundEffects = value; }
         public Rectangle Hitbox
         {
             get
@@ -40,6 +43,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         {
             components = new List<Component>();
             transform = new Transform(position);
+            attachedSoundEffects = new Dictionary<string, SoundEffectInstance>();
         }
         #endregion
         #region Methods
@@ -89,6 +93,42 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             foreach (Component component in components)
             {
                 component.Update(gameTime);
+            }
+            foreach (KeyValuePair<string, SoundEffectInstance> sfx in attachedSoundEffects)
+            {
+                float differenceX = 0;
+                float differenceY = 0;
+                if (transform.ScreenPosition.X < Player.Instance.Transform.ScreenPosition.X)
+                {
+                    differenceX = Transform.ScreenPosition.X + Player.Instance.Transform.ScreenPosition.X;
+                }
+                else
+                {
+                    differenceX = Transform.ScreenPosition.X - Player.Instance.Transform.ScreenPosition.X;
+                }
+
+                if (transform.ScreenPosition.Y < Player.Instance.Transform.ScreenPosition.Y)
+                {
+                    differenceX = Transform.ScreenPosition.Y + Player.Instance.Transform.ScreenPosition.Y;
+                }
+                else
+                {
+                    differenceX = Transform.ScreenPosition.Y - Player.Instance.Transform.ScreenPosition.Y;
+                }
+
+                //if the sound is too far away to hear
+                if (differenceX > SoundManager.Instance.SoundEffects[sfx.Key].Item3)
+                {
+                    sfx.Value.Volume = 0;
+                }
+                else
+                {
+                    float pan = Math.Sign(differenceX);
+                    Debug.WriteLine(pan);
+                    //make the volume depend on distance
+                    sfx.Value.Volume = (SoundManager.Instance.SoundEffects[sfx.Key].Item2 * SoundManager.Instance.SoundEffects[sfx.Key].Item3 / (Vector2.Distance(new Vector2(differenceX, differenceY), Player.Instance.Transform.ScreenPosition)) / SoundManager.Instance.SoundEffects[sfx.Key].Item3);
+                    sfx.Value.Pan = pan;
+                }
             }
         }
         public virtual void Draw(SpriteBatch spriteBatch)

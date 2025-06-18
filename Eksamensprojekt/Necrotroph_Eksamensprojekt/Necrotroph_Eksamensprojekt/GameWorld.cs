@@ -106,10 +106,13 @@ namespace Necrotroph_Eksamensprojekt
             SoundManager.Instance.AddSFX("PlayerDeath", Content.Load<SoundEffect>("SFX/Player/breaking-glass-83809"), 400, false);
             SoundManager.Instance.AddSFX("PlayerLightToggle", Content.Load<SoundEffect>("SFX/Player/light-switch-81967"), 300, false);
             SoundManager.Instance.AddSFX("PlayerPickUpLight", Content.Load<SoundEffect>("SFX/Player/sfx9-fwoosh-324525"), 100, false);
+            SoundManager.Instance.AddSFX("PlayerLightBurst", Content.Load<SoundEffect>("SFX/Player/magic-spell-333896"), 100, false);
             SoundManager.Instance.AddSFX("SeekerActivate", Content.Load<SoundEffect>("SFX/Seeker/very-loud-eviscerating-2-89000"), 400, false);
             SoundManager.Instance.AddSFX("SeekerDeactivate", Content.Load<SoundEffect>("SFX/Seeker/hugecrack-86690"), 300, false);
             SoundManager.Instance.AddSFX("HunterMove1", Content.Load<SoundEffect>("SFX/Hunter/dragging-84771"), 300, true);
             SoundManager.Instance.AddSFX("HunterMove2", Content.Load<SoundEffect>("SFX/Hunter/branch-drag-329004"), 300, true);
+            SoundManager.Instance.AddSFX("HunterGrowl", Content.Load<SoundEffect>("SFX/Hunter/small-dog-growling-65105-Edited"), 200, true);
+            SoundManager.Instance.AddSFX("LightEaterBuzzing", Content.Load<SoundEffect>("SFX/LightEater/bee_wasp-97053"), 400, true);
 
             SoundManager.Instance.AddAmbience("SpookyAmbience1", Content.Load<Song>("Ambience/darker-ambient-in-scandinavian-forest-190400"), 0.5f);
             SoundManager.Instance.AddAmbience("Wind", Content.Load<Song>("Ambience/smooth-cold-wind-looped-135538"), 0.1f);

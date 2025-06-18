@@ -235,7 +235,7 @@
 /processorParam:TextureFormat=Color
 /build:PlayerSprites/playerIdleWestLightOn.png
 
-#begin LurkerSprites/lurkerRunningSuthWest.png
+#begin LurkerSprites/lurkerRunningSouthWest.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -245,7 +245,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:LurkerSprites/lurkerRunningSuthWest.png
+/build:LurkerSprites/lurkerRunningSouthWest.png
 
 #begin LurkerSprites/Tree1/lurkerTree1LeftStage1.png
 /importer:TextureImporter
@@ -511,6 +511,18 @@
 /processorParam:Quality=Best
 /build:SFX/Hunter/dragging-84771.mp3
 
+#begin SFX/Hunter/small-dog-growling-65105-Edited.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Hunter/small-dog-growling-65105-Edited.mp3
+
+#begin SFX/LightEater/bee_wasp-97053.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/LightEater/bee_wasp-97053.mp3
+
 #begin SFX/Player/break06-36414.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -540,6 +552,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SFX/Player/light-switch-81967.mp3
+
+#begin SFX/Player/magic-spell-333896.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Player/magic-spell-333896.mp3
 
 #begin SFX/Player/rustling-grass-3-101284.mp3
 /importer:Mp3Importer
