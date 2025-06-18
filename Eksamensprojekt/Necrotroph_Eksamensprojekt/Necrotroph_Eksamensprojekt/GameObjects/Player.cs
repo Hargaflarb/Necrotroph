@@ -29,6 +29,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         private int damageSFX2;
         private int deathSFX;
         private int lightToggleSFX;
+        private int lightBurstSFX;
         private bool oneSoundPlayed = false;
         private bool lightBurstOngoing = false;
         #endregion
@@ -92,6 +93,8 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                 damageSFX2 = SoundManager.Instance.PlaySFX("PlayerDamaged2", Transform.ScreenPosition);
                 deathSFX = SoundManager.Instance.PlaySFX("PlayerDeath", Transform.ScreenPosition);
                 lightToggleSFX = SoundManager.Instance.PlaySFX("PlayerLightToggle", Transform.ScreenPosition);
+                lightBurstSFX = SoundManager.Instance.PlaySFX("PlayerLightBurst", Transform.ScreenPosition);
+
                 SoundManager.Instance.PauseSFX(walkSFX1);
                 SoundManager.Instance.PauseSFX(walkSFX2);
                 SoundManager.Instance.PauseSFX(damageSFX1);
@@ -99,16 +102,20 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                 SoundManager.Instance.PauseSFX(deathSFX);
                 SoundManager.Instance.PauseSFX(deathSFX);
                 SoundManager.Instance.PauseSFX(lightToggleSFX);
+                SoundManager.Instance.PauseSFX(lightBurstSFX);
             }
             if (IsMoving)
             {
                 SoundManager.Instance.ResumeSFX(walkSFX1);
-                //SoundManager.Instance.ResumeSFX(walkSFX2);
+                if (Tree.HasEyes)
+                {
+                    SoundManager.Instance.ResumeSFX(walkSFX2);
+                }
             }
             else
             {
                 SoundManager.Instance.PauseSFX(walkSFX1);
-                //SoundManager.Instance.PauseSFX(walkSFX2);
+                SoundManager.Instance.PauseSFX(walkSFX2);
             }
             if (lightOn)
             {
@@ -231,6 +238,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             if (lightOn && !lightBurstOngoing)
             {
                 Life -= 20;
+                SoundManager.Instance.ResumeSFX(lightBurstSFX);
                 //will hopefully add a wave overlay at some point
                 //would be better if we could just make the darkness seethrough for a second, this messes with the shadows
                 GetComponent<LightEmitter>().LightRadius = 50;

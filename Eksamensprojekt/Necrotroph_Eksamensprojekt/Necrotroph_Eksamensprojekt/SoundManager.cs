@@ -32,6 +32,7 @@ namespace Necrotroph_Eksamensprojekt
                 return instance;
             }
         }
+        public Dictionary<string, (SoundEffect, float, float, bool)> SoundEffects { get { return soundEffects; } }
         #endregion
         #region Constructors
         private SoundManager()
@@ -55,7 +56,7 @@ namespace Necrotroph_Eksamensprojekt
         {
             if (!soundEffects.ContainsKey(name))
             {
-                soundEffects.Add(name, (effect, volume, 100, loops));
+                soundEffects.Add(name, (effect, volume, 1000, loops));
             }
         }
         /// <summary>
@@ -104,8 +105,25 @@ namespace Necrotroph_Eksamensprojekt
         /// <returns></returns>
         public int PlaySFX(string name, Vector2 position)
         {
-            float differenceX = position.X - Player.Instance.Transform.ScreenPosition.X;
-            float differenceY = position.Y - Player.Instance.Transform.ScreenPosition.Y;
+            float differenceX = 0;
+            float differenceY = 0;
+            if (position.X < Player.Instance.Transform.ScreenPosition.X)
+            {
+                differenceX = position.X + Player.Instance.Transform.ScreenPosition.X;
+            }
+            else
+            {
+                differenceX = position.X - Player.Instance.Transform.ScreenPosition.X;
+            }
+
+            if (position.Y < Player.Instance.Transform.ScreenPosition.Y)
+            {
+                differenceX = position.Y + Player.Instance.Transform.ScreenPosition.Y;
+            }
+            else
+            {
+                differenceX = position.Y - Player.Instance.Transform.ScreenPosition.Y;
+            }
             SoundEffectInstance newEffect = soundEffects[name].Item1.CreateInstance();
             newEffect.IsLooped = soundEffects[name].Item4;
 
@@ -122,6 +140,53 @@ namespace Necrotroph_Eksamensprojekt
                 newEffect.Pan = pan;
             }
             activeSFX.Add(ID, (name, newEffect, position));
+            ID++;
+            return ID - 1;
+        }
+        /// <summary>
+        /// Creates and plays a new SoundEffect instance attached to an object
+        /// </summary>
+        /// <param name="name">The name of the SoundEffect type</param>
+        /// <param name="obj">The object the soundeffect will be attached to</param>
+        /// <returns></returns>
+        public int PlaySFX(string name, GameObject obj)
+        {
+            float differenceX = 0;
+            float differenceY = 0;
+            if (obj.Transform.ScreenPosition.X < Player.Instance.Transform.ScreenPosition.X)
+            {
+                differenceX = obj.Transform.ScreenPosition.X + Player.Instance.Transform.ScreenPosition.X;
+            }
+            else
+            {
+                differenceX = obj.Transform.ScreenPosition.X - Player.Instance.Transform.ScreenPosition.X;
+            }
+
+            if (obj.Transform.ScreenPosition.Y < Player.Instance.Transform.ScreenPosition.Y)
+            {
+                differenceX = obj.Transform.ScreenPosition.Y + Player.Instance.Transform.ScreenPosition.Y;
+            }
+            else
+            {
+                differenceX = obj.Transform.ScreenPosition.Y - Player.Instance.Transform.ScreenPosition.Y;
+            }
+            SoundEffectInstance newEffect = soundEffects[name].Item1.CreateInstance();
+            newEffect.IsLooped = soundEffects[name].Item4;
+
+            //if the sound is too far away to hear
+            if (differenceX > soundEffects[name].Item3)
+            {
+                newEffect.Volume = 0;
+            }
+            else
+            {
+                float pan = Math.Sign(differenceX);
+                //make the volume depend on distance
+                newEffect.Volume = (soundEffects[name].Item2 / Vector2.Distance(new Vector2(differenceX, differenceY), Player.Instance.Transform.ScreenPosition));
+                newEffect.Pan = pan;
+            }
+            activeSFX.Add(ID, (name, newEffect, obj.Transform.ScreenPosition));
+            obj.AttachedSoundEffects.Add(name,newEffect);
             ID++;
             return ID - 1;
         }

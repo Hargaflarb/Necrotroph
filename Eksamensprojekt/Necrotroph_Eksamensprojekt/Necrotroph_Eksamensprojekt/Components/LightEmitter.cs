@@ -51,7 +51,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         #region Methods
         public float NormalizedDistanceToLight(ShadowCaster shadow)
         {
-            return ((shadow.GameObject.Transform.ScreenPosition - GameObject.Transform.ScreenPosition + offset) / (LightRadius * GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth * 2)).Length();
+            return ((shadow.GameObject.Transform.ScreenPosition - GameObject.Transform.ScreenPosition) / (LightRadius * GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth * 2)).Length();
         }
 
 
@@ -77,7 +77,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             float resizedRadius = LightRadius * GameWorld.Instance.GraphicsDevice.PresentationParameters.BackBufferWidth * 2;
             Vector2 size = new Vector2((int)resizedRadius, (int)resizedRadius);
-            Point position = (GameObject.Transform.ScreenPosition - (size / 2) + offset).ToPoint();
+            Point position = (GameObject.Transform.ScreenPosition - (size / 2)).ToPoint();
             spriteBatch.Draw(shadowTarget, new Rectangle(position, size.ToPoint()), Color.White);
 
             //spriteBatch.Draw(shadowTarget, new Vector2(0, 0), Color.White);

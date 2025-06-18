@@ -40,7 +40,7 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         {
             if (appearSFX == 0)
             {
-                appearSFX = SoundManager.Instance.PlaySFX("SeekerActivate",GameWorld.ScreenSize/2);
+                appearSFX = SoundManager.Instance.PlaySFX("SeekerActivate", GameWorld.ScreenSize / 2);
                 disappearSFX = SoundManager.Instance.PlaySFX("SeekerDeactivate", GameWorld.ScreenSize / 2);
                 SoundManager.Instance.PauseSFX(appearSFX);
                 SoundManager.Instance.PauseSFX(disappearSFX);
@@ -74,11 +74,13 @@ namespace Necrotroph_Eksamensprojekt.Enemies
             if (!Player.Instance.IsMoving)
             {
                 float temp = TimeLineManager.GetTime(walkTimerID);
-                if (temp != -1)
+                if (temp > 0)
                 {
                     walkTime = temp / 1000;
-                    TimeLineManager.RemoveEvent(walkTimerID);
-                    walkTimerID = 0;
+                    if (TimeLineManager.RemoveEvent(walkTimerID) != false)
+                    {
+                        walkTimerID = 0;
+                    }
                 }
             }
             else if (walkTimerID == 0 && Player.Instance.IsMoving)
