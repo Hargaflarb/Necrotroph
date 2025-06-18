@@ -81,38 +81,35 @@ namespace Necrotroph_Eksamensprojekt.Factories
         public static GameObject CreateEnemy(Vector2 position, EnemyType enemy)
         {
             GameObject newEnemy;
-            //oooo  <- What does this mean???
+            //oooo  <- What does this mean??? - wouldn't you like to know weatherboy
             switch (enemy)
             {
                 case EnemyType.Hunter:
                     HunterEnemy.Position = position;
-                    newEnemy = HunterEnemy.Instance;
-                    newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
+                    HunterEnemy.Instance.AddComponent<SpriteRenderer>(hunterSprite, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
                     /*newEnemy.AddComponent<Animator>();
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
                     newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
-                    newEnemy.AddComponent<Movable>();
-                    SoundManager.Instance.PlaySFX("HunterMove1", newEnemy);
-                    SoundManager.Instance.PlaySFX("HunterMove2", newEnemy);
-                    SoundManager.Instance.PlaySFX("HunterGrowl", newEnemy);
-                    newEnemy.Transform.Scale = 0.2f;
-                    return newEnemy;
+                    SoundManager.Instance.PlaySFX("HunterMove1", HunterEnemy.Instance);
+                    SoundManager.Instance.PlaySFX("HunterMove2", HunterEnemy.Instance);
+                    SoundManager.Instance.PlaySFX("HunterGrowl", HunterEnemy.Instance);
+                    HunterEnemy.Instance.AddComponent<Movable>(150);
+                    HunterEnemy.Instance.Transform.Scale = 0.2f;
+                    return HunterEnemy.Instance;
                 case EnemyType.Seeker:
                     throw new NotImplementedException();
-                    break;
                 case EnemyType.LightEater:
                     newEnemy = new LightEaterEnemy(position);
-                    newEnemy.AddComponent<SpriteRenderer>(lightEaterSprite,1f,new Vector2(0.6f,0.8f),new Vector2(0.5f,0.6f));
+                    newEnemy.AddComponent<SpriteRenderer>(lightEaterSprite,new Vector2(0.6f,0.8f),new Vector2(0.5f,0.6f));
                     newEnemy.AddComponent<Movable>();
                     newEnemy.AddComponent<LightEmitter>(0.05f,new Vector2(0,40));
                     newEnemy.Transform.Scale = 0.2f;
                     int test=SoundManager.Instance.PlaySFX("LightEaterBuzzing", newEnemy);
                     SoundManager.Instance.ResumeSFX(test);
                     return newEnemy;
-                    break;
                 case EnemyType.Stalker:
                     newEnemy = new LurkerEnemy(position);
-                    newEnemy.AddComponent<SpriteRenderer>(stalkerSprite, 1f);
+                    newEnemy.AddComponent<SpriteRenderer>(stalkerSprite);
                     newEnemy.AddComponent<Animator>();
                     #region AddAllTheSprites
                     newEnemy.GetComponent<Animator>().AddAnimation("Run", stalkerSprite);
@@ -140,7 +137,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     newEnemy.AddComponent<Movable>();
                     newEnemy.Transform.Scale = 1f;
                     return newEnemy;
-                    break;
             }
             return null;
         }

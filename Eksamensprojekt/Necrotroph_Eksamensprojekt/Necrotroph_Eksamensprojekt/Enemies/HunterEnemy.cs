@@ -9,17 +9,16 @@ using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.Observer;
+using Necrotroph_Eksamensprojekt.States;
 
 namespace Necrotroph_Eksamensprojekt
 {
     //emama
-    public class HunterEnemy : GameObject, IListener
+    public class HunterEnemy : GameObject, IListener, IChaceStateImplementation
     {
         #region Fields
         private bool facingLeft = true;
         private int damage = 30;
-        private static Vector2 position;
-        private Vector2 nextDestination;
         private static HunterEnemy instance;
         #endregion
         #region Properties
@@ -35,21 +34,27 @@ namespace Necrotroph_Eksamensprojekt
                 return instance;
             }
         }
+
+        public ChaceState CurrentChaceState { get; set; } //doesn't have get/set cus it's an interface implementation
         #endregion
         #region Constructors
         private HunterEnemy(Vector2 position) : base(position)
         {
             Player.Instance.Observer.AddListener(this);
-            nextDestination = Transform.WorldPosition;
         }
         #endregion
         #region Methods
+        public override void Awake()
+        {
+            (CurrentChaceState = new PathfindState(this, Transform, GetComponent<Movable>())).Enter(Player.Instance);
+            base.Awake();
+        }
+
         public override void Update(GameTime gameTime)
         {
-            //finds player position & moves toward it
-            nextDestination = Map.PathfoundDestination(Transform.WorldPosition, Player.Instance.Transform.WorldPosition, nextDestination);
-            Vector2 direction = nextDestination - Transform.WorldPosition;
-            //Vector2 direction = new Vector2(Player.Instance.Transform.ScreenPosition.X - Transform.ScreenPosition.X, Player.Instance.Transform.ScreenPosition.Y - Transform.ScreenPosition.Y);
+            CurrentChaceState.Execute();
+
+            Vector2 direction = GetComponent<Movable>().Direction;
             if (direction.X > 0 && facingLeft)
             {
                 GetComponent<SpriteRenderer>().Flipped = true;
@@ -60,12 +65,7 @@ namespace Necrotroph_Eksamensprojekt
                 GetComponent<SpriteRenderer>().Flipped = false;
                 facingLeft = true;
             }
-            //double remap = Math.Atan2(direction.Y, direction.X);
-            //float XDirection = (float)Math.Cos(remap);
-            //float YDirection = (float)Math.Sin(remap);
-            //direction = new Vector2(XDirection, YDirection);
-            direction.Normalize();
-            HunterEnemy.Instance.GetComponent<Movable>().Direction += direction;
+
             base.Update(gameTime);
         }
 
@@ -86,6 +86,15 @@ namespace Necrotroph_Eksamensprojekt
             }
         }
 
+        public void ChangeChaceState(ChaceState state)
+        {
+            if (CurrentChaceState is not null)
+            {
+                CurrentChaceState.Exit();
+                CurrentChaceState = state;
+                CurrentChaceState.Enter(Player.Instance);
+            }
+        }
 
         #endregion
     }

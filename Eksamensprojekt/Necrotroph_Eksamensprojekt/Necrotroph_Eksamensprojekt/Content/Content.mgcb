@@ -61,18 +61,6 @@
 /processorParam:TextureFormat=Color
 /build:grass2.png
 
-#begin lightPickup.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:lightPickup.png
-
 #begin HunterSprites/hunterSouthWest.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -84,6 +72,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:HunterSprites/hunterSouthWest.png
+
+#begin InvertAlpha.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:InvertAlpha.fx
 
 #begin LightEaterSprites/lighteaterSouthEast.png
 /importer:TextureImporter
@@ -97,12 +91,6 @@
 /processorParam:TextureFormat=Color
 /build:LightEaterSprites/lighteaterSouthEast.png
 
-#begin InvertAlpha.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:InvertAlpha.fx
-
 #begin LightingShader.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -114,6 +102,24 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:LightOverlay.fx
+
+#begin lightPickup.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:lightPickup.png
+
+#begin LuminescenseFilter.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:LuminescenseFilter.fx
 
 #begin memory.png
 /importer:TextureImporter
