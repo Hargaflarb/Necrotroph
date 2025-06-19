@@ -61,18 +61,6 @@
 /processorParam:TextureFormat=Color
 /build:grass2.png
 
-#begin lightPickup.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:lightPickup.png
-
 #begin HunterSprites/hunterSouthWest.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -84,6 +72,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:HunterSprites/hunterSouthWest.png
+
+#begin InvertAlpha.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:InvertAlpha.fx
 
 #begin LightEaterSprites/lighteaterSouthEast.png
 /importer:TextureImporter
@@ -97,12 +91,6 @@
 /processorParam:TextureFormat=Color
 /build:LightEaterSprites/lighteaterSouthEast.png
 
-#begin InvertAlpha.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:InvertAlpha.fx
-
 #begin LightingShader.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -114,6 +102,24 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:LightOverlay.fx
+
+#begin lightPickup.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:lightPickup.png
+
+#begin LuminescenseFilter.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:LuminescenseFilter.fx
 
 #begin memory.png
 /importer:TextureImporter
@@ -235,6 +241,258 @@
 /processorParam:TextureFormat=Color
 /build:PlayerSprites/playerIdleWestLightOn.png
 
+#begin LurkerSprites/lurkerRunningSouthWest.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/lurkerRunningSouthWest.png
+
+#begin LurkerSprites/Tree1/lurkerTree1LeftStage1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1LeftStage1.png
+
+#begin LurkerSprites/Tree1/lurkerTree1LeftStage2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1LeftStage2.png
+
+#begin LurkerSprites/Tree1/lurkerTree1LeftStage3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1LeftStage3.png
+
+#begin LurkerSprites/Tree1/lurkerTree1LeftStage4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1LeftStage4.png
+
+#begin LurkerSprites/Tree1/lurkerTree1LeftStage5.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1LeftStage5.png
+
+#begin LurkerSprites/Tree1/lurkerTree1RightStage1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1RightStage1.png
+
+#begin LurkerSprites/Tree1/lurkerTree1RightStage2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1RightStage2.png
+
+#begin LurkerSprites/Tree1/lurkerTree1RightStage3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1RightStage3.png
+
+#begin LurkerSprites/Tree1/lurkerTree1RightStage4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1RightStage4.png
+
+#begin LurkerSprites/Tree1/lurkerTree1RightStage5.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree1/lurkerTree1RightStage5.png
+
+#begin LurkerSprites/Tree2/lurkerTree2LeftStage1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2LeftStage1.png
+
+#begin LurkerSprites/Tree2/lurkerTree2LeftStage2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2LeftStage2.png
+
+#begin LurkerSprites/Tree2/lurkerTree2LeftStage3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2LeftStage3.png
+
+#begin LurkerSprites/Tree2/lurkerTree2LeftStage4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2LeftStage4.png
+
+#begin LurkerSprites/Tree2/lurkerTree2LeftStage5.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2LeftStage5.png
+
+#begin LurkerSprites/Tree2/lurkerTree2RightStage1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2RightStage1.png
+
+#begin LurkerSprites/Tree2/lurkerTree2RightStage2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2RightStage2.png
+
+#begin LurkerSprites/Tree2/lurkerTree2RightStage3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2RightStage3.png
+
+#begin LurkerSprites/Tree2/lurkerTree2RightStage4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2RightStage4.png
+
+#begin LurkerSprites/Tree2/lurkerTree2RightStage5.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LurkerSprites/Tree2/lurkerTree2RightStage5.png
+
 #begin resd.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -258,6 +516,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SFX/Hunter/dragging-84771.mp3
+
+#begin SFX/Hunter/small-dog-growling-65105-Edited.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Hunter/small-dog-growling-65105-Edited.mp3
+
+#begin SFX/LightEater/bee_wasp-97053.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/LightEater/bee_wasp-97053.mp3
 
 #begin SFX/Player/break06-36414.mp3
 /importer:Mp3Importer
@@ -288,6 +558,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SFX/Player/light-switch-81967.mp3
+
+#begin SFX/Player/magic-spell-333896.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/Player/magic-spell-333896.mp3
 
 #begin SFX/Player/rustling-grass-3-101284.mp3
 /importer:Mp3Importer

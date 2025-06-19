@@ -41,6 +41,7 @@ namespace Necrotroph_Eksamensprojekt.Components
 
         }
         public virtual void Draw(SpriteBatch spriteBatch) { }
+        public virtual void DrawLuminescent(SpriteBatch spriteBatch) { }
         public virtual void OnCollision(GameObject otherObject) { }
 
         #endregion

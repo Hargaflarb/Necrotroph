@@ -30,7 +30,7 @@ namespace Necrotroph_Eksamensprojekt.Factories
         {
             LightRefill light = new LightRefill(position);
             light.AddComponent<Pickupable>();
-            light.AddComponent<SpriteRenderer>(sprite, 1f);
+            light.AddComponent<SpriteRenderer>(sprite);
             light.AddComponent<LightEmitter>(0.05f);
             light.Transform.Scale = 0.5f;
             return light;

@@ -32,6 +32,8 @@ namespace Necrotroph_Eksamensprojekt.Enemies
         private Vector2 direction;
         #endregion
         #region Properties
+        public static float MinTimeBetweenLighteaters { get; } = 20;
+        public static float MaxTimeBetweenLighteaters { get; } = 60;
         #endregion
         #region Constructors
         public LightEaterEnemy(Vector2 position) : base(position)

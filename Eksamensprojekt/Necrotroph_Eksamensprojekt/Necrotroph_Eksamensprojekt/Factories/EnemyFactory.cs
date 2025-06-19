@@ -53,38 +53,63 @@ namespace Necrotroph_Eksamensprojekt.Factories
         {
             hunterSprite = contentManager.Load<Texture2D>("HunterSprites/hunterSouthWest");
             lightEaterSprite = contentManager.Load<Texture2D>("LightEaterSprites/lighteaterSouthEast");
-            stalkerSprite = contentManager.Load<Texture2D>("noImageFound");
+            stalkerSprite = contentManager.Load<Texture2D>("LurkerSprites/lurkerRunningSouthWest");
+            #region OnceMore
+            stalkerHideLeft1Stage1 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1LeftStage1");
+            stalkerHideLeft1Stage2 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1LeftStage2");
+            stalkerHideLeft1Stage3 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1LeftStage3");
+            stalkerHideLeft1Stage4 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1LeftStage4");
+            stalkerHideLeft1Stage5 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1LeftStage5");
+            stalkerHideLeft2Stage1 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2LeftStage1");
+            stalkerHideLeft2Stage2 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2LeftStage2");
+            stalkerHideLeft2Stage3 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2LeftStage3");
+            stalkerHideLeft2Stage4 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2LeftStage4");
+            stalkerHideLeft2Stage5 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2LeftStage5");
+            stalkerHideRight1Stage1 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1RightStage1");
+            stalkerHideRight1Stage2 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1RightStage2");
+            stalkerHideRight1Stage3 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1RightStage3");
+            stalkerHideRight1Stage4 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1RightStage4");
+            stalkerHideRight1Stage5 = contentManager.Load<Texture2D>("LurkerSprites/Tree1/lurkerTree1RightStage5");
+            stalkerHideRight2Stage1 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2RightStage1");
+            stalkerHideRight2Stage2 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2RightStage2");
+            stalkerHideRight2Stage3 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2RightStage3");
+            stalkerHideRight2Stage4 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2RightStage4");
+            stalkerHideRight2Stage5 = contentManager.Load<Texture2D>("LurkerSprites/Tree2/lurkerTree2RightStage5");
+            
+            #endregion
         }
         public static GameObject CreateEnemy(Vector2 position, EnemyType enemy)
         {
             GameObject newEnemy;
-            //oooo  <- What does this mean???
+            //oooo  <- What does this mean??? - wouldn't you like to know weatherboy
             switch (enemy)
             {
                 case EnemyType.Hunter:
                     HunterEnemy.Position = position;
-                    newEnemy = HunterEnemy.Instance;
-                    newEnemy.AddComponent<SpriteRenderer>(hunterSprite, 1f, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
+                    HunterEnemy.Instance.AddComponent<SpriteRenderer>(hunterSprite, new Vector2(0.8f, 0.6f), new Vector2(0.5f, 0.5f));
                     /*newEnemy.AddComponent<Animator>();
                     newEnemy.GetComponent<Animator>().AddAnimation("Walk", hunterSprite);
                     newEnemy.GetComponent<Animator>().PlayAnimation("Walk");*/
-                    newEnemy.AddComponent<Movable>();
-                    newEnemy.Transform.Scale = 0.2f;
-                    return newEnemy;
+                    SoundManager.Instance.PlaySFX("HunterMove1", HunterEnemy.Instance);
+                    SoundManager.Instance.PlaySFX("HunterMove2", HunterEnemy.Instance);
+                    SoundManager.Instance.PlaySFX("HunterGrowl", HunterEnemy.Instance);
+                    HunterEnemy.Instance.AddComponent<Movable>(150);
+                    HunterEnemy.Instance.Transform.Scale = 0.2f;
+                    return HunterEnemy.Instance;
                 case EnemyType.Seeker:
                     throw new NotImplementedException();
-                    break;
                 case EnemyType.LightEater:
                     newEnemy = new LightEaterEnemy(position);
-                    newEnemy.AddComponent<SpriteRenderer>(lightEaterSprite,1f,new Vector2(0.6f,0.8f),new Vector2(0.5f,0.6f));
+                    newEnemy.AddComponent<SpriteRenderer>(lightEaterSprite,new Vector2(0.6f,0.8f),new Vector2(0.5f,0.6f));
                     newEnemy.AddComponent<Movable>();
                     newEnemy.AddComponent<LightEmitter>(0.05f,new Vector2(0,40));
                     newEnemy.Transform.Scale = 0.2f;
+                    int test=SoundManager.Instance.PlaySFX("LightEaterBuzzing", newEnemy);
+                    SoundManager.Instance.ResumeSFX(test);
                     return newEnemy;
-                    break;
                 case EnemyType.Stalker:
                     newEnemy = new LurkerEnemy(position);
-                    newEnemy.AddComponent<SpriteRenderer>(stalkerSprite, 1f);
+                    newEnemy.AddComponent<SpriteRenderer>(stalkerSprite);
                     newEnemy.AddComponent<Animator>();
                     #region AddAllTheSprites
                     newEnemy.GetComponent<Animator>().AddAnimation("Run", stalkerSprite);
@@ -112,7 +137,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
                     newEnemy.AddComponent<Movable>();
                     newEnemy.Transform.Scale = 1f;
                     return newEnemy;
-                    break;
             }
             return null;
         }

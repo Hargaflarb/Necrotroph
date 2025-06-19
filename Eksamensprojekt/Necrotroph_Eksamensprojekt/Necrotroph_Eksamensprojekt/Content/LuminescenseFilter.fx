@@ -7,14 +7,7 @@
 	#define PS_SHADERMODEL ps_4_0_level_9_1
 #endif
 
-// Malthe
-
 Texture2D SpriteTexture;
-
-static const float aspectRatio = 9.0 / 16.0;
-static const float fadeLength = 0.3;
-static const float resizer = 1.0 / fadeLength;
-
 
 sampler2D SpriteTextureSampler = sampler_state
 {
@@ -30,18 +23,10 @@ struct VertexShaderOutput
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-    float4 pixelColor = float4(0,0,0,1);
-    
-    float2 pixelPosition = input.TextureCoordinates;
-    float2 lightPosition = float2(0.5, 0.5);
-    float1 lightRadius = float1(0.5);
-    
-    float distance = length(pixelPosition - lightPosition);
-    pixelColor.a -= 1 - clamp((distance - (lightRadius - fadeLength)) * resizer, 0.0, 1.0);
-    
-    pixelColor.a = 1 - pixelColor.a;
-
-    return pixelColor;
+    float alpha = tex2D(SpriteTextureSampler, input.TextureCoordinates).a;
+    float color = alpha * input.Color.r;
+	
+    return float4(color, color, color, alpha);
 }
 
 technique SpriteDrawing
