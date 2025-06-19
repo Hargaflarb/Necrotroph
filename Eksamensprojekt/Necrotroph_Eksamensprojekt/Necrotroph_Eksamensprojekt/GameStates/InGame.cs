@@ -129,7 +129,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             //AddObject(EnemyFactory.CreateEnemy(new Vector2(200, 200), EnemyType.LightEater));
             TimeLineManager.AddEvent(GameWorld.Rnd.Next((int)LightEaterEnemy.MinTimeBetweenLighteaters, (int)LightEaterEnemy.MaxTimeBetweenLighteaters) * 1000, SpawnLightEater);
             
-            mem1 = MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500));
+            mem1 = MemorabeliaFactory.CreateMemorabilia(1, new Vector2(4000, -500));
             AddObject(mem1);
             activeMemorabilia.Add(1, mem1);
             mem2 = MemorabeliaFactory.CreateMemorabilia(2, new Vector2(-4000, 2500));
