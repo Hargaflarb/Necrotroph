@@ -56,7 +56,7 @@ namespace Necrotroph_Eksamensprojekt
                 string hunterPosY = HunterEnemy.Instance.Transform.WorldPosition.Y.ToString().Replace(',', '.');
 
 
-
+                value = 0;
                 for (int i = 0; i <= 5; i++)
                 {
                     int id = (int)Math.Pow(2, i);
@@ -111,13 +111,13 @@ namespace Necrotroph_Eksamensprojekt
                 Map.GenerateMap();
 
                 InGame.Instance.ActiveMemorabilia.Clear();
-                InGame.Instance.ItemsCollected = 5;
 
                 InGame.Instance.RemoveObject(InGame.Instance.Mem1);
                 InGame.Instance.RemoveObject(InGame.Instance.Mem2);
                 InGame.Instance.RemoveObject(InGame.Instance.Mem3);
                 InGame.Instance.RemoveObject(InGame.Instance.Mem4);
                 InGame.Instance.RemoveObject(InGame.Instance.Mem5);
+                InGame.Instance.ItemsCollected = 5;
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem1))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem1, InGame.Instance.Mem1);
