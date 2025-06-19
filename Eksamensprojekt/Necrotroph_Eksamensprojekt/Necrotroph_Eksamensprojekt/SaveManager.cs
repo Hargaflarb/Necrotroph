@@ -102,7 +102,7 @@ namespace Necrotroph_Eksamensprojekt
                     HunterEnemy.Instance.Transform.WorldPosition = new Vector2((float)reader.GetDouble(4), (float)reader.GetDouble(5));
                     GameWorld.Seed = reader.GetInt32(6);
                     GameWorld.Rnd = new Random(GameWorld.Seed);
-                    Map.Rnd = new Random(GameWorld.Seed);
+                    //Map.Rnd = new Random(GameWorld.Seed);
                 }
                 reader.Close();
 
