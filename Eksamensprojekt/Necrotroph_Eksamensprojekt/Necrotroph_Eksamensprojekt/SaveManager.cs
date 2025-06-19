@@ -57,7 +57,7 @@ namespace Necrotroph_Eksamensprojekt
 
 
 
-                for (int i = 0; i < InGame.Instance.ActiveMemorabilia.Count; i++)
+                for (int i = 0; i <= 5; i++)
                 {
                     int id = (int)Math.Pow(2, i);
                     if (InGame.Instance.ActiveMemorabilia.ContainsKey(id))
@@ -67,7 +67,7 @@ namespace Necrotroph_Eksamensprojekt
                 }
 
                 string insertQuery = $"INSERT INTO Saves (Light, ItemsCollected, PlayerPosX, PlayerPosY, HunterPosX, HunterPosY, MapSeed) " +
-                    $"VALUES ({playerLight}, {GameWorld.MemProgress}, {playerPosX}, {playerPosY}, {hunterPosX}, {hunterPosY}, {GameWorld.Seed})";
+                    $"VALUES ({playerLight}, {value}, {playerPosX}, {playerPosY}, {hunterPosX}, {hunterPosY}, {GameWorld.Seed})";
                 SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
                 insertCommand.ExecuteNonQuery();
                 Connection.Close();
@@ -97,7 +97,7 @@ namespace Necrotroph_Eksamensprojekt
                 if (rowExists)
                 {
                     Player.Instance.Life = (float)reader.GetDouble(0);
-                    InGame.Instance.ItemsCollected = reader.GetInt32(1);
+                    value = reader.GetInt32(1);
                     Player.Instance.Transform.WorldPosition = new Vector2((float)reader.GetDouble(2), (float)reader.GetDouble(3));
                     HunterEnemy.Instance.Transform.WorldPosition = new Vector2((float)reader.GetDouble(4), (float)reader.GetDouble(5));
                     GameWorld.Seed = reader.GetInt32(6);
@@ -111,25 +111,42 @@ namespace Necrotroph_Eksamensprojekt
                 Map.GenerateMap();
 
                 InGame.Instance.ActiveMemorabilia.Clear();
+                InGame.Instance.ItemsCollected = 5;
+
+                InGame.Instance.RemoveObject(InGame.Instance.Mem1);
+                InGame.Instance.RemoveObject(InGame.Instance.Mem2);
+                InGame.Instance.RemoveObject(InGame.Instance.Mem3);
+                InGame.Instance.RemoveObject(InGame.Instance.Mem4);
+                InGame.Instance.RemoveObject(InGame.Instance.Mem5);
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem1))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem1, InGame.Instance.Mem1);
+                    InGame.Instance.AddObject(InGame.Instance.Mem1);
+                    InGame.Instance.ItemsCollected--;
                 }
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem2))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem2, InGame.Instance.Mem2);
+                    InGame.Instance.AddObject(InGame.Instance.Mem2);
+                    InGame.Instance.ItemsCollected--;
                 }
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem3))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem3, InGame.Instance.Mem3);
+                    InGame.Instance.AddObject(InGame.Instance.Mem3);
+                    InGame.Instance.ItemsCollected--;
                 }
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem4))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem4, InGame.Instance.Mem4);
+                    InGame.Instance.AddObject(InGame.Instance.Mem4);
+                    InGame.Instance.ItemsCollected--;
                 }
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem5))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem5, InGame.Instance.Mem5);
+                    InGame.Instance.AddObject(InGame.Instance.Mem5);
+                    InGame.Instance.ItemsCollected--;
                 }
 
                 Connection.Close();

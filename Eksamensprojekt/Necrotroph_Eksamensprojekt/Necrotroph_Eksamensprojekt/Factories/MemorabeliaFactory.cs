@@ -23,9 +23,9 @@ namespace Necrotroph_Eksamensprojekt.Factories
         {
             sprite = contentManager.Load<Texture2D>("memory");
         }
-        public static GameObject CreateMemorabilia(Vector2 position)
+        public static GameObject CreateMemorabilia(int key, Vector2 position)
         {
-            GameObject newMemoryObject = new Memorabilia(position);
+            GameObject newMemoryObject = new Memorabilia(key, position);
             newMemoryObject.AddComponent<SpriteRenderer>(sprite, 1f);
             newMemoryObject.AddComponent<Pickupable>();
             newMemoryObject.Transform.Scale = 0.1f;
