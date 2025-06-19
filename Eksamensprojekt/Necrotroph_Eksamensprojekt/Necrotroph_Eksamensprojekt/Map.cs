@@ -38,7 +38,7 @@ namespace Necrotroph_Eksamensprojekt
         #region Constructors
         static Map()
         {
-            rnd = new Random(GameWorld.Seed);
+            Rnd = new Random(GameWorld.Seed);
             size = new Vector2(10000, 10000);
             loadBound = new Vector2(1250, 900);
             unloadBound = new Vector2(1350, 1000);

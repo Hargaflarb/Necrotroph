@@ -19,6 +19,8 @@ namespace Necrotroph_Eksamensprojekt
         private static string connectionString;
         private static SqlConnection connection;
         private static int value = 0;
+        private static readonly object lockObject = new object();
+        private static Random rnd = new Random();
         #endregion
         #region Properties
         public static string ConnectionString { get => connectionString; set => connectionString = value; }
@@ -47,30 +49,34 @@ namespace Necrotroph_Eksamensprojekt
                 ConnectionString =
                     "Server = localhost\\SQLEXPRESS; Database = GhostGame; Trusted_Connection = True; TrustServerCertificate = True";
 
-                Connection = new SqlConnection(ConnectionString);
-                Connection.Open();
-                string playerLight = Player.Instance.Life.ToString().Replace(',', '.');
-                string playerPosX = Player.Instance.Transform.WorldPosition.X.ToString().Replace(',', '.');
-                string playerPosY = Player.Instance.Transform.WorldPosition.Y.ToString().Replace(',', '.');
-                string hunterPosX = HunterEnemy.Instance.Transform.WorldPosition.X.ToString().Replace(',', '.');
-                string hunterPosY = HunterEnemy.Instance.Transform.WorldPosition.Y.ToString().Replace(',', '.');
-
-
-                value = 0;
-                for (int i = 0; i <= 5; i++)
+                lock (lockObject)
                 {
-                    int id = (int)Math.Pow(2, i);
-                    if (InGame.Instance.ActiveMemorabilia.ContainsKey(id))
-                    {
-                        value += id;
-                    }
-                }
+                    Connection = new SqlConnection(ConnectionString);
+                    Connection.Open();
+                    string playerLight = Player.Instance.Life.ToString().Replace(',', '.');
+                    string playerPosX = Player.Instance.Transform.WorldPosition.X.ToString().Replace(',', '.');
+                    string playerPosY = Player.Instance.Transform.WorldPosition.Y.ToString().Replace(',', '.');
+                    string hunterPosX = HunterEnemy.Instance.Transform.WorldPosition.X.ToString().Replace(',', '.');
+                    string hunterPosY = HunterEnemy.Instance.Transform.WorldPosition.Y.ToString().Replace(',', '.');
 
-                string insertQuery = $"INSERT INTO Saves (Light, ItemsCollected, PlayerPosX, PlayerPosY, HunterPosX, HunterPosY, MapSeed) " +
-                    $"VALUES ({playerLight}, {value}, {playerPosX}, {playerPosY}, {hunterPosX}, {hunterPosY}, {GameWorld.Seed})";
-                SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
-                insertCommand.ExecuteNonQuery();
-                Connection.Close();
+
+                    value = 0;
+                    for (int i = 0; i <= 5; i++)
+                    {
+                        int id = (int)Math.Pow(2, i);
+                        if (InGame.Instance.ActiveMemorabilia.ContainsKey(id))
+                        {
+                            value += id;
+                        }
+                    }
+
+                    string insertQuery = $"INSERT INTO Saves (Light, ItemsCollected, PlayerPosX, PlayerPosY, HunterPosX, HunterPosY, MapSeed) " +
+                        $"VALUES ({playerLight}, {value}, {playerPosX}, {playerPosY}, {hunterPosX}, {hunterPosY}, {GameWorld.Seed})";
+                    SqlCommand insertCommand = new SqlCommand(insertQuery, Connection);
+                    insertCommand.ExecuteNonQuery();
+                    Connection.Close();
+                    Thread.Sleep(rnd.Next(0, 100));
+                }
             }
             catch(Microsoft.Data.SqlClient.SqlException)
             {
@@ -102,7 +108,7 @@ namespace Necrotroph_Eksamensprojekt
                     HunterEnemy.Instance.Transform.WorldPosition = new Vector2((float)reader.GetDouble(4), (float)reader.GetDouble(5));
                     GameWorld.Seed = reader.GetInt32(6);
                     GameWorld.Rnd = new Random(GameWorld.Seed);
-                    Map.Rnd = new Random(GameWorld.Seed);
+                    //Map.Rnd = new Random(GameWorld.Seed);
                 }
                 reader.Close();
 
