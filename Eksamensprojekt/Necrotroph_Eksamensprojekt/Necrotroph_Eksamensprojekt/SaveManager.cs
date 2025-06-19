@@ -121,31 +121,32 @@ namespace Necrotroph_Eksamensprojekt
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem1))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem1, InGame.Instance.Mem1);
+                    TimeLineManager.AddEvent(1, () => InGame.Instance.AddObject(InGame.Instance.Mem1));
                     InGame.Instance.AddObject(InGame.Instance.Mem1);
                     InGame.Instance.ItemsCollected--;
                 }
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem2))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem2, InGame.Instance.Mem2);
-                    InGame.Instance.AddObject(InGame.Instance.Mem2);
+                    TimeLineManager.AddEvent(1, () => InGame.Instance.AddObject(InGame.Instance.Mem2));
                     InGame.Instance.ItemsCollected--;
                 }
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem3))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem3, InGame.Instance.Mem3);
-                    InGame.Instance.AddObject(InGame.Instance.Mem3);
+                    TimeLineManager.AddEvent (1, () => InGame.Instance.AddObject(InGame.Instance.Mem3));
                     InGame.Instance.ItemsCollected--;
                 }
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem4))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem4, InGame.Instance.Mem4);
-                    InGame.Instance.AddObject(InGame.Instance.Mem4);
+                    TimeLineManager.AddEvent (1, () => InGame.Instance.AddObject(InGame.Instance.Mem4));
                     InGame.Instance.ItemsCollected--;
                 }
                 if (((MemorabiliaProgress)value).HasFlag(MemorabiliaProgress.mem5))
                 {
                     InGame.Instance.ActiveMemorabilia.Add((int)MemorabiliaProgress.mem5, InGame.Instance.Mem5);
-                    InGame.Instance.AddObject(InGame.Instance.Mem5);
+                    TimeLineManager.AddEvent (1, () => InGame.Instance.AddObject(InGame.Instance.Mem5));
                     InGame.Instance.ItemsCollected--;
                 }
 

@@ -429,10 +429,5 @@ namespace Necrotroph_Eksamensprojekt.Menu
                 TimeLineManager.AddEvent(lightSpawnRate * 1000, SpawnLightRefill);
             }
         }
-
-        public void RemoveMemObject()
-        {
-            
-        }
     }
 }
