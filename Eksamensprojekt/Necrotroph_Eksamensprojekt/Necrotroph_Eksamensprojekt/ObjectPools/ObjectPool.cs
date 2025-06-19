@@ -40,6 +40,16 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         protected abstract GameObject Create(Vector2 position);
 
         protected abstract void CleanUp(GameObject obj);
+
+        public void Clear()
+        {
+            for (int i = active.Count - 1; i >= 0; i--)
+            {
+                GameObject gameObject = active[i];
+                InGame.Instance.RemoveObject(gameObject);
+                active.Remove(gameObject);
+            }
+        }
         #endregion
     }
 }

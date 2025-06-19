@@ -126,26 +126,28 @@ namespace Necrotroph_Eksamensprojekt.Menu
         public override void LoadContent()
         {
             AddObject(EnemyFactory.CreateEnemy(new Vector2(-1000, -1000), EnemyType.Hunter));
+            //AddObject(EnemyFactory.CreateEnemy(new Vector2(200, 200), EnemyType.LightEater));
             TimeLineManager.AddEvent(GameWorld.Rnd.Next((int)LightEaterEnemy.MinTimeBetweenLighteaters, (int)LightEaterEnemy.MaxTimeBetweenLighteaters) * 1000, SpawnLightEater);
-            GameObject mem1 = MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500));
+            
+            mem1 = MemorabeliaFactory.CreateMemorabilia(new Vector2(4000, -500));
             AddObject(mem1);
             activeMemorabilia.Add(1, mem1);
-            GameObject mem2 = MemorabeliaFactory.CreateMemorabilia(new Vector2(-4000, 2500));
+            mem2 = MemorabeliaFactory.CreateMemorabilia(2, new Vector2(-4000, 2500));
             AddObject(mem2);
             activeMemorabilia.Add(2, mem2);
-            GameObject mem3 = MemorabeliaFactory.CreateMemorabilia(new Vector2(3600, 1000));
+            mem3 = MemorabeliaFactory.CreateMemorabilia(4, new Vector2(3600, 1000));
             AddObject(mem3);
             activeMemorabilia.Add(4, mem3);
-            GameObject mem4 = MemorabeliaFactory.CreateMemorabilia(new Vector2(-1500, 500));
+            mem4 = MemorabeliaFactory.CreateMemorabilia(8, new Vector2(-1500, 500));
             AddObject(mem4);
             activeMemorabilia.Add(8, mem4);
-            GameObject mem5 = MemorabeliaFactory.CreateMemorabilia(new Vector2(-2066, 0));
+            mem5 = MemorabeliaFactory.CreateMemorabilia(16, new Vector2(-2066, 0));
             AddObject(mem5);
             activeMemorabilia.Add(16, mem5);
 
             UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X / 2, 1000), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
             UIManager.AddUIObject(new UIButton(new Vector2(150, 900), new Vector2(50, 50), "Save Game", () => { SaveManager.SaveGame(); }));
-            UIManager.AddUIObject(new UIButton(new Vector2(150, 1000), new Vector2(50, 50), "Load Game", () => { SaveManager.LoadGame(); }));
+            UIManager.AddUIObject(new UIButton(new Vector2(150, 1000), new Vector2(50, 50), "Load Game", () => { SaveManager.Load(); }));
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2(50, 50), 1f));
 
             ShaderManager.SetSpritesAndShaders();

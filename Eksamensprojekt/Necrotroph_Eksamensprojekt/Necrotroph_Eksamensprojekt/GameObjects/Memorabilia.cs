@@ -11,9 +11,12 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
     //Echo
     public class Memorabilia : GameObject
     {
-        public Memorabilia(Vector2 position) : base(position)
+        private int key;
+
+        public Memorabilia(int key, Vector2 position) : base(position)
         {
             AddComponent<LightEmitter>(0.05f);
+            this.key = key;
             Transform.WorldPosition = position;
         }
         /// <summary>
@@ -25,6 +28,8 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             if (otherObject is Player)
             {
                 InGame.Instance.ItemsCollected++;
+                InGame.Instance.ActiveMemorabilia.Remove(key);
+                
                 this.GetComponent<Pickupable>().RemoveObject();
                
                 base.OnCollision(otherObject);
