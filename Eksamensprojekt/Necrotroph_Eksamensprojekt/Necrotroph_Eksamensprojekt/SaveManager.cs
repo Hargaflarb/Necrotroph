@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Necrotroph_Eksamensprojekt
 {
@@ -78,7 +77,7 @@ namespace Necrotroph_Eksamensprojekt
                     Thread.Sleep(rnd.Next(0, 100));
                 }
             }
-            catch(Microsoft.Data.SqlClient.SqlException)
+            catch(SqlException)
             {
                 //in case there is no sql server found
             }

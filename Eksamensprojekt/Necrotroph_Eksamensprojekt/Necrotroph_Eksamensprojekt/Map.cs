@@ -102,7 +102,9 @@ namespace Necrotroph_Eksamensprojekt
             return success;
         }
 
-
+        /// <summary>
+        /// Randomly genereates Trees, and sets the bounds and pathfinding-graph of the Map
+        /// </summary>
         public static void GenerateMap()
         {
             float widthAmount = (size.X / treeSpacing) * 0.5f;
@@ -138,6 +140,13 @@ namespace Necrotroph_Eksamensprojekt
                     }
                 }
             }
+
+            InGame.Instance.AddObject(new Barriar(new Vector2(0, -(size.Y / 2)), new Vector2(size.X, 20))); //North
+            InGame.Instance.AddObject(new Barriar(new Vector2(0, size.Y / 2), new Vector2(size.X, 20))); //South
+            InGame.Instance.AddObject(new Barriar(new Vector2(-(size.X / 2), 0), new Vector2(20, size.Y))); //West?
+            InGame.Instance.AddObject(new Barriar(new Vector2(size.X / 2, 0), new Vector2(20, size.Y))); //East?
+
+
             CheckForObjectsToUnload();
             InGame.Instance.AddAndRemoveGameObjects();
         }

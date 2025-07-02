@@ -46,6 +46,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             attachedSoundEffects = new Dictionary<string, SoundEffectInstance>();
         }
         #endregion
+
         #region Methods
         public T AddComponent<T>(params object[] additionalParameters) where T : Component
         {

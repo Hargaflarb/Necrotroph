@@ -311,6 +311,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
         {
             gameObjectsToRemove.Add(gameObject);
         }
+        
+        
         /// <summary>
         /// Method to create player
         /// </summary>
