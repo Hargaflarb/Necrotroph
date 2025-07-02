@@ -17,16 +17,17 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
     public class Tree : GameObject
     {
         #region Fields
+        private int treeType = 1;
         private bool hadEyes = false;
         #endregion
         #region Properties
         public static bool HasEyes { get; set; } = false;
+        public int TreeType { get => treeType; set => treeType = value; }
         #endregion
         #region Constructors
         public Tree(Vector2 position) : base(position)
         {
-            //AddComponent<SpriteRenderer>(GameWorld.Instance.Content.Load<Texture2D>("noImageFound"), 1f, new Vector2(50,50));
-            //AddComponent<Collider>();
+            //has factory
             Transform.Scale = 0.4f;
         }
         #endregion

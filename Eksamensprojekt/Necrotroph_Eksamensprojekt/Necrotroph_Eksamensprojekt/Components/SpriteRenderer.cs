@@ -11,6 +11,7 @@ using Necrotroph_Eksamensprojekt.Commands;
 using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.ObjectPools;
+using Microsoft.Identity.Client;
 
 namespace Necrotroph_Eksamensprojekt.Components
 {
@@ -122,6 +123,16 @@ namespace Necrotroph_Eksamensprojekt.Components
             }
 
             spriteBatch.Draw(sprite, gameObject.Transform.ScreenPosition, null, luminescentColor, gameObject.Transform.Rotation, origin, gameObject.Transform.Scale, flipped, Layer);
+        }
+
+        /// <summary>
+        /// Sets the object's values as if it was a constructor
+        /// </summary>
+        public void SetSpriteRenderer(Texture2D sprite, Vector2 hitboxSizeScale, Vector2 originPlacement)
+        {
+            this.sprite = sprite;
+            this.gameObject.Transform.Size = sprite.Bounds.Size.ToVector2() * hitboxSizeScale;
+            this.origin = new Vector2(sprite.Width * originPlacement.X, sprite.Height * originPlacement.Y);
         }
         #endregion
     }

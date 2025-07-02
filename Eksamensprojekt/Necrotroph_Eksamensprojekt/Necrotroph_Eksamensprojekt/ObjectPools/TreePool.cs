@@ -41,10 +41,16 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         #region Methods
         protected override sealed GameObject Create(Vector2 position)
         {
-            Tree newTree = TreeFactory.CreateTree(position);
+            Tree newTree = TreeFactory.CreateNewTree(position);
             Active.Add(newTree);
             
             return newTree;
+        }
+
+
+        public override GameObject GetObject(Vector2 position)
+        {
+            return GetObject(position);
         }
 
         /// <summary>
@@ -52,24 +58,18 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public override GameObject GetObject(Vector2 position)
+        public GameObject GetObject(Vector2 position, int treeType = -1)
         {
             if (Inactive.OfType<Tree>().Any())
             {
                 Tree selected = Inactive.OfType<Tree>().FirstOrDefault();
                 Inactive.Remove(selected);
-                Active.Add(selected);
-                selected.Transform.WorldPosition = position;
+
+                TreeFactory.CreateExistingTree(selected, position, treeType);
                 selected.Active = true;
-                if (Tree.HasEyes)
-                {
-                    selected.GetComponent<Animator>().PlayAnimation("Seek");
-                }
-                else
-                {
-                    selected.GetComponent<Animator>().PlayAnimation("Normal");
-                }
-                    return selected;
+
+                Active.Add(selected);
+                return selected;
             }
             else
             {
@@ -93,7 +93,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
 
 
-        public List<Tree> GetAllTree()
+        public List<Tree> GetAllTrees()
         {
             List<Tree> trees = new List<Tree>();
             trees.Concat(Active);

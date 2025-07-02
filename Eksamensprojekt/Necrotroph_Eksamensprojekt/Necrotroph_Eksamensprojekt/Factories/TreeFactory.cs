@@ -37,12 +37,12 @@ namespace Necrotroph_Eksamensprojekt.Factories
             seeker2 = content.Load<Texture2D>("TreeSprites/Seeker2");
             seeker3 = content.Load<Texture2D>("TreeSprites/SmallSeeker");
         }
-        public static Tree CreateTree(Vector2 position)
+        public static Tree CreateNewTree(Vector2 position)
         {
             Tree newTree = new Tree(position);
             Animator animator = newTree.AddComponent<Animator>();
             //randomly select sprite
-            switch (GameWorld.Rnd.Next(1, 4))
+            switch (newTree.TreeType = GameWorld.Rnd.Next(1, 4))
             {
                 case 1: //big 1
                     newTree.AddComponent<SpriteRenderer>(tree1, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
@@ -74,6 +74,44 @@ namespace Necrotroph_Eksamensprojekt.Factories
             newTree.AddComponent<Collider>();
             return newTree;
         }
+
+        public static Tree CreateExistingTree(Tree tree, Vector2 position, int treeType)
+        {
+            tree.Transform.WorldPosition = position;
+            tree.TreeType = treeType;
+
+            SpriteRenderer spriteRenderer = tree.GetComponent<SpriteRenderer>();
+            ShadowCaster shadowCaster = tree.GetComponent<ShadowCaster>();
+            switch (tree.TreeType == -1 ? GameWorld.Rnd.Next(1, 4) : tree.TreeType)
+            {
+                case 1: //big 1
+                    spriteRenderer.SetSpriteRenderer(tree1, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
+                    shadowCaster.ObjectRadius = 80;
+                    break;
+                case 2: //big 2
+                    spriteRenderer.SetSpriteRenderer(tree2, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
+                    shadowCaster.ObjectRadius = 80;
+                    break;
+                case 3: //small
+                    spriteRenderer.SetSpriteRenderer(tree3, new Vector2(0.5f, 0.1f), new Vector2(0.5f, 0.95f));
+                    shadowCaster.ObjectRadius = 20;
+                    break;
+            }
+
+
+            Animator animator = tree.GetComponent<Animator>();
+            if (Tree.HasEyes)
+            {
+                animator.PlayAnimation("Seek");
+            }
+            else
+            {
+                animator.PlayAnimation("Normal");
+            }
+
+            return tree;
+        }
+
         #endregion
     }
 }

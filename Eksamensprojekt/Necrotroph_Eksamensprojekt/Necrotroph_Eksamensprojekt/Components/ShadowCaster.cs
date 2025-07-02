@@ -14,9 +14,11 @@ namespace Necrotroph_Eksamensprojekt.Components
     {
         private float objectRadius;
 
+        public float ObjectRadius { get => objectRadius; set => objectRadius = value; }
+
         public ShadowCaster(GameObject gameObject, float Radius) : base(gameObject)
         {
-            objectRadius = Radius;
+            ObjectRadius = Radius;
         }
 
         public float CalculateLightToShadowAngle(LightEmitter light)
@@ -32,7 +34,7 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             // i can use Asin here because the angle with never go above 90 degrees.
             // it would have to be inside the shadowcaster's radius.
-            return MathF.Asin(objectRadius / lightDistance);
+            return MathF.Asin(ObjectRadius / lightDistance);
         }
     }
 }

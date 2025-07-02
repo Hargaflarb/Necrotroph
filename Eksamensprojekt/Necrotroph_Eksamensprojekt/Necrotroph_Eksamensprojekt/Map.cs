@@ -27,7 +27,7 @@ namespace Necrotroph_Eksamensprojekt
         private static readonly Vector2 size;
         private static readonly Vector2 loadBound;
         private static readonly Vector2 unloadBound;
-        private static List<(Vector2 position, ObjectPool poolType)> unloadedMapObjects;
+        private static List<(Vector2 position, int treeType, ObjectPool poolType)> unloadedMapObjects;
         private static Graph pathFindingGraph;
         private static Random rnd;
         #endregion
@@ -42,7 +42,7 @@ namespace Necrotroph_Eksamensprojekt
             size = new Vector2(10000, 10000);
             loadBound = new Vector2(1250, 900);
             unloadBound = new Vector2(1350, 1000);
-            unloadedMapObjects = new List<(Vector2 position, ObjectPool poolType)>();
+            unloadedMapObjects = new List<(Vector2 position, int treeType, ObjectPool poolType)>();
             pathFindingGraph = new Graph();
         }
         #endregion
@@ -53,12 +53,13 @@ namespace Necrotroph_Eksamensprojekt
         public static void CheckForObejctsToLoad()
         {
             // trees
-            foreach ((Vector2 position, ObjectPool poolType) mapObject in unloadedMapObjects.ToList()) //the ToList() just makes a copy
+            foreach ((Vector2 position, int treeType, ObjectPool poolType) mapObject in unloadedMapObjects.ToList()) //the ToList() just makes a shallow copy
             {
                 Vector2 dif = mapObject.position - Player.Instance.Transform.WorldPosition;
                 if (MathF.Abs(dif.X) < loadBound.X & MathF.Abs(dif.Y) < loadBound.Y)
                 {
-                    InGame.Instance.AddObject(mapObject.poolType.GetObject(mapObject.position));
+                    // this no longer works with objects other than trees
+                    InGame.Instance.AddObject(((TreePool)mapObject.poolType).GetObject(mapObject.position, mapObject.treeType));
                     unloadedMapObjects.Remove(mapObject);
                 }
 
