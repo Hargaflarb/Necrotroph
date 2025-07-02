@@ -235,9 +235,6 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
         }
 
-        /// <summary>
-        /// Malthe
-        /// </summary>
         public override void Enter()
         {
             UIManager.UIObjectsToAdd.AddRange(uIObjects);
@@ -245,9 +242,6 @@ namespace Necrotroph_Eksamensprojekt.Menu
             base.Enter();
         }
 
-        /// <summary>
-        /// Malthe
-        /// </summary>
         public override void Exit()
         {
             uIObjects.AddRange(UIManager.ClearUIObjects());
