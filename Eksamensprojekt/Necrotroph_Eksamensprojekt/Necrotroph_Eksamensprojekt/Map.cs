@@ -27,7 +27,7 @@ namespace Necrotroph_Eksamensprojekt
         private static readonly Vector2 size;
         private static readonly Vector2 loadBound;
         private static readonly Vector2 unloadBound;
-        private static List<(Vector2 position, int treeType, ObjectPool poolType)> unloadedMapObjects;
+        private static List<IConsistencyData> unloadedMapObjects;
         private static Graph pathFindingGraph;
         private static Random rnd;
         #endregion
@@ -42,7 +42,7 @@ namespace Necrotroph_Eksamensprojekt
             size = new Vector2(10000, 10000);
             loadBound = new Vector2(1250, 900);
             unloadBound = new Vector2(1350, 1000);
-            unloadedMapObjects = new List<(Vector2 position, int treeType, ObjectPool poolType)>();
+            unloadedMapObjects = new List<IConsistencyData>();
             pathFindingGraph = new Graph();
         }
         #endregion
@@ -53,13 +53,13 @@ namespace Necrotroph_Eksamensprojekt
         public static void CheckForObejctsToLoad()
         {
             // trees
-            foreach ((Vector2 position, int treeType, ObjectPool poolType) mapObject in unloadedMapObjects.ToList()) //the ToList() just makes a shallow copy
+            foreach (IConsistencyData mapObject in unloadedMapObjects.ToList()) //the ToList() just makes a shallow copy
             {
-                Vector2 dif = mapObject.position - Player.Instance.Transform.WorldPosition;
+                Vector2 dif = mapObject.Transform.WorldPosition - Player.Instance.Transform.WorldPosition;
                 if (MathF.Abs(dif.X) < loadBound.X & MathF.Abs(dif.Y) < loadBound.Y)
                 {
                     // this no longer works with objects other than trees
-                    InGame.Instance.AddObject(((TreePool)mapObject.poolType).GetObject(mapObject.position, mapObject.treeType));
+                    InGame.Instance.AddObject(mapObject.PoolType.GetObject(mapObject.Transform.WorldPosition, mapObject.GetConsistencyData()));
                     unloadedMapObjects.Remove(mapObject);
                 }
 
@@ -94,9 +94,9 @@ namespace Necrotroph_Eksamensprojekt
         public static bool TryAddObjectToMap(GameObject gameObject)
         {
             bool success = false;
-            if (gameObject is Tree)
+            if (gameObject is Tree treeObject)
             {
-                unloadedMapObjects.Add((gameObject.Transform.WorldPosition, TreePool.Instance));
+                unloadedMapObjects.Add(treeObject);
                 success = true;
             }
 
@@ -116,7 +116,7 @@ namespace Necrotroph_Eksamensprojekt
                 {
                     Vector2 offset = new Vector2(GameWorld.Rnd.Next(50) - 25, GameWorld.Rnd.Next(50) - 25);
                     Vector2 treePos = new Vector2(x, y) * treeSpacing;
-                    unloadedMapObjects.Add(((new Vector2(x, y) * treeSpacing) + offset*6, TreePool.Instance));
+                    unloadedMapObjects.Add((new Vector2(x, y) * treeSpacing) + offset*6);
 
                     float halfSpacing = treeSpacing * 0.5f;
                     Node FromNodeCenter = pathFindingGraph.AddNode((int)(treePos.X + halfSpacing), (int)(treePos.Y + halfSpacing));

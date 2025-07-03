@@ -23,7 +23,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         #region Constructors
         #endregion
         #region Methods
-        public abstract GameObject GetObject(Vector2 position);
+        public abstract GameObject GetObject(Vector2 position, params object[] consistencyData);
 
         public void ReleaseObject(GameObject obj)
         {

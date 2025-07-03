@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.Components;
-using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Necrotroph_Eksamensprojekt.ObjectPools
 {
@@ -48,24 +47,19 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
 
 
-        public override GameObject GetObject(Vector2 position)
-        {
-            return GetObject(position);
-        }
-
         /// <summary>
         /// Gets a tree
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public GameObject GetObject(Vector2 position, int treeType = -1)
+        public override GameObject GetObject(Vector2 position, params object[] consistencyData)
         {
             if (Inactive.OfType<Tree>().Any())
             {
                 Tree selected = Inactive.OfType<Tree>().FirstOrDefault();
                 Inactive.Remove(selected);
 
-                TreeFactory.CreateExistingTree(selected, position, treeType);
+                TreeFactory.CreateExistingTree(selected, position, consistencyData);
                 selected.Active = true;
 
                 Active.Add(selected);
@@ -100,6 +94,10 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
             trees.Concat(Inactive);
             return trees;
         }
+
+
+
         #endregion
     }
+
 }

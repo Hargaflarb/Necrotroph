@@ -37,6 +37,12 @@ namespace Necrotroph_Eksamensprojekt.Factories
             seeker2 = content.Load<Texture2D>("TreeSprites/Seeker2");
             seeker3 = content.Load<Texture2D>("TreeSprites/SmallSeeker");
         }
+
+        /// <summary>
+        /// creates a new randomized tree on request of the TreePool
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public static Tree CreateNewTree(Vector2 position)
         {
             Tree newTree = new Tree(position);
@@ -75,10 +81,17 @@ namespace Necrotroph_Eksamensprojekt.Factories
             return newTree;
         }
 
-        public static Tree CreateExistingTree(Tree tree, Vector2 position, int treeType)
+        /// <summary>
+        /// creates a Tree based on an existing Tree in the pool, on request of the TreePool
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="position"></param>
+        /// <param name="treeType"></param>
+        /// <returns></returns>
+        public static Tree CreateExistingTree(Tree tree, Vector2 position, params object[] consistencyData)
         {
             tree.Transform.WorldPosition = position;
-            tree.TreeType = treeType;
+            tree.TreeType = (int)consistencyData[0];
 
             SpriteRenderer spriteRenderer = tree.GetComponent<SpriteRenderer>();
             ShadowCaster shadowCaster = tree.GetComponent<ShadowCaster>();
@@ -114,4 +127,6 @@ namespace Necrotroph_Eksamensprojekt.Factories
 
         #endregion
     }
+
+
 }

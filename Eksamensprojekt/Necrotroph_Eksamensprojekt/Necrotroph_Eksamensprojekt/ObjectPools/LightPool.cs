@@ -34,7 +34,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
         #endregion
         #region Methods
-        public override GameObject GetObject(Vector2 position)
+        public override GameObject GetObject(Vector2 position, params object[] consistencyData)
         {
             if (Inactive.OfType<LightRefill>().Any())
             {

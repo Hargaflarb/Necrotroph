@@ -8,13 +8,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.Components;
+using Necrotroph_Eksamensprojekt.ObjectPools;
 
 namespace Necrotroph_Eksamensprojekt.GameObjects
 {
     /// <summary>
     /// emma
     /// </summary>
-    public class Tree : GameObject
+    public class Tree : GameObject, IConsistencyData
     {
         #region Fields
         private int treeType = 1;
@@ -23,6 +24,9 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Properties
         public static bool HasEyes { get; set; } = false;
         public int TreeType { get => treeType; set => treeType = value; }
+
+        public ObjectPool PoolType { get => TreePool.Instance; }
+
         #endregion
         #region Constructors
         public Tree(Vector2 position) : base(position)
@@ -42,6 +46,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             }
             base.Update(gameTime);
         }
+
         private void ChangeSprite()
         {
             if (HasEyes)
@@ -52,6 +57,11 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             {
                 GetComponent<Animator>().PlayAnimation("Normal");
             }
+        }
+
+        public object[] GetConsistencyData()
+        {
+            return new object[] { TreeType };
         }
         #endregion
     }
