@@ -67,6 +67,14 @@ namespace Necrotroph_Eksamensprojekt.Components
         {
             animations.Add(animationName, new Animation(animation, frameRate, loops));
         }
+        /// <summary>
+        /// Removes all animations from the animator.
+        /// </summary>
+        public void ClearAnimations()
+        {
+            animations.Clear();
+        }
+
 
         /// <summary>
         /// Calls the SpriteRenderer to change the frame

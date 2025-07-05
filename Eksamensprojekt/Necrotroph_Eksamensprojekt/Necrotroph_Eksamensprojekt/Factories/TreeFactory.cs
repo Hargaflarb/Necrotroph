@@ -43,12 +43,15 @@ namespace Necrotroph_Eksamensprojekt.Factories
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public static Tree CreateNewTree(Vector2 position)
+        public static Tree CreateNewTree(Vector2 position, params object[] consistencyData)
         {
             Tree newTree = new Tree(position);
+
+            newTree.TreeType = ((int)consistencyData[0] == -1 ? GameWorld.Rnd.Next(1, 4) : (int)consistencyData[0]);
+
             Animator animator = newTree.AddComponent<Animator>();
             //randomly select sprite
-            switch (newTree.TreeType = GameWorld.Rnd.Next(1, 4))
+            switch (newTree.TreeType)
             {
                 case 1: //big 1
                     newTree.AddComponent<SpriteRenderer>(tree1, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
@@ -86,33 +89,41 @@ namespace Necrotroph_Eksamensprojekt.Factories
         /// </summary>
         /// <param name="tree"></param>
         /// <param name="position"></param>
-        /// <param name="treeType"></param>
+        /// <param name="consistencyData">treeType: -1 for random type</param>
         /// <returns></returns>
         public static Tree CreateExistingTree(Tree tree, Vector2 position, params object[] consistencyData)
         {
             tree.Transform.WorldPosition = position;
-            tree.TreeType = (int)consistencyData[0];
+            tree.TreeType = ((int)consistencyData[0] == -1 ? GameWorld.Rnd.Next(1, 4) : (int)consistencyData[0]);
 
             SpriteRenderer spriteRenderer = tree.GetComponent<SpriteRenderer>();
             ShadowCaster shadowCaster = tree.GetComponent<ShadowCaster>();
-            switch (tree.TreeType == -1 ? GameWorld.Rnd.Next(1, 4) : tree.TreeType)
+            Animator animator = tree.GetComponent<Animator>();
+            animator.ClearAnimations();
+
+            switch (tree.TreeType)
             {
                 case 1: //big 1
                     spriteRenderer.SetSpriteRenderer(tree1, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
                     shadowCaster.ObjectRadius = 80;
+                    animator.AddAnimation("Normal", tree1);
+                    animator.AddAnimation("Seek", seeker1);
                     break;
                 case 2: //big 2
                     spriteRenderer.SetSpriteRenderer(tree2, new Vector2(0.5f, 0.15f), new Vector2(0.5f, 0.85f));
                     shadowCaster.ObjectRadius = 80;
+                    animator.AddAnimation("Normal", tree2);
+                    animator.AddAnimation("Seek", seeker2);
                     break;
                 case 3: //small
                     spriteRenderer.SetSpriteRenderer(tree3, new Vector2(0.5f, 0.1f), new Vector2(0.5f, 0.95f));
                     shadowCaster.ObjectRadius = 20;
+                    animator.AddAnimation("Normal", tree3);
+                    animator.AddAnimation("Seek", seeker3);
                     break;
             }
 
 
-            Animator animator = tree.GetComponent<Animator>();
             if (Tree.HasEyes)
             {
                 animator.PlayAnimation("Seek");

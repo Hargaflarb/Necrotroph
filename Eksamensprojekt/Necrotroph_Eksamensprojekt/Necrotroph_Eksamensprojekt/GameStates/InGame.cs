@@ -102,7 +102,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             activeMemorabilia = new Dictionary<int, GameObject>();
 
             AddPlayer(Vector2.Zero);
-            AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
+            //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
             Map.GenerateMap();
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));

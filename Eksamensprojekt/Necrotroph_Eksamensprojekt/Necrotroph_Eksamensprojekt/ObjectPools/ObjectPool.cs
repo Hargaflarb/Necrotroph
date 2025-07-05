@@ -37,7 +37,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
             }
         }
 
-        protected abstract GameObject Create(Vector2 position);
+        protected abstract GameObject Create(Vector2 position, params object[] consistencyData);
 
         protected abstract void CleanUp(GameObject obj);
 

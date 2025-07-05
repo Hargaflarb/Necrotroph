@@ -61,7 +61,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
             }
         }
 
-        protected override GameObject Create(Vector2 position)
+        protected override GameObject Create(Vector2 position, params object[] consistencyData)
         {
             LightRefill newLight = LightRefillFactory.Create(position);
             Active.Add(newLight);

@@ -15,7 +15,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
     /// <summary>
     /// emma
     /// </summary>
-    public class Tree : GameObject, IConsistencyData
+    public class Tree : GameObject
     {
         #region Fields
         private int treeType = 1;
@@ -24,8 +24,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
         #region Properties
         public static bool HasEyes { get; set; } = false;
         public int TreeType { get => treeType; set => treeType = value; }
-
-        public ObjectPool PoolType { get => TreePool.Instance; }
 
         #endregion
         #region Constructors
@@ -57,11 +55,6 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
             {
                 GetComponent<Animator>().PlayAnimation("Normal");
             }
-        }
-
-        public object[] GetConsistencyData()
-        {
-            return new object[] { TreeType };
         }
         #endregion
     }

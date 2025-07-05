@@ -38,9 +38,9 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
         #endregion
         #region Methods
-        protected override sealed GameObject Create(Vector2 position)
+        protected override sealed GameObject Create(Vector2 position, params object[] consistencyData)
         {
-            Tree newTree = TreeFactory.CreateNewTree(position);
+            Tree newTree = TreeFactory.CreateNewTree(position, consistencyData);
             Active.Add(newTree);
             
             return newTree;
@@ -67,7 +67,7 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
             }
             else
             {
-                return Create(position);
+                return Create(position, consistencyData);
             }
 
         }
