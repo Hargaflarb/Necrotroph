@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 using Necrotroph_Eksamensprojekt.GameObjects;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.Components;
-using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Necrotroph_Eksamensprojekt.ObjectPools
 {
@@ -39,41 +38,36 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
         #endregion
         #region Methods
-        protected override sealed GameObject Create(Vector2 position)
+        protected override sealed GameObject Create(Vector2 position, params object[] consistencyData)
         {
-            Tree newTree = TreeFactory.CreateTree(position);
+            Tree newTree = TreeFactory.CreateNewTree(position, consistencyData);
             Active.Add(newTree);
             
             return newTree;
         }
+
 
         /// <summary>
         /// Gets a tree
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public override GameObject GetObject(Vector2 position)
+        public override GameObject GetObject(Vector2 position, params object[] consistencyData)
         {
             if (Inactive.OfType<Tree>().Any())
             {
                 Tree selected = Inactive.OfType<Tree>().FirstOrDefault();
                 Inactive.Remove(selected);
-                Active.Add(selected);
-                selected.Transform.WorldPosition = position;
+
+                TreeFactory.CreateExistingTree(selected, position, consistencyData);
                 selected.Active = true;
-                if (Tree.HasEyes)
-                {
-                    selected.GetComponent<Animator>().PlayAnimation("Seek");
-                }
-                else
-                {
-                    selected.GetComponent<Animator>().PlayAnimation("Normal");
-                }
-                    return selected;
+
+                Active.Add(selected);
+                return selected;
             }
             else
             {
-                return Create(position);
+                return Create(position, consistencyData);
             }
 
         }
@@ -93,13 +87,17 @@ namespace Necrotroph_Eksamensprojekt.ObjectPools
         }
 
 
-        public List<Tree> GetAllTree()
+        public List<Tree> GetAllTrees()
         {
             List<Tree> trees = new List<Tree>();
             trees.Concat(Active);
             trees.Concat(Inactive);
             return trees;
         }
+
+
+
         #endregion
     }
+
 }

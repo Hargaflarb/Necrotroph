@@ -126,7 +126,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                 }
                 else if (!lightBurstOngoing)
                 {
-                    GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
+                    GetComponent<LightEmitter>().LightRadius = (life / 500f) + 0.01f;
                 }
                 if (Life <= 0)
                 {
@@ -167,7 +167,7 @@ namespace Necrotroph_Eksamensprojekt.GameObjects
                 }
                 Life -= damage;
 
-                GetComponent<LightEmitter>().LightRadius = ((float)life / 500f) + 0.01f;
+                GetComponent<LightEmitter>().LightRadius = (life / 500f) + 0.01f;
                 TimeLineManager.AddEvent(invincibilityTime * 1000, UndoInvincibility);
                 if (Life <= 0 && lightOn)
                 {

@@ -102,7 +102,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             activeMemorabilia = new Dictionary<int, GameObject>();
 
             AddPlayer(Vector2.Zero);
-            AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
+            //AddObject(TreePool.Instance.GetObject(new Vector2(200, 0)));
             Map.GenerateMap();
 
             InputHandler.AddHeldKeyCommand(Keys.D, new WalkCommand(Player.Instance, new Vector2(1, 0)));
@@ -235,9 +235,6 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
         }
 
-        /// <summary>
-        /// Malthe
-        /// </summary>
         public override void Enter()
         {
             UIManager.UIObjectsToAdd.AddRange(uIObjects);
@@ -245,9 +242,6 @@ namespace Necrotroph_Eksamensprojekt.Menu
             base.Enter();
         }
 
-        /// <summary>
-        /// Malthe
-        /// </summary>
         public override void Exit()
         {
             uIObjects.AddRange(UIManager.ClearUIObjects());
@@ -317,6 +311,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
         {
             gameObjectsToRemove.Add(gameObject);
         }
+        
+        
         /// <summary>
         /// Method to create player
         /// </summary>

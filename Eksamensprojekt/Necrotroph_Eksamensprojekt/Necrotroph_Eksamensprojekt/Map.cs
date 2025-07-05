@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Necrotroph_Eksamensprojekt.Menu;
 using Necrotroph_Eksamensprojekt.PathFinding;
-using System.Reflection.Metadata.Ecma335;
 
 
 namespace Necrotroph_Eksamensprojekt
@@ -27,7 +26,7 @@ namespace Necrotroph_Eksamensprojekt
         private static readonly Vector2 size;
         private static readonly Vector2 loadBound;
         private static readonly Vector2 unloadBound;
-        private static List<(Vector2 position, ObjectPool poolType)> unloadedMapObjects;
+        private static List<ConsistencyData> unloadedMapObjects;
         private static Graph pathFindingGraph;
         private static Random rnd;
         #endregion
@@ -42,7 +41,7 @@ namespace Necrotroph_Eksamensprojekt
             size = new Vector2(10000, 10000);
             loadBound = new Vector2(1250, 900);
             unloadBound = new Vector2(1350, 1000);
-            unloadedMapObjects = new List<(Vector2 position, ObjectPool poolType)>();
+            unloadedMapObjects = new List<ConsistencyData>();
             pathFindingGraph = new Graph();
         }
         #endregion
@@ -53,12 +52,13 @@ namespace Necrotroph_Eksamensprojekt
         public static void CheckForObejctsToLoad()
         {
             // trees
-            foreach ((Vector2 position, ObjectPool poolType) mapObject in unloadedMapObjects.ToList()) //the ToList() just makes a copy
+            foreach (ConsistencyData mapObject in unloadedMapObjects.ToList()) //the ToList() just makes a shallow copy
             {
-                Vector2 dif = mapObject.position - Player.Instance.Transform.WorldPosition;
+                Vector2 dif = mapObject.Position - Player.Instance.Transform.WorldPosition;
                 if (MathF.Abs(dif.X) < loadBound.X & MathF.Abs(dif.Y) < loadBound.Y)
                 {
-                    InGame.Instance.AddObject(mapObject.poolType.GetObject(mapObject.position));
+                    // this no longer works with objects other than trees
+                    InGame.Instance.AddObject(mapObject.PoolType.GetObject(mapObject.Position, mapObject.ConsistencyData_));
                     unloadedMapObjects.Remove(mapObject);
                 }
 
@@ -93,16 +93,18 @@ namespace Necrotroph_Eksamensprojekt
         public static bool TryAddObjectToMap(GameObject gameObject)
         {
             bool success = false;
-            if (gameObject is Tree)
+            if (gameObject is Tree treeObject)
             {
-                unloadedMapObjects.Add((gameObject.Transform.WorldPosition, TreePool.Instance));
+                unloadedMapObjects.Add(new ConsistencyData(TreePool.Instance, treeObject.Transform.WorldPosition, treeObject.TreeType));
                 success = true;
             }
 
             return success;
         }
 
-
+        /// <summary>
+        /// Randomly genereates Trees, and sets the bounds and pathfinding-graph of the Map
+        /// </summary>
         public static void GenerateMap()
         {
             float widthAmount = (size.X / treeSpacing) * 0.5f;
@@ -113,7 +115,7 @@ namespace Necrotroph_Eksamensprojekt
                 {
                     Vector2 offset = new Vector2(GameWorld.Rnd.Next(50) - 25, GameWorld.Rnd.Next(50) - 25);
                     Vector2 treePos = new Vector2(x, y) * treeSpacing;
-                    unloadedMapObjects.Add(((new Vector2(x, y) * treeSpacing) + offset*6, TreePool.Instance));
+                    unloadedMapObjects.Add(new ConsistencyData(TreePool.Instance, (new Vector2(x, y) * treeSpacing) + offset*6, -1));
 
                     float halfSpacing = treeSpacing * 0.5f;
                     Node FromNodeCenter = pathFindingGraph.AddNode((int)(treePos.X + halfSpacing), (int)(treePos.Y + halfSpacing));
@@ -138,6 +140,13 @@ namespace Necrotroph_Eksamensprojekt
                     }
                 }
             }
+
+            InGame.Instance.AddObject(new Barriar(new Vector2(0, -(size.Y / 2)), new Vector2(size.X, 20))); //North
+            InGame.Instance.AddObject(new Barriar(new Vector2(0, size.Y / 2), new Vector2(size.X, 20))); //South
+            InGame.Instance.AddObject(new Barriar(new Vector2(-(size.X / 2), 0), new Vector2(20, size.Y))); //West?
+            InGame.Instance.AddObject(new Barriar(new Vector2(size.X / 2, 0), new Vector2(20, size.Y))); //East?
+
+
             CheckForObjectsToUnload();
             InGame.Instance.AddAndRemoveGameObjects();
         }

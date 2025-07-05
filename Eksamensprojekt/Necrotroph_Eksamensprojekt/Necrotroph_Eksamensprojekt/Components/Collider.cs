@@ -31,6 +31,16 @@ namespace Necrotroph_Eksamensprojekt.Components
         public Collider(GameObject gameObject) : base(gameObject)
         {
         }
+
+        /// <summary>
+        /// Only for objects that do not have a SpriteRendere
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <param name="size">Size of the object and hitbox.</param>
+        public Collider(GameObject gameObject, Vector2 size) : base(gameObject)
+        {
+            gameObject.Transform.Size = size;
+        }
         #endregion
         #region Methods
         public override void OnCollision(GameObject otherObject)
