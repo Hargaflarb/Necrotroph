@@ -139,7 +139,7 @@ namespace Necrotroph_Eksamensprojekt
         protected override void Update(GameTime gameTime)
         {
             Time = gameTime;
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)// || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             InputHandler.CurrentMouseState = Mouse.GetState();

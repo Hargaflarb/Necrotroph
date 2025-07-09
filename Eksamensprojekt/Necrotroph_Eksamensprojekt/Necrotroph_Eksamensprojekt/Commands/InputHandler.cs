@@ -16,11 +16,10 @@ namespace Necrotroph_Eksamensprojekt.Commands
     public static class InputHandler
     {
         #region Fields
-        private static Dictionary<Keys,ICommand> heldCommandKeys;
-        private static Dictionary<Keys,ICommand> pushCommandKeys;
+        private static Dictionary<Keys, ICommand> heldCommandKeys;
+        private static Dictionary<Keys, ICommand> pushCommandKeys;
         private static Dictionary<Keys, ICommand> unclickedCommandKeys;
         private static KeyboardState lastKeyboardState;
-        private static bool pressed = true;
         private static MouseState lastMouseState;
         private static MouseState currentMouseState;
         #endregion
@@ -69,19 +68,19 @@ namespace Necrotroph_Eksamensprojekt.Commands
 
         public static void EditHeldKeyCommand(Keys key, ICommand command)
         {
-
+            heldCommandKeys[key] = command;
         }
         public static void EditPressedKeyCommand(Keys key, ICommand command)
         {
-
+            pushCommandKeys[key] = command;
         }
-        public static void RemoveHeldKeyCommand(ICommand command)
+        public static void RemoveHeldKeyCommand(Keys key)
         {
-
+            heldCommandKeys.Remove(key);
         }
-        public static void RemovePressedKeyCommand(ICommand command)
+        public static void RemovePressedKeyCommand(Keys key)
         {
-
+            pushCommandKeys.Remove(key);
         }
 
 

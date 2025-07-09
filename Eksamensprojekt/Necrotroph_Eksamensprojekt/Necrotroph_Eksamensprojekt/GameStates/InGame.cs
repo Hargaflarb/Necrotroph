@@ -11,6 +11,7 @@ using Necrotroph_Eksamensprojekt.Components;
 using Necrotroph_Eksamensprojekt.Enemies;
 using Necrotroph_Eksamensprojekt.Factories;
 using Necrotroph_Eksamensprojekt.GameObjects;
+using Necrotroph_Eksamensprojekt.GameStates;
 using Necrotroph_Eksamensprojekt.ObjectPools;
 using Necrotroph_Eksamensprojekt.Observer;
 using SharpDX.Direct3D9;
@@ -54,8 +55,6 @@ namespace Necrotroph_Eksamensprojekt.Menu
         private InGame()
         {
             uIObjects = new List<UIObject>();
-
-
         }
 
 
@@ -117,6 +116,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             InputHandler.AddPressedKeyCommand(Keys.F, new TurnLightOnOffCommand());
             InputHandler.AddPressedKeyCommand(Keys.Space, new LightBurstCommand());
 
+            InputHandler.AddPressedKeyCommand(Keys.Escape, new CustomCommand(() => { GameWorld.GameStateToChangeTo = PauseScreen.Instance; }));
             //InputHandler.AddPressedKeyCommand(Keys.LeftShift, new SprintCommand());
             //InputHandler.AddUnclickedCommand(Keys.LeftShift, new SprintCommand());
 
@@ -145,9 +145,7 @@ namespace Necrotroph_Eksamensprojekt.Menu
             AddObject(mem5);
             activeMemorabilia.Add(16, mem5);
 
-            UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X / 2, 1000), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
-            UIManager.AddUIObject(new UIButton(new Vector2(150, 900), new Vector2(50, 50), "Save Game", () => { SaveManager.SaveGame(); }));
-            UIManager.AddUIObject(new UIButton(new Vector2(150, 1000), new Vector2(50, 50), "Load Game", () => { SaveManager.Load(); }));
+            //UIManager.AddUIObject(new UIButton(new Vector2(GameWorld.ScreenSize.X / 2, 1000), new Vector2(50, 50), "Menu", () => { GameWorld.GameStateToChangeTo = MainMenu.Instance; }));
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return ItemsCollected + "/5"; }, Color.White, new Vector2(50, 50), 1f));
 
             ShaderManager.SetSpritesAndShaders();
@@ -345,7 +343,8 @@ namespace Necrotroph_Eksamensprojekt.Menu
 
         public void HearFromObserver(IObserver observer)
         {
-            //currently appears under the shader :/
+            //currently appears under the shader :/ - it does infact not :)
+            GameWorld.GameStateToChangeTo = EndScreen.Instance;
             UIManager.AddUIObject(TextFactory.CreateTextObject(() => { return "Game Over"; }, Color.White, GameWorld.ScreenSize / 2, 2f));
         }
 
